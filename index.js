@@ -11,6 +11,17 @@ app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   next();
 });
+
+// Endpoints
+
+app.get("/apputils-swish/api/v1/favorite", (req, res) => {
+  res.status(200).send('{"result":"200","favorites":[{"alias":"112","nickname":"RevSwish Support"}]}');
+});
+
+app.get("/mpc-swish/api/v2/validation/", (req, res) => {
+  res.status(200).send('{"result":"200","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000,"pushMessageCount":0}');
+});
+
 // ExecutePayment Endpoint
 
 app.post("/mpc-swish/api/v3/initiateactivation/:param1/:param2", (req, res) => {
@@ -20,7 +31,6 @@ app.post("/mpc-swish/api/v3/initiateactivation/:param1/:param2", (req, res) => {
 app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
   res.status(200).send('{"result":"200","deviceId":"9961741E269E4C149C3DEF394DDE8513","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
 });
-
 
 app.post("/mpc-swish/api/v3/executepayment/", (req, res) => {
   res.status(200).send('{"result":"200","message":"ReverseSwish test message!"}');
@@ -85,7 +95,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   if (err.status === 404) {
       res.status(200).send(
-    '{"result":"200","message":"Ok"}',
+    '{"result":"200","message":null}',
   );
   } else {
     next(err); // Passes control to the default error handler for other errors
