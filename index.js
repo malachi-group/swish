@@ -7,10 +7,14 @@ app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  next();
+});
 // ExecutePayment Endpoint
 
 app.post("/mpc-swish/api/v3/initiateactivation/:param1/:param2", (req, res) => {
-  res.status(200).send('{"result":"200","autoStartToken":"b"}');
+  res.status(200).send('{"result":"200","autoStartToken":"9e83a6c0-d8bb-428b-b99b-3a59340c57c7"}');
 });
 
 app.post("/mpc-swish/api/v3/executepayment/", (req, res) => {
