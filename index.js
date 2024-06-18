@@ -84,7 +84,9 @@ app.use((req, res, next) => {
 // Error handling middleware for 404 errors
 app.use((err, req, res, next) => {
   if (err.status === 404) {
-    res.status(200);
+      res.status(200).send(
+    '{"result":"200"}',
+  );
   } else {
     next(err); // Passes control to the default error handler for other errors
   }
