@@ -62,28 +62,12 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
   );
 });
 
-app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/0", (req, res) => {
-  res.status(200).send(
-    '{"result":"200","checkInfo":{"status":"NOT_FOUND","mechanism":"longpolling","clientTimeOut":25,"secondsUntilNextRequest":3}}',
-  );
-});
-app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/1", (req, res) => {
+app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/:num", (req, res) => {
   res.status(200).send(
     '{"result":"200","checkInfo":{"status":"NOT_FOUND","mechanism":"longpolling","clientTimeOut":25,"secondsUntilNextRequest":3}}',
   );
 });
 
-app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/2", (req, res) => {
-  res.status(200).send(
-    '{"result":"200","checkInfo":{"status":"NOT_FOUND","mechanism":"longpolling","clientTimeOut":25,"secondsUntilNextRequest":3}}',
-  );
-});
-
-app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/3", (req, res) => {
-  res.status(200).send(
-    '{"result":"200","checkInfo":{"status":"NOT_FOUND","mechanism":"longpolling","clientTimeOut":25,"secondsUntilNextRequest":3}}',
-  );
-});
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
