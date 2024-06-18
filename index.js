@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 // ExecutePayment Endpoint
 
 app.post("/mpc-swish/api/v3/initiateactivation/:param1/:param2", (req, res) => {
-  res.status(200).send('{"result":"200","autoStartToken":"Lunar was here"}');
+  res.status(200).send('{"result":"200","autoStartToken":"b"}');
 });
 
 app.post("/mpc-swish/api/v3/executepayment/", (req, res) => {
