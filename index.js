@@ -4,8 +4,8 @@ const app = express();
 
 app.use((req, res, next) => {
   // Check if the request has been handled by any route above
-  if (!res.headersSent) {
-    res.status(404).send('{"result":"200"}');
+  if (res.status(404)) {
+    res.status(200).send('{"result":"200"}');
   }
 });
 
