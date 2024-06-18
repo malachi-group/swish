@@ -2,11 +2,6 @@
 const express = require("express");
 const app = express();
 
-app.use((req, res, next) => {
-  if (!res.headersSent) { // Check if headers have been sent
-    res.status(404).json({ result: '404', message: 'Route not found' });
-  }
-});
 
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
@@ -70,6 +65,22 @@ app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/3", (req, res) => {
     '{"result":"200","checkInfo":{"status":"NOT_FOUND","mechanism":"longpolling","clientTimeOut":25,"secondsUntilNextRequest":3}}',
   );
 });
+
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err); // Passes control to the error handling middleware
+});
+
+// Error handling middleware for 404 errors
+app.use((err, req, res, next) => {
+  if (err.status === 404) {
+    res.status(404).json({ result: '404', message: 'Route not found' });
+  } else {
+    next(err); // Passes control to the default error handler for other errors
+  }
+});
+
 app.listen(3000, () => {
   console.log("ReverseSwish is running on port 3000!");
 });
