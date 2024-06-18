@@ -7,6 +7,11 @@ app.get("/", (req, res) => {
 });
 
 // ExecutePayment Endpoint
+
+app.post("/mpc-swish/api/v3/initiateactivation/:param1/:param2", (req, res) => {
+  res.send('{"result":"AM04","message":"ReverseSwish test message!"}');
+});
+
 app.post("/mpc-swish/api/v3/executepayment/", (req, res) => {
   res.send('{"result":"AM04","message":"ReverseSwish test message!"}');
 });
