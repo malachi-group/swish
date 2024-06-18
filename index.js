@@ -2,6 +2,10 @@
 const express = require("express");
 const app = express();
 
+app.use((req, res, next) => {
+    res.send(`{"result":"200"}`);
+});
+
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
@@ -9,11 +13,11 @@ app.get("/", (req, res) => {
 // ExecutePayment Endpoint
 
 app.post("/mpc-swish/api/v3/initiateactivation/:param1/:param2", (req, res) => {
-  res.send('{"result":"RP01","message":"Välkommen till RevSwish!"}');
+  res.send('{"result":"200","message":"Välkommen till RevSwish!"}');
 });
 
 app.post("/mpc-swish/api/v3/executepayment/", (req, res) => {
-  res.send('{"result":"AM04","message":"ReverseSwish test message!"}');
+  res.send('{"result":"200","message":"ReverseSwish test message!"}');
 });
 
 // Badgecount Endpoints
