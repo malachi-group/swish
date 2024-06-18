@@ -15,15 +15,15 @@ app.use((req, res, next) => {
 // Endpoints
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":false,"item":[{{"paymentDirection":"INCOMING","bankPaymentReference":"CC602703F5B043608133927AF7773BBD","paymentChannel":"MPC","dateTime":"2024-03-21T16:12:15","amount":"1337.00","currency":"SEK","payerPayee":{"name":"RevSwitch Support","alias":"127.0.0.1","businessName":null},"message":"Välkommen till RevSwitch!","orderId":null,"paymentType":"P2P","birPaymentId":"1752102084919116","gift":null}],"autoStartToken":null}');
+  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":false,"item":[{"paymentDirection":"INCOMING","bankPaymentReference":"487C473DD65E4B3DAE82CB4676F56ED7","paymentChannel":"MPC","dateTime":"2024-06-07T14:50:25","amount":"1337.00","currency":"SEK","payerPayee":{"name":"REVSWISH SUPPORT","alias":"1337","businessName":null},"message":"","orderId":null,"paymentType":"P2P","birPaymentId":"1758997979994092","gift":null}],"autoStartToken":null}');
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":false,"item":[{{"paymentDirection":"INCOMING","bankPaymentReference":"CC602703F5B043608133927AF7773BBD","paymentChannel":"MPC","dateTime":"2024-03-21T16:12:15","amount":"1337.00","currency":"SEK","payerPayee":{"name":"RevSwitch Support","alias":"127.0.0.1","businessName":null},"message":"Välkommen till RevSwitch!","orderId":null,"paymentType":"P2P","birPaymentId":"1752102084919116","gift":null}],"autoStartToken":null}');
+  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":false,"item":[{"paymentDirection":"INCOMING","bankPaymentReference":"487C473DD65E4B3DAE82CB4676F56ED7","paymentChannel":"MPC","dateTime":"2024-06-07T14:50:25","amount":"1337.00","currency":"SEK","payerPayee":{"name":"REVSWISH SUPPORT","alias":"1337","businessName":null},"message":"","orderId":null,"paymentType":"P2P","birPaymentId":"1758997979994092","gift":null}],"autoStartToken":null}');
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":false,"item":[{{"paymentDirection":"INCOMING","bankPaymentReference":"CC602703F5B043608133927AF7773BBD","paymentChannel":"MPC","dateTime":"2024-03-21T16:12:15","amount":"1337.00","currency":"SEK","payerPayee":{"name":"RevSwitch Support","alias":"127.0.0.1","businessName":null},"message":"Välkommen till RevSwitch!","orderId":null,"paymentType":"P2P","birPaymentId":"1752102084919116","gift":null}],"autoStartToken":null}');
+  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":false,"item":[{"paymentDirection":"OUTGOING","bankPaymentReference":"487C473DD65E4B3DAE82CB4676F56ED7","paymentChannel":"MPC","dateTime":"2024-06-07T14:50:25","amount":"1337.00","currency":"SEK","payerPayee":{"name":"REVSWISH SUPPORT","alias":"1337","businessName":null},"message":"","orderId":null,"paymentType":"P2P","birPaymentId":"1758997979994092","gift":null}],"autoStartToken":null}');
 });
 
 app.get("/mpc-swish/api/v1/paymentrequest/findByRoleAndState", (req, res) => {
