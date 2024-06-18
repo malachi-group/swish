@@ -84,7 +84,7 @@ app.use((req, res, next) => {
 // Error handling middleware for 404 errors
 app.use((err, req, res, next) => {
   if (err.status === 404) {
-    res.status(404).json({ result: '404', message: 'Route not found' });
+    res.status(200);
   } else {
     next(err); // Passes control to the default error handler for other errors
   }
