@@ -14,12 +14,16 @@ app.use((req, res, next) => {
 
 // Endpoints
 
-app.get("/apputils-swish/api/v1/favorite", (req, res) => {
+app.get("/mpc-swish/api/v1/paymentrequest/findByRoleAndState", (req, res) => {
   res.status(200).send('{"result":"200","favorites":[{"alias":"112","nickname":"RevSwish Support"}]}');
 });
 
 app.get("/mpc-swish/api/v2/validation/", (req, res) => {
   res.status(200).send('{"result":"200","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000,"pushMessageCount":0}');
+});
+
+app.get("/apputils-swish/api/v1/favorite", (req, res) => {
+  res.status(200).send('{"result":"200","favorites":[{"alias":"112","nickname":"RevSwish Support"}]}');
 });
 
 // ExecutePayment Endpoint
