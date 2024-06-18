@@ -17,6 +17,11 @@ app.post("/mpc-swish/api/v3/initiateactivation/:param1/:param2", (req, res) => {
   res.status(200).send('{"result":"200","autoStartToken":"9e83a6c0-d8bb-428b-b99b-3a59340c57c7"}');
 });
 
+app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
+  res.status(200).send('{"result":"200","deviceId":"9961741E269E4C149C3DEF394DDE8513","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
+});
+
+
 app.post("/mpc-swish/api/v3/executepayment/", (req, res) => {
   res.status(200).send('{"result":"200","message":"ReverseSwish test message!"}');
     
