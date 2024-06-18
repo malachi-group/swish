@@ -3,9 +3,8 @@ const express = require("express");
 const app = express();
 
 app.use((req, res, next) => {
-  // Check if the request has been handled by any route above
-  if (res.status(404)) {
-    res.status(200).send('{"result":"200"}');
+  if (!res.headersSent) { // Check if headers have been sent
+    res.status(404).json({ result: '404', message: 'Route not found' });
   }
 });
 
