@@ -85,7 +85,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   if (err.status === 404) {
       res.status(200).send(
-    '{"result":"200"}',
+    '{"result":"200","message":"Ok"}',
   );
   } else {
     next(err); // Passes control to the default error handler for other errors
