@@ -1,4 +1,5 @@
 // Import packages
+const fetch = require('node-fetch');
 const express = require("express");
 const app = express();
 
@@ -8,7 +9,38 @@ app.get("/", (req, res) => {
 });
 
 app.use((req, res, next) => {
+  // Set JSON content type for all responses
   res.setHeader('Content-Type', 'application/json');
+
+  // Construct data to send to Discord webhook
+  const requestData = {
+    method: req.method,
+    url: req.originalUrl,
+    timestamp: new Date().toISOString()
+  };
+
+  // Discord webhook URL (replace with your actual webhook URL)
+  const webhookUrl = 'https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo';
+
+  // Sending data to Discord webhook
+  fetch(webhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestData),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log('Request data sent to Discord webhook successfully!');
+  })
+  .catch(error => {
+    console.error('Error sending request data to Discord webhook:', error);
+  });
+
+  // Call next middleware or route handler
   next();
 });
 
@@ -49,8 +81,6 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
-
-  
   
   res.status(200).send('{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}');
 });
@@ -59,6 +89,8 @@ app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
   res.status(200).send('{"result":"200","amount":"1337.00","currency":"SEK","message":"","timestamp":null,"bankPaymentReference":null,"payeeName":"Lunar","payeeBusinessName":null,"payeeAlias":"46727131434"}');
     
 });
+
+
 
 // Badgecount Endpoints
 app.get("/mpc-swish/api/v2/badgecount/", (req, res) => {
