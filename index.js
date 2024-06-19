@@ -74,11 +74,15 @@ app.get("/mpc-swish/consents/v1/detailed-notifications/info", (req, res) => {
     '{"requestReference":"028C557A57064DBC80810213A6320561","devicePublicKey":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0KzjRPBgtWPFpHYjLE9HK4gfwYXnKpkuL3mNUXgjJvzUTZdBSgV9f2T5cEbiPLQcgifGymtfdjZ4Gt9syoHsqaDIbxjx0bd05T4h26gQtNEfGuhFy6uXMvgKP3PFP5paYzKUJHi+yTFlaSZnKEUrlCu5D2kOqTz6cv5NISUJH0u1H7kesckhdQT7cfEPNdjYnbImrXLZ9P3+3E0UxApEmztwm0lDCHFS0tjgX2Yh4hjxx/tCCk1BMu/HXdYne66DzkOmv63YeAXrR+3VluhgCsj5j576UK6lWgEunsV8/QV0HzjXM/ne2IEsbuceITdSKgcxPfvVW79JafdK0BipWwIDAQAB","version":"2i","optInDate":"2024-06-18T12:07:23.164+00:00","validDays":90}',
   );
 });
-
 // PaymentRequest Endpoints
-app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
+app.get("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
   res.status(200).send(
     '{"data":{"privatePaymentRequest":true,"requireParentalConsent":false},"time":"2024-05-23T17:08:25.261+00:00"}',
+  );
+});
+app.post("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
+  res.status(200).send(
+    '{"data":{"id":"123456789","state":"completed","senderName":"John Doe","receiverName":"Jane Smith","initiatedAt":"2024-06-19T12:00:00Z","updatedAt":"2024-06-19T12:05:00Z"},"time":"2024-06-19T12:05:30Z"}',
   );
 });
 
