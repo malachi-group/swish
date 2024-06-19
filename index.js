@@ -14,6 +14,10 @@ app.use((req, res, next) => {
 
 // Endpoints
 
+app.get("/mpc-swish/api/v1/blocks?type=ALL", (req, res) => {
+  res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
+});
+
 app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
   res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":false,"item":[{"paymentDirection":"INCOMING","bankPaymentReference":"487C473DD65E4B3DAE82CB4676F56ED7","paymentChannel":"MPC","dateTime":"2024-06-07T14:50:25","amount":"1337.00","currency":"SEK","payerPayee":{"name":"REVSWISH SUPPORT","alias":"1337","businessName":null},"message":"","orderId":null,"paymentType":"P2P","birPaymentId":"1758997979994092","gift":null}],"autoStartToken":null}');
 });
