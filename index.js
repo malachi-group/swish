@@ -80,21 +80,21 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
     '{"data":{"privatePaymentRequest":true,"requireParentalConsent":false},"time":"2024-05-23T17:08:25.261+00:00"}',
   );
 });
-let userID = 0; // Starting ID
+let userID = 0;
 
 // Endpoint for initiating payment requests
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
   // Increment the id for each request
-  nextId++;
+  userID++;
 
   // Prepare the response JSON
   const responseData = {
     data: {
-      id: nextId.toString(), // Convert to string
+      id: `user_${userID}`, // Generating an ID with a prefix and the incremented number
       state: "completed",
       senderName: "John Doe",
-      amount:  "100.00",
-      currency:  "USD",
+      amount: "100.00",
+      currency: "USD",
       receiverName: "Jane Smith",
       initiatedAt: "2024-06-19T12:00:00Z",
       updatedAt: "2024-06-19T12:05:00Z"
