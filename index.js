@@ -43,7 +43,7 @@ app.get("/mpc-swish/api/v2/validation/", (req, res) => {
 });
 
 app.get("/apputils-swish/api/v1/favorite", (req, res) => {
-  res.status(200).send('{"result":"200","favorites":[{"alias":"112","nickname":"RevSwish Support"}]}');
+  res.status(200).send('{"result":"200","favorites":[{"alias":"12312312312","nickname":"RevSwish Support"}]}');
 });
 
 // ExecutePayment Endpoint
@@ -57,7 +57,7 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
-  res.status(200).send('{"result":"200","amount":"1337.00","currency":"SEK","message":"","timestamp":null,"bankPaymentReference":null,"payeeName":"Lunar","payeeBusinessName":null,"payeeAlias":"46727131434"}');
+  res.status(200).send('{"result":"200","amount":"1337.00","currency":"USD","message":"","timestamp":null,"bankPaymentReference":null,"payeeName":"Lunar","payeeBusinessName":null,"payeeAlias":"46727131434"}');
     
 });
 
