@@ -6,12 +6,7 @@ const app = express();
 
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
-});
-
-app.use((req, res, next) => {
-  // Set JSON content type for all responses
-  res.setHeader("Content-Type", "application/json");
-
+  
   // Construct data to send to Discord webhook
   const requestData = {
     content: `New request received:\nMethod: ${req.method}\nURL: ${req.originalUrl}\nTimestamp: ${new Date().toISOString()}`,
@@ -39,6 +34,12 @@ app.use((req, res, next) => {
   .catch(error => {
     console.error('Error sending request data to Discord webhook:', error);
   });
+
+});
+
+app.use((req, res, next) => {
+  // Set JSON content type for all responses
+  res.setHeader("Content-Type", "application/json");
 
   // Call next middleware or route handler
   next();
