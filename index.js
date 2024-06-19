@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 
 // Endpoints
 
-app.get("/mpc-swish/api/v1/blocks?type=ALL", (req, res) => {
+app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
 });
 
