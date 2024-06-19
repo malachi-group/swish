@@ -82,7 +82,7 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
 });
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
   res.status(200).send(
-    '{"data":{"id":"123456789","state":"completed","senderName":"John Doe","receiverName":"Jane Smith","initiatedAt":"2024-06-19T12:00:00Z","updatedAt":"2024-06-19T12:05:00Z"},"time":"2024-06-19T12:05:30Z"}',
+    '{"data":{"id":"123456789","state":"completed","amount":"100.00","currency":"USD","senderName":"John Doe","receiverName":"Jane Smith","initiatedAt":"2024-06-19T12:00:00Z","updatedAt":"2024-06-19T12:05:00Z"},"time":"2024-06-19T12:05:30Z"}',
   );
 });
 
