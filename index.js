@@ -1,5 +1,4 @@
 // Import packages
-const fetch = require('node-fetch');
 const express = require("express");
 const app = express();
 
@@ -9,10 +8,9 @@ app.get("/", (req, res) => {
 });
 
 app.use((req, res, next) => {
-  res.setHeader("Content-Type", "application/json");
+  res.setHeader('Content-Type', 'application/json');
   next();
 });
-
 
 // Endpoints
 
@@ -50,17 +48,10 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
   res.status(200).send('{"result":"200","deviceId":"9961741E269E4C149C3DEF394DDE8513","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
 });
 
-app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
-  
-  res.status(200).send('{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}');
-});
-
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
   res.status(200).send('{"result":"200","amount":"1337.00","currency":"SEK","message":"","timestamp":null,"bankPaymentReference":null,"payeeName":"Lunar","payeeBusinessName":null,"payeeAlias":"46727131434"}');
     
 });
-
-
 
 // Badgecount Endpoints
 app.get("/mpc-swish/api/v2/badgecount/", (req, res) => {
