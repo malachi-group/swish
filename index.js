@@ -90,7 +90,7 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) =
   // Prepare the response JSON
   const responseData = {
     data: {
-      id: `user_${userID}`, // Generating an ID with a prefix and the incremented number
+      id: `${userID}`, // Generating an ID with a prefix and the incremented number
       state: "completed",
       senderName: "John Doe",
       amount: "100.00",
