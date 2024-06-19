@@ -75,12 +75,12 @@ app.get("/mpc-swish/consents/v1/detailed-notifications/info", (req, res) => {
   );
 });
 // PaymentRequest Endpoints
-app.get("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
+app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
   res.status(200).send(
     '{"data":{"privatePaymentRequest":true,"requireParentalConsent":false},"time":"2024-05-23T17:08:25.261+00:00"}',
   );
 });
-app.post("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
+app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
   res.status(200).send(
     '{"data":{"id":"123456789","state":"completed","senderName":"John Doe","receiverName":"Jane Smith","initiatedAt":"2024-06-19T12:00:00Z","updatedAt":"2024-06-19T12:05:00Z"},"time":"2024-06-19T12:05:30Z"}',
   );
