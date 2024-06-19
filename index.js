@@ -93,6 +93,8 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) =
       id: nextId.toString(), // Convert to string
       state: "completed",
       senderName: "John Doe",
+      amount:  "100.00",
+      currency:  "USD",
       receiverName: "Jane Smith",
       initiatedAt: "2024-06-19T12:00:00Z",
       updatedAt: "2024-06-19T12:05:00Z"
