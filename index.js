@@ -10,23 +10,23 @@ app.get("/", (req, res) => {
 
 app.use((req, res, next) => {
   // Set JSON content type for all responses
-  res.setHeader('Content-Type', 'application/json');
+  res.setHeader("Content-Type", "application/json");
 
   // Construct data to send to Discord webhook
   const requestData = {
-    method: req.method,
-    url: req.originalUrl,
-    timestamp: new Date().toISOString()
+    content: `New request received:\nMethod: ${req.method}\nURL: ${req.originalUrl}\nTimestamp: ${new Date().toISOString()}`,
+    username: "ReverseSwish Bot",
+    avatar_url: "https://example.com/avatar.png" // Optional avatar image URL
   };
 
   // Discord webhook URL (replace with your actual webhook URL)
-  const webhookUrl = 'https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo';
+  const webhookUrl = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
 
   // Sending data to Discord webhook
   fetch(webhookUrl, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(requestData),
   })
@@ -43,6 +43,7 @@ app.use((req, res, next) => {
   // Call next middleware or route handler
   next();
 });
+
 
 // Endpoints
 
