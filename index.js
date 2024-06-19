@@ -57,7 +57,7 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
-  res.status(200).send('{"result":"200","amount":"1337.00","currency":"USD","message":"","timestamp":null,"bankPaymentReference":null,"payeeName":"Lunar","payeeBusinessName":null,"payeeAlias":"46727131434"}');
+  res.status(200).send('{"result":"200","amount":"1","currency":"USD","message":"","timestamp":null,"bankPaymentReference":null,"payeeName":"Lunar","payeeBusinessName":null,"payeeAlias":"46727131434"}');
     
 });
 
@@ -96,10 +96,10 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) =
     data: {
       id: `${userID}`, // Generating an ID with a prefix and the incremented number
       state: "completed",
-      senderName: "John Doe",
+      senderName: "",
       amount: "100.00",
       currency: "USD",
-      receiverName: "Jane Smith",
+      receiverName: "",
       initiatedAt: "2024-06-19T12:00:00Z",
       updatedAt: "2024-06-19T12:05:00Z"
     },
