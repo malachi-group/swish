@@ -36,10 +36,13 @@ app.use((req, res, next) => {
 // Endpoints
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
-  res.status(200).send('{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}');
-  const responseObject = JSON.parse(res.body);
+  // Simulated response sent to the client
+  const jsonResponse = '{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}';
+  res.status(200).send(jsonResponse);
 
-  // Access individual properties
+  // Parse the JSON response for logging or further processing
+  const responseObject = JSON.parse(jsonResponse);
+
   const autoStartToken = responseObject.autoStartToken;
   const result = responseObject.result;
   const paymentID = responseObject.paymentID;
