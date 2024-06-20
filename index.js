@@ -93,7 +93,7 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
 
-  const latestPayment = paymentDataStore[paymentDataStore.length - 1];
+  const latestPayment = paymentDataStore[1];
 
   const responseData = {
     result: "200",
