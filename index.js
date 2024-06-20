@@ -1,5 +1,6 @@
 // Import packages
 const express = require("express");
+const axios = require("axios");
 const app = express();
 
 app.get("/", (req, res) => {
@@ -10,6 +11,17 @@ app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   next();
 });
+
+async function sendDiscordWebhook(message) {
+  try {
+    await axios.post(DISCORD_WEBHOOK_URL, {
+      content: message
+    });
+    console.log("Webhook sent successfully");
+  } catch (error) {
+    console.error("Error sending webhook:", error);
+  }
+}
 
 // Endpoints
 
