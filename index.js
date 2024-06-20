@@ -93,28 +93,30 @@ app.get("/payments", async (req, res) => {
 });
 
 // Endpoint for initiating payment requests
-let nextId = 0;
+let userID = 0;
 
-app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
-    nextId++;
+// Endpoint for initiating payment requests
+app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
+  // Increment the id for each request
+  userID++;
 
-    const payment = {
-      state: "COMPLETED",
-      sender_name: "John Doe",
-      id: nextId,
+  // Prepare the response JSON
+  const responseData = {
+    data: {
+      id: `${userID}`, // Generating an ID with a prefix and the incremented number
+      state: "completed",
+      senderName: "",
       amount: "100.00",
       currency: "USD",
-      receiver_name: "Jane Smith",
-      initiated_at: "2024-06-19T12:00:00Z",
-      updated_at: "2024-06-19T12:05:00Z"
-    };
+      receiverName: "",
+      initiatedAt: "2024-06-19T12:00:00Z",
+      updatedAt: "2024-06-19T12:05:00Z"
+    },
+    time: "2024-06-19T12:05:30Z"
+  };
 
-    const responseData = {
-      data: payment,
-      time: "2024-06-19T12:05:30Z"
-    };
-
-    res.status(200).json(responseData);
+  // Send the response with incremented id
+  res.status(200).json(responseData);
 });
 
 app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/:num", (req, res) => {
