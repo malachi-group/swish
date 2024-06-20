@@ -5,7 +5,7 @@ const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
 
-app.use(express.json());
+app.use(bodyParser.json());
 
 
 app.get("/", (req, res) => {
@@ -26,9 +26,8 @@ async function sendDiscordWebhook(message) {
 // Middleware to send Discord webhook for every request
 app.use((req, res, next) => {
   const message = `Request received: ${req.method} ${req.url} | Payload: ${JSON.stringify(req.body)}`;
-  const parsedObject = JSON.parse(req.body);
   console.log("Sending webhook:", message); // Log the message being sent
-  sendDiscordWebhook(parsedObject);
+  sendDiscordWebhook(message);
   res.setHeader('Content-Type', 'application/json');
   next();
 });
@@ -37,12 +36,22 @@ app.use((req, res, next) => {
 // Endpoints
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
-  res.status(200).send('{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}');
-  const ParsedJson = JSON.parse(req.body);
-
+  // Simulated response
+  const jsonResponse = '{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}';
   
-  sendDiscordWebhook(ParsedJson.message, ParsedJson.amount);
+  // Send response to the client
+  res.status(200).send(jsonResponse);
 
+    // Parse the JSON from req.body
+    const parsedObject = req.body;
+
+    // Access properties from parsed object
+    const message = parsedObject.autoStartToken;
+    const result = parsedObject.result;
+    const paymentID = parsedObject.paymentID;
+
+    // Call your function with the extracted data
+    sendDiscordWebhook(message, result, paymentID);
 
 });
 
