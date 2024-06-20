@@ -3,6 +3,8 @@ const express = require("express");
 const axios = require("axios");
 const app = express();
 
+const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
+
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
