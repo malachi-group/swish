@@ -3,15 +3,14 @@ const express = require("express");
 const { Pool } = require("pg");
 const app = express();
 
-
 const pool = new Pool({
-  user: "default",
-  host: "ep-snowy-dust-23848125.us-east-1.aws.neon.tech",
-  database: "verceldb",
-  password: "K2ix5nobLcya", // Replace with your actual password
-  port: 5432,
-});
+  connectionString: "postgres://default:K2ix5nobLcya@ep-snowy-dust-23848125-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require",
+})
 
+pool.connect((err) => {
+  if (err) throw err
+  console.log("Connected to Swish")
+})
 
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
