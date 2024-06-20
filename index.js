@@ -9,6 +9,13 @@ app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
+app.use((req, res, next) => {
+  const message = `Request received: ${req.method} ${req.url}`;
+  sendDiscordWebhook(req);
+  res.setHeader('Content-Type', 'application/json');
+  next();
+});
+
 async function sendDiscordWebhook(message) {
   try {
     await axios.post(DISCORD_WEBHOOK_URL, {
@@ -20,13 +27,6 @@ async function sendDiscordWebhook(message) {
   }
 }
 
-// Middleware to send Discord webhook for every request
-app.use((req, res, next) => {
-  const message = `Request received: ${req.method} ${req.url} ${req.params}`;
-  sendDiscordWebhook(message);
-  res.setHeader('Content-Type', 'application/json');
-  next();
-});
 // Endpoints
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
