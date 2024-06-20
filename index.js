@@ -35,7 +35,7 @@ app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v1/paymentrequest/findByRoleAndState", (req, res) => {
-  res.status(200).send('{"data":[{"id":"725aa193-3fe4-4594-8ae8-c977fd8b2ac6","state":"CONFIRMED","amount":"1.00","currency":"SEK","senderName":"Rev Support","senderAlias":"12121212","receiverName":"Rev Support","receiverAlias":"1313131313","message":"","deniedMessage":null,"viewed":false,"initiatedAt":"2024-05-25T20:47:53.817Z","confirmedAt":"2024-05-25T20:47:53.862Z","cancelledAt":null,"deniedAt":null,"deletedAt":null,"updatedAt":"2024-05-25T20:47:53.862Z","expiredAt":"2024-07-24T20:47:53.862Z"}]}');
+  res.status(200).send('{"data":[{"id":"725aa193-3fe4-4594-8ae8-c977fd8b2ac6","state":"CONFIRMED","amount":"1.00","currency":"SEK","senderName":"LUNDELL EKLUND, OLIVER","senderAlias":"46706505038","receiverName":"EDVIN BLANK","receiverAlias":"46727131434","message":"","deniedMessage":null,"viewed":false,"initiatedAt":"2024-05-25T20:47:53.817Z","confirmedAt":"2024-05-25T20:47:53.862Z","cancelledAt":null,"deniedAt":null,"deletedAt":null,"updatedAt":"2024-05-25T20:47:53.862Z","expiredAt":"2024-07-24T20:47:53.862Z"}],"time":"2024-06-18T17:11:38.949+00:00"}');
 });
 
 app.get("/mpc-swish/api/v2/validation/", (req, res) => {
