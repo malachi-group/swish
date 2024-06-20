@@ -92,8 +92,23 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
-  res.status(200).send('{"result":"200","amount":"1","currency":"USD","message":"","timestamp":null,"bankPaymentReference":null,"payeeName":"Lunar","payeeBusinessName":null,"payeeAlias":"46727131434"}');
-    
+
+  const latestPayment = paymentDataStore[paymentDataStore.length - 1];
+
+  const responseData = {
+    result: "200",
+    amount: latestPayment.amount,
+    currency: latestPayment.currency,
+    message: "",
+    timestamp: null,
+    bankPaymentReference: null,
+    payeeName: "Lunar",
+    payeeBusinessName: null,
+    payeeAlias: param2
+  };
+
+  res.status(200).send(responseData);
+
 });
 
 // Badgecount Endpoints
