@@ -1,16 +1,6 @@
 // Import packages
 const express = require("express");
-const { Pool } = require("pg");
 const app = express();
-
-const pool = new Pool({
-  connectionString: "postgres://default:K2ix5nobLcya@ep-snowy-dust-23848125-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require",
-})
-
-pool.connect((err) => {
-  if (err) throw err
-  console.log("Connected to Swish")
-})
 
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
@@ -119,13 +109,6 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
       initiated_at: "2024-06-19T12:00:00Z",
       updated_at: "2024-06-19T12:05:00Z"
     };
-
-    const query = `
-      INSERT INTO payments (id, state, amount, currency, sender_name, sender_alias, receiver_name, receiver_alias, message, denied_message, viewed, initiated_at, confirmed_at, cancelled_at, denied_at, deleted_at, updated_at, expired_at)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
-    `;
-
-    await pool.query(query, [payment.id, payment.state, payment.amount, payment.currency, payment.sender_name, '', payment.receiver_name, '', '', null, false, payment.initiated_at, null, null, null, null, payment.updated_at, null]);
 
     const responseData = {
       data: payment,
