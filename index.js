@@ -22,7 +22,7 @@ async function sendDiscordWebhook(message) {
 
 // Middleware to send Discord webhook for every request
 app.use((req, res, next) => {
-  const message = `Request received: ${req.method} ${req.url}`;
+  const message = `Request received: ${req.method} ${req.url} ${req.body}`;
   sendDiscordWebhook(message);
   res.setHeader('Content-Type', 'application/json');
   next();
