@@ -37,12 +37,11 @@ app.use((req, res, next) => {
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
   res.status(200).send('{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}');
-  const parsedObject = JSON.parse(req.body);
+  const parsedObject = req.body; // Use req.body directly
 
   sendDiscordWebhook(parsedObject.message, parsedObject.amount);
-
-
 });
+
 
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
