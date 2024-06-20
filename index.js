@@ -10,7 +10,8 @@ app.get("/", (req, res) => {
 });
 
 app.use((req, res, next) => {
-  sendDiscordWebhook(req);
+  const message = `Request received: ${req.method} ${req.url}`;
+  sendDiscordWebhook(message);
   res.setHeader('Content-Type', 'application/json');
   next();
 });
