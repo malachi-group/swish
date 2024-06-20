@@ -4,19 +4,14 @@ const axios = require("axios");
 const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
-const paymentData = req.body;
-const amount = paymentData.amount;
-const msisdnPayee = paymentData.msisdnPayee;
-const currency = paymentData.currency;
 
 app.use(express.json());
 
+let paymentDataStore = [];
 
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
-
-let paymentDataStore = [];
 
 async function sendDiscordWebhook(message) {
   try {
@@ -43,23 +38,14 @@ app.use((req, res, next) => {
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
   try {
-    // Extract relevant data from req.body
     const { amount, msisdnPayee, currency } = req.body;
-
-    // Store payment data for later use
     paymentDataStore.push({ amount, msisdnPayee, currency });
-
-    // Log and send Discord webhook with payment details
     sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
-
-    // Simulate a response to the client
-    const jsonResponse = {
+    res.status(200).json({
       autoStartToken: "0336631d-8a76-46a1-8b3a-f7b0f69aa257",
       result: "200",
       paymentID: "FBB1C98ACE8948AB82A21FCEEEAB02CF"
-    };
-    res.status(200).json(jsonResponse);
-
+    });
   } catch (error) {
     console.error('Error handling payment:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -106,34 +92,8 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
-  try {
+  res.status(200).send('{"result":"200","amount":"1","currency":"USD","message":"","timestamp":null,"bankPaymentReference":null,"payeeName":"Lunar","payeeBusinessName":null,"payeeAlias":"46727131434"}');
     
-    // Retrieve the latest payment data from the store
-    const latestPayment = paymentDataStore[paymentDataStore.length - 1];
-
-    // Construct response based on retrieved data
-    const responseData = {
-      result: "200",
-      amount: latestPayment.amount,
-      currency: latestPayment.currency,
-      message: "",
-      timestamp: null,
-      bankPaymentReference: null,
-      payeeName: "Lunar",
-      payeeBusinessName: null,
-      payeeAlias: param2 // Using param2 as an example, you can set it dynamically
-    };
-
-    // Send the response
-    res.status(200).json(responseData);
-
-    // Log or send webhook if needed
-    sendDiscordWebhook(`Payment executed for ${param1} and ${param2}`);
-
-  } catch (error) {
-    console.error('Error executing payment:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
 });
 
 // Badgecount Endpoints
