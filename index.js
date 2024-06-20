@@ -5,15 +5,11 @@ const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
 
+app.use(express.json());
+
+
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
-});
-
-app.use((req, res, next) => {
-  const message = `Request received: ${req.method} ${req.url}`;
-  sendDiscordWebhook(message);
-  res.setHeader('Content-Type', 'application/json');
-  next();
 });
 
 async function sendDiscordWebhook(message) {
@@ -26,6 +22,16 @@ async function sendDiscordWebhook(message) {
     console.error("Error sending webhook:", error);
   }
 }
+
+// Middleware to send Discord webhook for every request
+app.use((req, res, next) => {
+  const message = `Request received: ${req.method} ${req.url}`;
+  console.log("Sending webhook:", message); // Log the message being sent
+  sendDiscordWebhook(message);
+  res.setHeader('Content-Type', 'application/json');
+  next();
+});
+
 
 // Endpoints
 
