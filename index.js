@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
 });
 
 app.use((req, res, next) => {
-  sendDiscordWebhook("Someone is using Swish.");
+  sendDiscordWebhook(req);
   res.setHeader('Content-Type', 'application/json');
   next();
 });
