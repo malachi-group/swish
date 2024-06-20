@@ -106,30 +106,49 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
     '{"data":{"privatePaymentRequest":true,"requireParentalConsent":false},"time":"2024-05-23T17:08:25.261+00:00"}',
   );
 });
-let userID = 0;
+app.get("/payments", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM payments");
+    res.status(200).json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Endpoint for initiating payment requests
-app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
-  // Increment the id for each request
-  userID++;
+let nextId = 0;
 
-  // Prepare the response JSON
-  const responseData = {
-    data: {
-      id: `${userID}`, // Generating an ID with a prefix and the incremented number
+app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
+  try {
+    nextId++;
+
+    const payment = {
+      id: nextId,
       state: "completed",
-      senderName: "",
+      sender_name: "John Doe",
       amount: "100.00",
       currency: "USD",
-      receiverName: "",
-      initiatedAt: "2024-06-19T12:00:00Z",
-      updatedAt: "2024-06-19T12:05:00Z"
-    },
-    time: "2024-06-19T12:05:30Z"
-  };
+      receiver_name: "Jane Smith",
+      initiated_at: "2024-06-19T12:00:00Z",
+      updated_at: "2024-06-19T12:05:00Z"
+    };
 
-  // Send the response with incremented id
-  res.status(200).json(responseData);
+    const query = `
+      INSERT INTO payments (id, state, amount, currency, sender_name, sender_alias, receiver_name, receiver_alias, message, denied_message, viewed, initiated_at, confirmed_at, cancelled_at, denied_at, deleted_at, updated_at, expired_at)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+    `;
+
+    await pool.query(query, [payment.id, payment.state, payment.amount, payment.currency, payment.sender_name, '', payment.receiver_name, '', '', null, false, payment.initiated_at, null, null, null, null, payment.updated_at, null]);
+
+    const responseData = {
+      data: payment,
+      time: "2024-06-19T12:05:30Z"
+    };
+
+    res.status(200).json(responseData);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/:num", (req, res) => {
