@@ -105,10 +105,10 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) =
     data: {
       id: `${userID}`, // Generating an ID with a prefix and the incremented number
       state: "completed",
-      senderName: "",
+      senderName: "Test",
       amount: "100.00",
       currency: "USD",
-      receiverName: "",
+      receiverName: "Test",
       initiatedAt: "2024-06-19T12:00:00Z",
       updatedAt: "2024-06-19T12:05:00Z"
     },
