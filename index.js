@@ -44,7 +44,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
     MSID = msisdnPayee;
     sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
     res.status(200).json({
-      autoStartToken: "0336631d-8a76-46a1-8b3a-f7b0f69aa257",
+      autoStartToken: "vBWHTYjxG9",
       result: "200",
       paymentID: "FBB1C98ACE8948AB82A21FCEEEAB02CF"
     });
