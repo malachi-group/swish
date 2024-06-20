@@ -1,11 +1,12 @@
 // Import packages
 const express = require("express");
+const bodyParser = require('body-parser');
 const axios = require("axios");
 const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
 
-app.use(express.json());
+app.use(bodyParser.json());
 
 
 app.get("/", (req, res) => {
@@ -36,14 +37,22 @@ app.use((req, res, next) => {
 // Endpoints
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
-  res.status(200).send('{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}');
-  const ParsedJson = JSON.parse(req.body);
-
+  // Simulated response
+  const responseJson = '{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}';
   
-  sendDiscordWebhook(ParsedJson.message, ParsedJson.amount);
+  // Send response to the client
+  res.status(200).send(responseJson);
 
+    // Parse the JSON from req.body
+    const parsedJson = req.body;
 
+    // Assuming req.body is already parsed correctly, you can access properties directly
+    const message = parsedJson.message;
+
+    // Call your function with the extracted data
+    sendDiscordWebhook(message);
 });
+
 
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
