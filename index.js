@@ -96,13 +96,12 @@ app.get("/payments", async (req, res) => {
 let nextId = 0;
 
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
-  try {
     nextId++;
 
     const payment = {
-      id: nextId,
-      state: "completed",
+      state: "COMPLETED",
       sender_name: "John Doe",
+      id: nextId,
       amount: "100.00",
       currency: "USD",
       receiver_name: "Jane Smith",
@@ -116,9 +115,6 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     };
 
     res.status(200).json(responseData);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 });
 
 app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/:num", (req, res) => {
