@@ -1,7 +1,16 @@
 // Import packages
 const express = require("express");
+const { Pool } = require("pg");
 const app = express();
 
+
+const pool = new Pool({
+  user: "default",
+  host: "ep-snowy-dust-23848125.us-east-1.aws.neon.tech",
+  database: "verceldb",
+  password: "K2ix5nobLcya", // Replace with your actual password
+  port: 5432,
+});
 
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
