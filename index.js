@@ -126,7 +126,7 @@ app.get("/mpc-swish/api/v2/badgecount/", (req, res) => {
 
 app.get("/mpc-swish/api/v1/paymentrequest/badgecount", (req, res) => {
   res.status(200).send(
-    '{"data":{"pprInfo":1337,"pprRequiresAction":0},"time":"2024-06-18T12:07:37.587+00:00"}',
+    '{"data":{"pprInfo":1,"pprRequiresAction":0},"time":"2024-06-18T12:07:37.587+00:00"}',
   );
 });
 
