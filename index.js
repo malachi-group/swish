@@ -41,13 +41,15 @@ app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
   res.status(200).send(jsonResponse);
 
   // Parse the JSON response for logging or further processing
-  const responseObject = JSON.parse(jsonResponse);
+  const paymentData = JSON.parse(req.body);
 
-  const autoStartToken = responseObject.autoStartToken;
-  const result = responseObject.result;
-  const paymentID = responseObject.paymentID;
+  const amount = paymentData.amount;
+  const msisdnPayee = paymentData.msisdnPayee;
+  const message = paymentData.message;
+  const currency = paymentData.currency;
 
-  sendDiscordWebhook(`INFO :: ${result} ${paymentID} ${autoStartToken}`);
+  sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
+
 });
 
 
