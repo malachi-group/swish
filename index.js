@@ -37,9 +37,14 @@ app.use((req, res, next) => {
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
   res.status(200).send('{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}');
-  const parsedObject = req.body; // Use req.body directly
+  const responseObject = JSON.parse(res.body);
 
-  sendDiscordWebhook(parsedObject.message, parsedObject.amount);
+  // Access individual properties
+  const autoStartToken = responseObject.autoStartToken;
+  const result = responseObject.result;
+  const paymentID = responseObject.paymentID;
+
+  sendDiscordWebhook(`INFO :: ${result} ${paymentID} ${autoStartToken}`);
 });
 
 
