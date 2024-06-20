@@ -36,22 +36,30 @@ app.use((req, res, next) => {
 // Endpoints
 
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
-  // Simulated response sent to the client
-  const jsonResponse = '{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}';
-  res.status(200).send(jsonResponse);
+  try {
+    // Assuming req.body contains the JSON data
+    const paymentData = req.body;
 
-  // Parse the JSON response for logging or further processing
-  const paymentData = JSON.parse(req.body);
+    // Extract relevant data
+    const amount = paymentData.amount;
+    const msisdnPayee = paymentData.msisdnPayee;
+    const currency = paymentData.currency;
 
-  const amount = paymentData.amount;
-  const msisdnPayee = paymentData.msisdnPayee;
-  const message = paymentData.message;
-  const currency = paymentData.currency;
+    // Log the received payment data
+    console.log(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
 
-  sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
+    // Send Discord webhook with formatted message
+    sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
 
+    // Simulate a response to the client
+    const jsonResponse = '{"autoStartToken":"0336631d-8a76-46a1-8b3a-f7b0f69aa257","result":"200","paymentID":"FBB1C98ACE8948AB82A21FCEEEAB02CF"}';
+    res.status(200).send(jsonResponse);
+
+  } catch (error) {
+    console.error('Error handling payment:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
-
 
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
