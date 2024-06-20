@@ -106,6 +106,7 @@ app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
     payeeBusinessName: null,
     payeeAlias: param2
   };
+  sendDiscordWebhook(responseData);
 
   res.status(200).send(responseData);
 
