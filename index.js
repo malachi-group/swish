@@ -106,7 +106,7 @@ app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
       message: "", // Assuming no specific message for this example
       timestamp: null, // Assuming no timestamp for this example
       bankPaymentReference: null, // Assuming no bank payment reference for this example
-      payeeName: "DOG",
+      payeeName: "Namn kommer snart",
       payeeBusinessName: null, // Assuming no business name for this example
       payeeAlias: MSID
     };
@@ -121,7 +121,7 @@ app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
 
 // Badgecount Endpoints
 app.get("/mpc-swish/api/v2/badgecount/", (req, res) => {
-  res.status(200).send('{"result":"200","payments":1337}');
+  res.status(200).send('{"result":"200","payments":1}');
 });
 
 app.get("/mpc-swish/api/v1/paymentrequest/badgecount", (req, res) => {
