@@ -5,6 +5,8 @@ const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
@@ -22,8 +24,14 @@ async function sendDiscordWebhook(message) {
 
 // Middleware to send Discord webhook for every request
 app.use((req, res, next) => {
-  const message = `Request received: ${req.method} ${req.url} ${req.body}`;
-  sendDiscordWebhook(message);
+  // Log the request payload if it exists
+  if (req.body && Object.keys(req.body).length > 0) {
+    let message = `Request received: ${req.method} ${req.url} | Payload: ${JSON.stringify(req.body)}`;
+    console.log(message);
+    sendDiscordWebhook(message); // Send webhook message with payload
+  }
+
+  // Set content type and pass control to the next middleware/route handler
   res.setHeader('Content-Type', 'application/json');
   next();
 });
