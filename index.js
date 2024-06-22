@@ -82,29 +82,7 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
-  try {
-    // Extract data from request body
-   
-
-    // Construct response JSON
-    const responseJson = {
-      result: "200",
-      amount: AMOUNT,
-      currency: "SEK",
-      message: "", // Assuming no specific message for this example
-      timestamp: null, // Assuming no timestamp for this example
-      bankPaymentReference: null, // Assuming no bank payment reference for this example
-      payeeName: "Namn kommer snart",
-      payeeBusinessName: null, // Assuming no business name for this example
-      payeeAlias: MSID
-    };
-
-    // Send response
-    res.status(200).json(responseJson);
-  } catch (error) {
-    console.error('Error handling payment:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    res.status(200).json('{"result":"200","amount":"1.00","currency":"USD","payeeName":"TEST USER","payeeBusinessName":null}');
 });
 
 // Badgecount Endpoints
