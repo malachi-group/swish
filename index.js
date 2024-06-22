@@ -1,6 +1,10 @@
 // Import packages
 const express = require("express");
 const axios = require("axios");
+const { Pool } = require('pg');
+require('dotenv').config();
+const { v4: uuidv4 } = require('uuid'); // For generating UUIDs
+
 const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
@@ -10,51 +14,89 @@ app.use(express.json());
 let MSID = ""
 let AMOUNT = ""
 
+
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
-async function sendDiscordWebhook(message) {
-  try {
-    await axios.post(DISCORD_WEBHOOK_URL, {
-      content: message
-    });
-    console.log("Webhook sent successfully");
-  } catch (error) {
-    console.error("Error sending webhook:", error);
-  }
-}
 
-// Middleware to send Discord webhook for every request
-app.use((req, res, next) => {
-  const message = `Request received: ${req.method} ${req.url} | Payload: ${JSON.stringify(req.body)}`;
-  console.log("Sending webhook:", message); // Log the message being sent
-  sendDiscordWebhook(message);
-  res.setHeader('Content-Type', 'application/json');
-  next();
+// Create a pool of connections
+const pool = new Pool({
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE,
+  ssl: {
+    rejectUnauthorized: false, // Use only if connecting to a local development database or set up correctly for SSL
+  }
 });
+
+// Test the connection
+// Test the database connection
+pool.connect((err, client, release) => {
+    if (err) {
+      return console.error('Error acquiring client', err.stack);
+    }
+    console.log('Connected to PostgreSQL database');
+    client.query('SELECT NOW()', (err, result) => {
+      release();
+      if (err) {
+        return console.error('Error executing query', err.stack);
+      }
+      console.log('PostgreSQL query result:', result.rows);
+    });
+  });
+  
+  // Function to send Discord webhook
+  async function sendDiscordWebhook(message) {
+    try {
+      await axios.post(DISCORD_WEBHOOK_URL, { content: message });
+      console.log("Webhook sent successfully");
+    } catch (error) {
+      console.error("Error sending webhook:", error);
+    }
+  }
+  
+  // Middleware to send Discord webhook for every request
+  app.use((req, res, next) => {
+    const message = `Request received: ${req.method} ${req.url} | Payload: ${JSON.stringify(req.body)}`;
+    console.log("Sending webhook:", message);
+    sendDiscordWebhook(message);
+    res.setHeader('Content-Type', 'application/json');
+    next();
+  });
 
 
 // Endpoints
 
-app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
-  try {
-    const { amount, msisdnPayee, currency } = req.body;
-    AMOUNT = amount;
-    MSID = msisdnPayee;
-    sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
-    res.status(200).json({
-      autoStartToken: "vBWHTYjxG9",
-      result: "200",
-      paymentID: "FBB1C98ACE8948AB82A21FCEEEAB02CF"
-    });
-  } catch (error) {
-    console.error('Error handling payment:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-
+app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
+    try {
+      const { amount, msisdnPayee, currency } = req.body;
+      const paymentID = uuidv4(); // Generate a unique payment ID
+  
+      // Store payment details in PostgreSQL database
+      const client = await pool.connect();
+      const queryText = 'INSERT INTO payments (payment_id, amount, msisdn_payee, currency) VALUES ($1, $2, $3, $4)';
+      const values = [paymentID, amount, msisdnPayee, currency];
+      await client.query(queryText, values);
+      client.release();
+  
+      // Send Discord webhook
+      sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
+  
+      // Return response to client
+      res.status(200).json({
+        autoStartToken: "vBWHTYjxG9",
+        result: "200",
+        paymentID: paymentID
+      });
+    } catch (error) {
+      console.error('Error handling payment:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
 });
