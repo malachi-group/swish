@@ -112,7 +112,7 @@ app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v1/paymentrequest/findByRoleAndState", (req, res) => {
-  res.status(200).send('{"data":[{"id":"725aa193-3fe4-4594-8ae8-c977fd8b2ac6","state":"CONFIRMED","amount":"5000.00","currency":"SEK","senderName":"REV Support","senderAlias":"46712312312","receiverName":"Rev Support","receiverAlias":"46712312315","message":"","deniedMessage":null,"viewed":false,"initiatedAt":"2024-05-25T20:47:53.817Z","confirmedAt":"2024-05-25T20:47:53.862Z","cancelledAt":null,"deniedAt":null,"deletedAt":null,"updatedAt":"2024-05-25T20:47:53.862Z","expiredAt":"2024-07-24T20:47:53.862Z"}],"time":"2024-06-18T17:11:38.949+00:00"}');
+  res.status(200).send('{ "result": "200", "favorites": [{ "alias": "4670000000", "nickname": "John Appleseed" },{ "alias": "4670000001", "nickname": "Kate Bell" },{ "alias": "4670000002", "nickname": "David Taylor" },{ "alias": "4670000003", "nickname": "Anna Haro" },{ "alias": "4670000004", "nickname": "Daniel Higgins Jr." }] }');
 });
 
 app.get("/mpc-swish/api/v2/validation/", (req, res) => {
