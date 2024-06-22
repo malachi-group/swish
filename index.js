@@ -40,30 +40,7 @@ app.get("/", (req, res) => {
 // Endpoints
 
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
-    try {
-      const { amount, msisdnPayee, currency } = req.body;
-      const paymentID = uuidv4(); // Generate a unique payment ID
-  
-      // Store payment details in PostgreSQL database
-      const client = await pool.connect();
-      const queryText = 'INSERT INTO payments (payment_id, amount, msisdn_payee, currency) VALUES ($1, $2, $3, $4)';
-      const values = [paymentID, amount, msisdnPayee, currency];
-      await client.query(queryText, values);
-      client.release();
-  
-      // Send Discord webhook
-      sendDiscordWebhook(`New Payment Received: ${amount} ${currency} from ${msisdnPayee}`);
-  
-      // Return response to client
-      res.status(200).json({
-        autoStartToken: "vBWHTYjxG9",
-        result: "200",
-        paymentID: paymentID
-      });
-    } catch (error) {
-      console.error('Error handling payment:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
+  res.status(200).send('{"autoStartToken":"deadb33f-cdb6-4df3-8de0-deadb33f","result":"200","paymentID":"DEADB33F"}');
   });
   
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
