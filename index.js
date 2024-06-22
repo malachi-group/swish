@@ -2,7 +2,6 @@
 const express = require("express");
 const axios = require("axios");
 const { Pool } = require('pg');
-require('dotenv').config();
 const { v4: uuidv4 } = require('uuid'); // For generating UUIDs
 
 const app = express();
