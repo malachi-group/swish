@@ -1,7 +1,6 @@
 // Import packages
 const express = require("express");
 const axios = require("axios");
-const { Pool } = require('pg');
 
 const app = express();
 
@@ -18,34 +17,6 @@ app.get("/", (req, res) => {
 });
 
 
-// Create a pool of connections
-const pool = new Pool({
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  host: process.env.PGHOST,
-  port: process.env.PGPORT,
-  database: process.env.PGDATABASE,
-  ssl: {
-    rejectUnauthorized: false, // Use only if connecting to a local development database or set up correctly for SSL
-  }
-});
-
-// Test the connection
-// Test the database connection
-pool.connect((err, client, release) => {
-    if (err) {
-      return console.error('Error acquiring client', err.stack);
-    }
-    console.log('Connected to PostgreSQL database');
-    client.query('SELECT NOW()', (err, result) => {
-      release();
-      if (err) {
-        return console.error('Error executing query', err.stack);
-      }
-      console.log('PostgreSQL query result:', result.rows);
-    });
-  });
-  
   // Function to send Discord webhook
   async function sendDiscordWebhook(message) {
     try {
