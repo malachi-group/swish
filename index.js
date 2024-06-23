@@ -85,7 +85,7 @@ app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
     res.status(200).send('{"result":"200","amount":"1.00","currency":"USD","payeeName":"TEST USER","payeeBusinessName":null}');
 });
 app.get("/mpc-swish/api/v3/executepayment/:param1", (req, res) => {
-  res.status(200).send('{"result":"200","amount":"1.00","currency":"USD","payeeName":"TEST USER","payeeBusinessName":null}');
+  res.status(200).send('{"result":"200","deviceId":"DEADBEEF","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
 });
 
 // Badgecount Endpoints
