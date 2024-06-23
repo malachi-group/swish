@@ -84,6 +84,9 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
     res.status(200).send('{"result":"200","amount":"1.00","currency":"USD","payeeName":"TEST USER","payeeBusinessName":null}');
 });
+app.get("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
+  res.status(200).send('{"result":"200","amount":"1.00","currency":"USD","payeeName":"TEST USER","payeeBusinessName":null}');
+});
 
 // Badgecount Endpoints
 app.get("/mpc-swish/api/v2/badgecount/", (req, res) => {
