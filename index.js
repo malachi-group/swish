@@ -81,7 +81,7 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
   res.status(200).send('{"result":"200","deviceId":"DEADBEEF","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
 });
 
-app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
+app.post("/mpc-swish/api/v3/executepayment/:param1", (req, res) => {
     res.status(200).json('{"result":"200","amount":"1.00","currency":"USD","payeeName":"TEST USER","payeeBusinessName":null}');
 });
 
@@ -100,6 +100,11 @@ app.get("/mpc-swish/api/v1/paymentrequest/badgecount", (req, res) => {
 app.get("/mpc-swish/consents/v1/detailed-notifications/info", (req, res) => {
   res.status(200).send(
     '{"requestReference":"028C557A57064DBC80810213A6320561","devicePublicKey":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0KzjRPBgtWPFpHYjLE9HK4gfwYXnKpkuL3mNUXgjJvzUTZdBSgV9f2T5cEbiPLQcgifGymtfdjZ4Gt9syoHsqaDIbxjx0bd05T4h26gQtNEfGuhFy6uXMvgKP3PFP5paYzKUJHi+yTFlaSZnKEUrlCu5D2kOqTz6cv5NISUJH0u1H7kesckhdQT7cfEPNdjYnbImrXLZ9P3+3E0UxApEmztwm0lDCHFS0tjgX2Yh4hjxx/tCCk1BMu/HXdYne66DzkOmv63YeAXrR+3VluhgCsj5j576UK6lWgEunsV8/QV0HzjXM/ne2IEsbuceITdSKgcxPfvVW79JafdK0BipWwIDAQAB","version":"2i","optInDate":"2024-06-18T12:07:23.164+00:00","validDays":90}',
+  );
+});
+app.get("/v1/issues/active?channel=appPrivate", (req, res) => {
+  res.status(200).send(
+    '[{"id":"7fb409c1-a704-42ee-9a33-a0304f9cf893","resolved_at":null,"type":"DOWNTIME","ends_at":null,"created_by":{"at":1573760671379,"email":"helena.timm@bontouch.com"},"starts_at":1573408806000,"target":{"service":"all","bank":"","provider":"swish","supplier":""},"updates":[],"publish_at":1573758006000,"updated_by":{"email":"helena.timm@bontouch.com","at":1573761948676},"channels":[{"data":{"message":"1","title":"Driftstopp"},"name":"appPrivate"}]},{"id":"76148aad-aa49-49c3-ae76-6334c6929c06","created_by":{"email":"hendrik.stjernstrom@bontouch.com","at":1573485984711},"starts_at":1573485936144,"target":{"service":"all","provider":"bank"},"updates":[],"publish_at":1573485936144,"channels":[{"data":{"message":"2","title":"H"},"name":"appPrivate"}],"resolved_at":null,"type":"DISTURBANCE","ends_at":null},{"id":"da4129be-1ca3-412b-824d-95ec5a48143b","ends_at":null,"created_by":{"at":1573544574430,"email":"hendrik.stjernstrom@bontouch.com"},"starts_at":1573544544003,"target":{"service":"all","bank":"Handelsbanken","provider":"bank"},"updates":[],"publish_at":1573544544003,"channels":[{"name":"appPrivate","data":{"title":"","message":"3"}}],"resolved_at":null,"type":"DISTURBANCE"},{"id":"73435caa-9183-4df1-9177-4604fb28509a","created_by":{"at":1573634479014,"email":"hendrik.stjernstrom@bontouch.com"},"starts_at":1573634382799,"target":{"provider":"swish","service":"all","bank":""},"updates":[],"publish_at":1573634382799,"channels":[{"data":{"message":"4","title":""},"name":"appPrivate"}],"resolved_at":null,"type":"DISTURBANCE","ends_at":null},{"id":"d4cf7692-cb33-4325-882d-e2289469cb51","target":{"provider":"supplier","supplier":"bankgirot","service":"all","bank":""},"updates":[],"publish_at":1573746470100,"channels":[{"data":{"message":"5","title":"Hendrik"},"name":"appPrivate"}],"resolved_at":null,"type":"DISTURBANCE","ends_at":null,"created_by":{"email":"hendrik.stjernstrom@bontouch.com","at":1573746506835},"starts_at":1573746470100}]',
   );
 });
 // PaymentRequest Endpoints
