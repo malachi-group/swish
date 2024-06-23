@@ -82,7 +82,7 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param2", (req, res) => {
-    res.status(200).send('{"result":"200","amount":"1.00","currency":"SEK","message":"THIS IS A TEST PAYMENT","timestamp":"2019-04-01T11:56:22","bankPaymentReference":"123456789","payeeName":"TEST USER","payeeBusinessName":null}');
+    res.status(200).send('{"result":"200","amount":"1.00","currency":"SEK","message":"THIS IS A TEST PAYMENT","timestamp":"2019-04-01T11:56:22","bankPaymentReference":"123456789","payeeName":"TEST USER","payeeBusinessName":null,"payeeAlias":"46700000000"}');
 });
 app.get("/mpc-swish/api/v3/executepayment/:param1", (req, res) => {
   res.status(200).send('{"result":"200","deviceId":"DEADBEEF","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
