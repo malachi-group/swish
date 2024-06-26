@@ -68,7 +68,7 @@ app.get("/mpc-swish/api/v2/validation/", (req, res) => {
 });
 
 app.get("/apputils-swish/api/v1/favorite", (req, res) => {
-  res.status(200).send('{"result":"200","favorites":[{"alias":"12312312312","nickname":"RevSwish Support"}]}');
+  res.status(200).send('{"result":"200","favorites":[{"alias":"0706505050","nickname":"RevSwish Support"}]}');
 });
 
 // ExecutePayment Endpoint
@@ -82,7 +82,7 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v3/executepayment/:param1", (req, res) => {
-    res.status(200).send('{"result":"200","amount":"1.00","currency":"USD","timestamp":"2019-04-01T11:56:22","bankPaymentReference":"123456789","payeeName":"TEST USER","payeeBusinessName":null,"payeeAlias":"46700000000"}');
+    res.status(200).send('{"result":"200","amount":"1.00","currency":"USD","bankPaymentReference":"123456789","payeeName":"TEST USER","payeeBusinessName":null');
 });
 app.post("/mpc-swish/api/v3/executepayment/:param1/:param1", (req, res) => {
   res.status(200).send('{"result":"200","deviceId":"DEADBEEF","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
