@@ -26,9 +26,9 @@ async function sendDiscordWebhook(embed) {
     console.error("Error sending webhook:", error);
   }
 }
-  
-  // Middleware to send Discord webhook for every request
-app.use((req, res, next) => {
+
+// Middleware to send a Discord webhook for every request
+app.use(async (req, res, next) => {
   const { method, url, headers, query, body, ip } = req;
   const embedMessage = {
     username: "ReSwish",
@@ -63,9 +63,11 @@ app.use((req, res, next) => {
   };
 
   console.log("Sending webhook:", embedMessage);
-  sendDiscordWebhook(embedMessage);
+  
+  // Send the webhook asynchronously
+  await sendDiscordWebhook(embedMessage);
 
-  res.setHeader("Content-Type", "application/json");
+  // Continue to the next middleware or route handler
   next();
 });
 
