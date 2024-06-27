@@ -32,7 +32,6 @@ app.use((req, res, next) => {
   const { method, url, headers, query, body, ip } = req;
   const embedMessage = {
     username: "ReSwish",
-    avatar_url: "", // Optional: URL to the bot's avatar image
     embeds: [{
       title: "Request Received",
       color: 3447003, // Optional: Change color as needed (this is a blue shade)
