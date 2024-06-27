@@ -18,63 +18,54 @@ app.get("/", (req, res) => {
 
 
   // Function to send Discord webhook
-  async function sendDiscordWebhook(message) {
-    try {
-      await axios.post(DISCORD_WEBHOOK_URL, { content: message });
-      console.log("Webhook sent successfully");
-    } catch (error) {
-      console.error("Error sending webhook:", error);
-    }
+async function sendDiscordWebhook(embed) {
+  try {
+    await axios.post(DISCORD_WEBHOOK_URL, { embeds: [embed] });
+    console.log("Webhook sent successfully");
+  } catch (error) {
+    console.error("Error sending webhook:", error);
   }
+}
   
   // Middleware to send Discord webhook for every request
 app.use((req, res, next) => {
   const { method, url, headers, query, body, ip } = req;
   const embedMessage = {
     username: "ReSwish",
-    embeds: [{
-      title: "Request Received",
-      color: 3447003, // Optional: Change color as needed (this is a blue shade)
-      fields: [
-        {
-          name: "Method",
-          value: method,
-          inline: true
-        },
-        {
-          name: "URL",
-          value: url,
-          inline: true
-        },
-        {
-          name: "IP Address",
-          value: ip,
-          inline: true
-        },
-        {
-          name: "Headers",
-          value: "```json\n" + JSON.stringify(headers, null, 2) + "\n```",
-          inline: false
-        },
-        {
-          name: "Query Parameters",
-          value: "```json\n" + JSON.stringify(query, null, 2) + "\n```",
-          inline: false
-        },
-        {
-          name: "Payload",
-          value: "```json\n" + JSON.stringify(body, null, 2) + "\n```",
-          inline: false
-        }
-      ],
-      timestamp: new Date()
-    }]
+    avatar_url: "", // Optional: URL to the bot's avatar image
+    embeds: [
+      {
+        title: "Request Received",
+        color: 3447003, // Optional: Change color as needed (this is a blue shade)
+        fields: [
+          { name: "Method", value: method, inline: true },
+          { name: "URL", value: url, inline: true },
+          { name: "IP Address", value: ip, inline: true },
+          {
+            name: "Headers",
+            value: `\`\`\`json\n${JSON.stringify(headers, null, 2)}\n\`\`\``,
+            inline: false,
+          },
+          {
+            name: "Query Parameters",
+            value: `\`\`\`json\n${JSON.stringify(query, null, 2)}\n\`\`\``,
+            inline: false,
+          },
+          {
+            name: "Payload",
+            value: `\`\`\`json\n${JSON.stringify(body, null, 2)}\n\`\`\``,
+            inline: false,
+          },
+        ],
+        timestamp: new Date(),
+      },
+    ],
   };
 
   console.log("Sending webhook:", embedMessage);
   sendDiscordWebhook(embedMessage);
 
-  res.setHeader('Content-Type', 'application/json');
+  res.setHeader("Content-Type", "application/json");
   next();
 });
 
