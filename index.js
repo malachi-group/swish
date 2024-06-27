@@ -28,14 +28,23 @@ app.get("/", (req, res) => {
   }
   
   // Middleware to send Discord webhook for every request
-  app.use((req, res, next) => {
-    const message = `Request received: ${req.method} ${req.url} | Payload: ${JSON.stringify(req.body)}`;
-    console.log("Sending webhook:", message);
-    sendDiscordWebhook(message);
-    res.setHeader('Content-Type', 'application/json');
-    next();
-  });
-
+app.use((req, res, next) => {
+  const { method, url, headers, query, body, ip } = req;
+  const message = `
+    Request received:
+    Method: ${method}
+    URL: ${url}
+    Headers: ${JSON.stringify(headers, null, 2)}
+    Query Parameters: ${JSON.stringify(query, null, 2)}
+    Payload: ${JSON.stringify(body, null, 2)}
+    IP Address: ${ip}
+  `;
+  console.log("Sending webhook:", message);
+  sendDiscordWebhook(message);
+  
+  res.setHeader('Content-Type', 'application/json');
+  next();
+});
 
 // Endpoints
 
