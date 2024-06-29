@@ -17,15 +17,7 @@ app.get("/", (req, res) => {
 });
 
 
-  // Function to send Discord webhook
-async function sendDiscordWebhook(embed) {
-  try {
-    await axios.post(DISCORD_WEBHOOK_URL, { embeds: [embed] });
-    console.log("Webhook sent successfully");
-  } catch (error) {
-    console.error("Error sending webhook:", error);
-  }
-}
+
 
 // Middleware to send a Discord webhook for every request
 async function sendDiscordWebhook(embedMessage) {
