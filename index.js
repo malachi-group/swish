@@ -32,17 +32,30 @@ app.use(async (req, res, next) => {
 
     const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const hash = req.headers['hash'] || req.connection.remoteAddress;
+    const alias = req.headers['alias'] || req.connection.remoteAddress;
+    const clienttime = req.headers['clienttime'] || req.connection.remoteAddress;
+
     const embedMessage = {
       title: 'New Request Details',
       description: 'A new request has been made.',
       color: 16711680, // Red color (decimal)
       fields: [
-        { name: 'Request IP', value: ipAddress, inline: true },
-               { name: 'Swish Hash', value: hash, inline: true },
+        { name: 'Vercel IP', value: ipAddress, inline: true },
+        { name: 'Swish Hash', value: hash, inline: true },
+        { name: 'Swish CTime', value: alias, inline: true },
 
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
+
+    const logMessage = `${new Date().toISOString()} - Request: ${JSON.stringify(embedMessage)}\n`;
+    fs.appendFile('logs.txt', logMessage, (err) => {
+      if (err) {
+        console.error('Error writing to log file:', err);
+      } else {
+        console.log('Request details saved to log file.');
+      }
+    });
 
     await sendDiscordWebhook(embedMessage);
   } catch (error) {
