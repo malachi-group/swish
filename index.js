@@ -39,7 +39,6 @@ async function fetchIPGeolocation() {
 // Middleware to send a Discord webhook for every request
 app.use(async (req, res, next) => {
   try {
-    const ipAddress = req.ip; // Assuming you want to get client's IP address
     const ipInfo = await fetchIPGeolocation();
 
    const embedMessage = {
@@ -49,7 +48,7 @@ app.use(async (req, res, next) => {
       fields: [
         { name: 'Request Method', value: req.method, inline: true },
         { name: 'Request Path', value: req.path, inline: true },
-        { name: 'Request IP', value: ipAddress, inline: true }, // Displaying the actual IP address
+        { name: 'Request IP', value: ipInfo.ip, inline: true }, // Displaying the actual IP address
         { name: 'Location', value: `${ipInfo.location.city}, ${ipInfo.location.principalSubdivision}, ${ipInfo.country.name}`, inline: true }
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
