@@ -33,7 +33,7 @@ app.use(async (req, res, next) => {
 
     const ipAddress = req.headers['x-forwarded-for'];
     const hash = req.headers['hash'];
-    const alias = req.headers['alias'];
+    const alias = req.headers['Swish-alias'];
     const clienttime = req.headers['clientTime'];
 
     const embedMessage = {
@@ -43,7 +43,8 @@ app.use(async (req, res, next) => {
       fields: [
         { name: 'Vercel IP', value: ipAddress, inline: true },
         { name: 'Swish Hash', value: hash, inline: true },
-        { name: 'Swish CTime', value: alias, inline: true },
+        { name: 'Swish Alias', value: alias, inline: true },
+        { name: 'Swish CTime', value: clienttime, inline: true },
 
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
