@@ -31,10 +31,10 @@ async function sendDiscordWebhook(embed) {
 app.use(async (req, res, next) => {
   try {
 
-    const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const hash = req.headers['hash'] || req.connection.remoteAddress;
-    const alias = req.headers['alias'] || req.connection.remoteAddress;
-    const clienttime = req.headers['clienttime'] || req.connection.remoteAddress;
+    const ipAddress = req.headers['x-forwarded-for'];
+    const hash = req.headers['hash'];
+    const alias = req.headers['alias'];
+    const clienttime = req.headers['clienttime'];
 
     const embedMessage = {
       title: 'New Request Details',
