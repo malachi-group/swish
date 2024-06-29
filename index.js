@@ -1,4 +1,4 @@
-// Import packages
+ // Import packages
 const express = require("express");
 const axios = require("axios");
 
@@ -11,80 +11,64 @@ app.use(express.json());
 let MSID = ""
 let AMOUNT = ""
 
+
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
-// Function to send Discord webhook
+
+  // Function to send Discord webhook
+async function sendDiscordWebhook(embed) {
+  try {
+    await axios.post(DISCORD_WEBHOOK_URL, { embeds: [embed] });
+    console.log("Webhook sent successfully");
+  } catch (error) {
+    console.error("Error sending webhook:", error);
+  }
+}
+
+// Middleware to send a Discord webhook for every request
 async function sendDiscordWebhook(embedMessage) {
   try {
-    await axios.post(DISCORD_WEBHOOK_URL, {
-      embeds: [embedMessage]
+    const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL'; // Replace with your Discord webhook URL
+    await axios.post(webhookUrl, embedMessage, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
-    console.log("Discord webhook sent successfully");
+    console.log('Webhook sent successfully');
   } catch (error) {
-    console.error("Error sending Discord webhook:", error.message);
-    throw error;
+    console.error('Error sending webhook:', error);
   }
 }
 
-// Function to get IP address information
-async function getIpInfo(ip) {
-  try {
-    const response = await axios.get(`http://ip-api.com/json/${ip}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching IP information:", error.message);
-    return null;
-  }
-}
+app.use(async (req, res, next) => {
+  const { method, url, headers, query, body, ip } = req;
+ let embeds = [
+    {
+        title: "Discord Webhook Example",
+        color: 5174599,
+        footer: {
+            text: `📅 ${new Date().toDateString()}`, // Using current date as an example
+        },
+        fields: [
+            {
+                name: "Field Name",
+                value: "Field Value"
+            },
+        ],
+    },
+];
 
-app.get("/", async (req, res) => {
-  const { username } = req.body;
-  const ip = req.ip || getLocalIpAddress();
 
-  const ipInfo = await getIpInfo(ip);
+  console.log("Sending webhook");
+  
+    await sendDiscordWebhook(embeds);
 
-  if (ipInfo) {
-    const embedMessage = {
-      title: "User Information",
-      color: 3447003, // Blue color
-      fields: [
-        { name: "Username", value: username, inline: true },
-        { name: "IP Address", value: ip, inline: true },
-        { name: "City", value: ipInfo.city || "N/A", inline: true },
-        { name: "Region", value: ipInfo.regionName || "N/A", inline: true },
-        { name: "Country", value: ipInfo.country || "N/A", inline: true },
-        { name: "ISP", value: ipInfo.isp || "N/A", inline: true },
-      ],
-      timestamp: new Date(),
-    };
-
-    sendDiscordWebhook(embedMessage)
-      .then(() => {
-        res.status(200).send("Webhook sent successfully");
-      })
-      .catch(error => {
-        res.status(500).send("Error sending webhook: " + error.message);
-      });
-  } else {
-    res.status(500).send("Error fetching IP information");
-  }
+  next();
 });
-
-// Function to get local IP address
-function getLocalIpAddress() {
-  const nets = networkInterfaces();
-  for (const name of Object.keys(nets)) {
-    for (const net of nets[name]) {
-      if (net.family === 'IPv4' && !net.internal) {
-        return net.address;
-      }
-    }
-  }
-  return 'IP address not found';
-}
 // Endpoints
+
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   res.status(200).send('{"autoStartToken":"deadb33f-cdb6-4df3-8de0-deadb33f","result":"200","paymentID":"DEADB33F"}');
   });
@@ -170,7 +154,7 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) =
   // Prepare the response JSON
   const responseData = {
     data: {
-      id: `${userID}`, // Corrected: Using backticks for template literal
+      id: `${userID}`, // Generating an ID with a prefix and the incremented number
       state: "completed",
       senderName: "Test",
       amount: "100.00",
@@ -213,3 +197,4 @@ app.use((err, req, res, next) => {
 app.listen(3000, () => {
   console.log("ReverseSwish is running on port 3000!");
 });
+;
