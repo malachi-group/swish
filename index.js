@@ -24,32 +24,21 @@ async function sendDiscordWebhook(embed) {
   }
 }
 
-// Function to fetch IP geolocation data
-async function fetchIPGeolocation() {
-  try {
-    const apiUrl = `https://api-bdc.net/data/ip-geolocation?ip=&localityLanguage=en&key=a5ab355289484ce8aef147cda8ff3da0`; // Replace with actual API URL
-    const response = await axios.get(apiUrl);
-    return response.data; // Return the geolocation data
-  } catch (error) {
-    console.error('Error fetching IP geolocation:', error);
-    throw error;
-  }
-}
+
 
 // Middleware to send a Discord webhook for every request
 app.use(async (req, res, next) => {
   try {
-    const ipInfo = await fetchIPGeolocation();
 
-   const embedMessage = {
+   const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+    const embedMessage = {
       title: 'New Request Details',
       description: 'A new request has been made.',
       color: 16711680, // Red color (decimal)
       fields: [
-        { name: 'Request Method', value: req.method, inline: true },
-        { name: 'Request Path', value: req.path, inline: true },
-        { name: 'Request Headers', value: JSON.stringify(req.headers), inline: true }, // Displaying request headers
-        { name: 'Location', value: `${ipInfo.location.city}, ${ipInfo.location.principalSubdivision}, ${ipInfo.country.name}`, inline: true }
+        { name: 'Request IP', value: ipAddress, inline: true },
+        { name: 'Request Headers', value: '```' + JSON.stringify(req.headers, null, 2) + '```', inline: false },
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
