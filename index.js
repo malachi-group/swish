@@ -158,7 +158,7 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) =
   // Prepare the response JSON
   const responseData = {
     data: {
-      id: ${userID}, // Generating an ID with a prefix and the incremented number
+      id: `${userID}`, // Corrected: Using backticks for template literal
       state: "completed",
       senderName: "Test",
       amount: "100.00",
