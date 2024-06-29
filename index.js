@@ -48,7 +48,7 @@ app.use(async (req, res, next) => {
       fields: [
         { name: 'Request Method', value: req.method, inline: true },
         { name: 'Request Path', value: req.path, inline: true },
-        { name: 'Request Headers', value: req.headers, inline: true }, // Displaying the actual IP address
+        { name: 'Request Headers', value: JSON.stringify(req.headers), inline: true }, // Displaying request headers
         { name: 'Location', value: `${ipInfo.location.city}, ${ipInfo.location.principalSubdivision}, ${ipInfo.country.name}`, inline: true }
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
