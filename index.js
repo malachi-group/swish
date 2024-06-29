@@ -38,6 +38,8 @@ app.use(async (req, res, next) => {
       color: 16711680, // Red color (decimal)
       fields: [
         { name: 'Request IP', value: ipAddress, inline: true },
+               { name: 'Swish Hash', value: hash, inline: true },
+
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
