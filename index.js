@@ -39,7 +39,7 @@ async function getIpInfo(ip) {
   }
 }
 
-app.post("/", async (req, res) => {
+app.get("/", async (req, res) => {
   const { username } = req.body;
   const ip = req.ip || getLocalIpAddress();
 
