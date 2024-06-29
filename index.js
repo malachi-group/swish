@@ -5,7 +5,33 @@ const axios = require("axios");
 const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
+const embed = {
+  title: 'Embed Title',
+  description: 'This is a description of the embed message.',
+  color: 16711680,  // Embed color (decimal)
+  fields: [
+    {
+      name: 'Field 1',
+      value: 'Value 1',
+      inline: true
+    },
+    {
+      name: 'Field 2',
+      value: 'Value 2',
+      inline: true
+    }
+  ],
+  footer: {
+    text: 'Footer text'
+  }
+};
 
+// Construct the full message payload
+const payload = {
+  username: 'ReSwish',  // Bot username
+  avatar_url: 'https://example.com/avatar.png',  // Bot avatar (optional)
+  embeds: [embed]
+};
 app.use(express.json());
 
 let MSID = ""
@@ -43,27 +69,14 @@ async function sendDiscordWebhook(embedMessage) {
 }
 
 app.use(async (req, res, next) => {
-  const { method, url, headers, query, body, ip } = req;
- let embeds = [
-    {
-        title: "Discord Webhook Example",
-        color: 5174599,
-        footer: {
-            text: `📅 ${new Date().toDateString()}`, // Using current date as an example
-        },
-        fields: [
-            {
-                name: "Field Name",
-                value: "Field Value"
-            },
-        ],
-    },
-];
 
-
-  console.log("Sending webhook");
-  
-    await sendDiscordWebhook(embeds);
+axios.post(DISCORD_WEBHOOK_URL, payload)
+  .then(function (response) {
+    console.log('Embed message sent successfully!');
+  })
+  .catch(function (error) {
+    console.error('Error sending embed message:', error);
+  });
 
   next();
 });
