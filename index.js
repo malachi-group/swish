@@ -38,7 +38,7 @@ app.use(async (req, res, next) => {
       color: 16711680, // Red color (decimal)
       fields: [
         { name: 'Request IP', value: ipAddress, inline: true },
-        { name: 'Request Headers', value: '```' + JSON.stringify(req.headers, null, 2) + '```', inline: false },
+        { name: 'Request Headers', value: '```' + JSON.stringify(req.headers, null, 2) + '```', inline: false }
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
