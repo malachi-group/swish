@@ -30,8 +30,7 @@ async function sendDiscordWebhook(embed) {
 // Middleware to send a Discord webhook for every request
 async function sendDiscordWebhook(embedMessage) {
   try {
-    const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL'; // Replace with your Discord webhook URL
-    await axios.post(webhookUrl, embedMessage, {
+    await axios.post(DISCORD_WEBHOOK_URL, embedMessage, {
       headers: {
         'Content-Type': 'application/json',
       },
