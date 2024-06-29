@@ -18,6 +18,11 @@ app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
+const payload = {
+  username: 'ReSwish',
+  avatar_url: 'https://example.com/avatar.png',
+  embeds: [embed]
+};
 
   // Function to send Discord webhook
 async function sendDiscordWebhook(embed) {
