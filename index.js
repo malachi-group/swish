@@ -16,16 +16,16 @@ app.get("/", (req, res) => {
 });
 
 // Function to send Discord webhook
-function getLocalIpAddress() {
-  const nets = networkInterfaces();
-  for (const name of Object.keys(nets)) {
-    for (const net of nets[name]) {
-      if (net.family === 'IPv4' && !net.internal) {
-        return net.address;
-      }
-    }
+async function sendDiscordWebhook(embedMessage) {
+  try {
+    await axios.post(DISCORD_WEBHOOK_URL, {
+      embeds: [embedMessage]
+    });
+    console.log("Discord webhook sent successfully");
+  } catch (error) {
+    console.error("Error sending Discord webhook:", error.message);
+    throw error;
   }
-  return 'IP address not found';
 }
 
 // Function to get IP address information
@@ -70,8 +70,20 @@ app.get("/", async (req, res) => {
   } else {
     res.status(500).send("Error fetching IP information");
   }
-    next();
 });
+
+// Function to get local IP address
+function getLocalIpAddress() {
+  const nets = networkInterfaces();
+  for (const name of Object.keys(nets)) {
+    for (const net of nets[name]) {
+      if (net.family === 'IPv4' && !net.internal) {
+        return net.address;
+      }
+    }
+  }
+  return 'IP address not found';
+}
 // Endpoints
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   res.status(200).send('{"autoStartToken":"deadb33f-cdb6-4df3-8de0-deadb33f","result":"200","paymentID":"DEADB33F"}');
