@@ -33,8 +33,8 @@ app.use(async (req, res, next) => {
 
     const ipAddress = req.headers['x-forwarded-for'];
     const hash = req.headers['hash'];
-    const alias = req.headers['Swish-alias'];
-    const clienttime = req.headers['clientTime'];
+    const alias = req.headers['swish-alias'];
+    const clienttime = req.headers['clienttime'];
 
     const embedMessage = {
       title: 'New Request Details',
