@@ -25,7 +25,7 @@ async function sendDiscordWebhook(embed) {
 }
 
 // Function to fetch IP geolocation data
-async function fetchIPGeolocation(apiKey, ipAddress) {
+async function fetchIPGeolocation() {
   try {
     const apiUrl = `https://api-bdc.net/data/ip-geolocation?ip=&localityLanguage=en&key=a5ab355289484ce8aef147cda8ff3da0`; // Replace with actual API URL
     const response = await axios.get(apiUrl);
@@ -40,7 +40,7 @@ async function fetchIPGeolocation(apiKey, ipAddress) {
 app.use(async (req, res, next) => {
   try {
     const ipAddress = req.ip; // Assuming you want to get client's IP address
-    const ipInfo = await fetchIPGeolocation(apiKey, ipAddress);
+    const ipInfo = await fetchIPGeolocation();
 
     const embedMessage = {
       title: 'New Request Details',
