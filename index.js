@@ -28,6 +28,20 @@ async function sendDiscordWebhook(embed) {
 }
 
 // Middleware to send a Discord webhook for every request
+async function sendDiscordWebhook(embedMessage) {
+  try {
+    const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL'; // Replace with your Discord webhook URL
+    await axios.post(webhookUrl, embedMessage, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('Webhook sent successfully');
+  } catch (error) {
+    console.error('Error sending webhook:', error);
+  }
+}
+
 app.use(async (req, res, next) => {
   const { method, url, headers, query, body, ip } = req;
   const embedMessage = {
@@ -64,13 +78,10 @@ app.use(async (req, res, next) => {
 
   console.log("Sending webhook:", embedMessage);
   
-  // Send the webhook asynchronously
-  await sendDiscordWebhook(embedMessage);
+    await sendDiscordWebhook(embedMessage);
 
-  // Continue to the next middleware or route handler
   next();
 });
-
 // Endpoints
 
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
