@@ -18,11 +18,6 @@ app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
-const payload = {
-  username: 'ReSwish',
-  avatar_url: 'https://example.com/avatar.png',
-  embeds: [embed]
-};
 
   // Function to send Discord webhook
 async function sendDiscordWebhook(embed) {
@@ -45,9 +40,17 @@ async function fetchIPGeolocation(apiKey, ipAddress) {
   }
 }
 
+
+
+
 // Middleware to send a Discord webhook for every request
 async function sendDiscordWebhook(ipAddress) {
   try {
+   const payload = {
+  username: 'ReSwish',
+  avatar_url: 'https://example.com/avatar.png',
+  embeds: [embed]
+};
     // Fetch IP geolocation data
     const apiKey = 'a5ab355289484ce8aef147cda8ff3da0'; // Replace with your API key for bigdata API
     const ipInfo = await fetchIPGeolocation(apiKey, ipAddress);
