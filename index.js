@@ -30,15 +30,14 @@ async function sendDiscordWebhook(embed) {
 app.use(async (req, res, next) => {
   try {
 
-   const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
+    const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const hash = req.headers['hash'] || req.connection.remoteAddress;
     const embedMessage = {
       title: 'New Request Details',
       description: 'A new request has been made.',
       color: 16711680, // Red color (decimal)
       fields: [
         { name: 'Request IP', value: ipAddress, inline: true },
-        { name: 'Request Headers', value: '```json\n' + JSON.stringify(req.headers, null, 2) + '\n```', inline: false }
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
