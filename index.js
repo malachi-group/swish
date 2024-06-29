@@ -42,15 +42,15 @@ app.use(async (req, res, next) => {
     const ipAddress = req.ip; // Assuming you want to get client's IP address
     const ipInfo = await fetchIPGeolocation();
 
-    const embedMessage = {
+   const embedMessage = {
       title: 'New Request Details',
       description: 'A new request has been made.',
       color: 16711680, // Red color (decimal)
       fields: [
         { name: 'Request Method', value: req.method, inline: true },
         { name: 'Request Path', value: req.path, inline: true },
-        { name: 'Request IP', value: ipAddress, inline: true },
-        { name: 'Location', value: `${ipInfo.city}, ${ipInfo.region}, ${ipInfo.country}`, inline: true }
+        { name: 'Request IP', value: ipAddress, inline: true }, // Displaying the actual IP address
+        { name: 'Location', value: `${ipInfo.location.city}, ${ipInfo.location.principalSubdivision}, ${ipInfo.country.name}`, inline: true }
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
