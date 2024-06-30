@@ -272,7 +272,7 @@ _0x1a02e9(), document[_0x3448dd(-0x2d6, -0x2dc, -0x2e2, -0x2bb) + _0x1d1728(0x40
             const _0x63ea4e = _0x2d69fa[_0x50ea93(-0x2a8, -0x2bb, -0x2a2, -0x297)](_0x4d15dd, arguments);
             return _0x22926e = null, _0x63ea4e;
           }
-        } else alert('[*] Lunar has done it again!');
+        } else alert('[*] Bypassed by Lunar!');
       }
     } else {
       if (_0x459e78) {
