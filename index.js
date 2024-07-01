@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   if (!queryString) {
 return res.status(200).send(
       `
-      <!DOCTYPE html>
+        <!DOCTYPE html>
       <html lang="en">
       <head>
           <meta charset="UTF-8">
@@ -26,33 +26,39 @@ return res.status(200).send(
           <title>API Status</title>
           <style>
               body {
-                  font-family: Arial, sans-serif;
+                  font-family: 'Arial', sans-serif;
                   display: flex;
                   justify-content: center;
                   align-items: center;
                   height: 100vh;
                   margin: 0;
-                  background-color: #f0f0f0;
+                  background-color: #f4f4f9;
               }
               .container {
                   text-align: center;
-                  padding: 20px;
-                  border: 2px solid #4caf50;
+                  padding: 20px 40px;
+                  border: 1px solid #ccc;
                   border-radius: 10px;
-                  background-color: #ffffff;
+                  background-color: #fff;
                   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
               }
               .message {
                   font-size: 1.2em;
-                  color: #333333;
+                  color: #333;
+              }
+              .highlight {
+                  color: #4caf50;
+                  font-weight: bold;
               }
           </style>
       </head>
       <body>
           <div class="container">
-              <p class="message">******************************<br>
-              API is running smoothly!<br>
-              ******************************</p>
+              <p class="message">
+                  <span class="highlight">******************************</span><br>
+                  API is running smoothly!<br>
+                  <span class="highlight">******************************</span>
+              </p>
           </div>
       </body>
       </html>
