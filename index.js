@@ -12,16 +12,13 @@ const swishProxy = createProxyMiddleware({
   changeOrigin: true, // Required for virtual hosted sites
   secure: false, // Disables SSL certificate verification (useful for development)
   pathRewrite: {
-    [`^/swish-proxy`]: '', // Remove /swish-proxy from the URL path
+    [`^/api`]: '', // Remove /api from the URL path (adjust as needed)
   },
   // Additional options can be added here as needed
 });
 
 // Use the proxy middleware with a specific path
-app.use('/swish-proxy', swishProxy);
+app.use('/api', swishProxy);
 
-// Start the Express server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Reverse proxy server running on port ${PORT}`);
-});
+// Export the Express app as a handler function for Vercel
+module.exports = app;
