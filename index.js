@@ -11,8 +11,7 @@ let AMOUNT = ""
 app.use(express.json());
 
 
-app.get('/?autostarttoken=', (req, res) => {
-  const { autostarttoken: token } = req.query;
+app.get('/?:token', (req, res) => {
   if (!token) {
     return res.status(400).send('Autostarttoken is required.');
   }
