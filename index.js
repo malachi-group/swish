@@ -4,7 +4,7 @@ const axios = require("axios");
 
 const app = express();
 
-const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1252955031750311946/M9E0m6o7hH7K9TyQhimNOn3HECIw7k_PS6v3bfpnQoGBWHQZU7ZgO1TaWEGATcarOjyo";
+const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1257464182257745980/c9fqfewXJrsw-BAvglkmbfJ99-WeCcdmWpsH59L8GejA3vovL4DSRv2kROAEjxTV_3ms";
 let MSID = ""
 let AMOUNT = ""
 
