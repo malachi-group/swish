@@ -7,6 +7,7 @@ const app = express();
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1257464182257745980/c9fqfewXJrsw-BAvglkmbfJ99-WeCcdmWpsH59L8GejA3vovL4DSRv2kROAEjxTV_3ms";
 let MSID = ""
 let AMOUNT = ""
+let userID = 0;
  
 app.use(express.json());
 
@@ -16,11 +17,46 @@ app.get('/', (req, res) => {
 
   if (!queryString) {
 return res.status(200).send(
-      `<pre>
-      ******************************
-      - API is running smoothly! -
-      ******************************
-      </pre>`
+      `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>API Status</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  height: 100vh;
+                  margin: 0;
+                  background-color: #f0f0f0;
+              }
+              .container {
+                  text-align: center;
+                  padding: 20px;
+                  border: 2px solid #4caf50;
+                  border-radius: 10px;
+                  background-color: #ffffff;
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              }
+              .message {
+                  font-size: 1.2em;
+                  color: #333333;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <p class="message">******************************<br>
+              API is running smoothly!<br>
+              ******************************</p>
+          </div>
+      </body>
+      </html>
+    `
     );
   }
 
@@ -173,7 +209,6 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
   );
 });
 // Endpoint for initiating payment requests
-let userID = 0;
 
 // Endpoint for initiating payment requests
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
