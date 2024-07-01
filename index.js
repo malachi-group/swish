@@ -7,13 +7,19 @@ const app = express();
 const proxyOptions = {
   target: 'https://mpc.getswish.net',  // target host
   changeOrigin: true,  // needed for virtual hosted sites
+  // If you encounter SSL issues, you can temporarily set this to true
+  secure: false,
   pathRewrite: {
     '^/api/swish': '',  // remove base path
+  },
+  onError: (err, req, res) => {
+    console.error('Proxy Error:', err);
+    res.status(500).send('Proxy Error');
   },
 };
 
 // Create the proxy
-const proxy = createProxyMiddleware('/api/swish', proxyOptions);
+const proxy = createProxyMiddleware(proxyOptions);
 
 // Use the proxy middleware
 app.use('/api/swish', proxy);
