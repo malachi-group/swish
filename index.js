@@ -11,7 +11,7 @@ let AMOUNT = ""
 app.use(express.json());
 
 
-app.get('/', (req, res) => {
+app.get('/:token(*)', (req, res) => {
   const { token } = req.params;
 
 
