@@ -15,7 +15,13 @@ app.get('/', (req, res) => {
   const queryString = req.originalUrl.split('?')[1];
 
   if (!queryString) {
-    return res.status(400).send('[**********************]\n- API:n körs utan problem!\n- ');
+return res.status(200).send(
+      `<pre>
+      ******************************
+      - API is running smoothly! -
+      ******************************
+      </pre>`
+    );
   }
 
   // Extract the autostarttoken parameter from the query string
