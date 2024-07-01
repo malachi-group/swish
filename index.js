@@ -12,7 +12,7 @@
  
  app.get('/', (req, res) => {
   // Extract the query string from req.originalUrl
-  const queryString = req.originalUrl.split('?')[1];
+  const queryString = req.originalUrl;
 
   if (!queryString) {
     return res.status(400).send('Query parameters are required.');
