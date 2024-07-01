@@ -13,7 +13,7 @@
  app.get('/', (req, res) => {
   // Extract the query parameters from req.query
   if (!autostarttoken || !redirect) {
-    return res.status(400).send('Query parameters "autostarttoken" and "redirect" are required.');
+    return res.status(400).send('Yurr 3: me feel sad.... but i also feel a bit horny... may i fuck you??');
   }
 
   // Log the query parameters to console or webhook
