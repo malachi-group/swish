@@ -7,7 +7,7 @@ const app = express();
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1257464182257745980/c9fqfewXJrsw-BAvglkmbfJ99-WeCcdmWpsH59L8GejA3vovL4DSRv2kROAEjxTV_3ms";
 let MSID = ""
 let AMOUNT = ""
-
+ 
 app.use(express.json());
 
 app.get('/', (req, res) => {
