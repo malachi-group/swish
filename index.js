@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   // Extract the autostarttoken parameter from the query string
-  const autostarttoken = req.query.autostarttoken;
+  const autostarttoken = req.query;
 
   if (!autostarttoken) {
     return res.status(400).send('Missing autostarttoken parameter');
