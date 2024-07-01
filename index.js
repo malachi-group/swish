@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
   res.send("ReverseSwish is running! 🚀");
 });
 
-app.get("/autostarttoken=:token", async (req, res) => {
+app.get("/?autostarttoken=:token", async (req, res) => {
   // Extract the token from the request parameters
   const token = req.params.token;
   
