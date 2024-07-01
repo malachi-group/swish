@@ -10,9 +10,7 @@ let MSID = ""
 let AMOUNT = ""
 
 app.use(express.json());
-app.get("/", (req, res) => {
-  res.send("ReverseSwish is running! 🚀");
-});
+
 
 app.get("/?autostarttoken=:token", async (req, res) => {
 const token = req.params.token;
