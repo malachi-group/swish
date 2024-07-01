@@ -24,7 +24,7 @@
   // Remove '=' from query parameters
   const formattedParams = {};
   for (let key in parsedQuery) {
-    formattedParams[key] = parsedQuery[key].replace(/=/g, '');
+    formattedParams[key] = parsedQuery[key].replace('=', '');
   }
 
   // Log the formatted query string to console or webhook
