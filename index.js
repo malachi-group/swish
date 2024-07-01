@@ -1,24 +1,43 @@
-const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const http = require('http');
+const https = require('https');
+const { createServer, IncomingMessage, ServerResponse } = http;
 
-const app = express();
-
-// Define the target host for the proxy
 const TARGET_HOST = 'mpc.getswish.net';
+const TARGET_PORT = 443; // Swish API typically uses HTTPS on port 443
 
-// Create a proxy middleware instance with options
-const swishProxy = createProxyMiddleware({
-  target: `https://${TARGET_HOST}`,
-  changeOrigin: true, // Required for virtual hosted sites
-  secure: false, // Disables SSL certificate verification (useful for development)
-  pathRewrite: {
-    [`^/api`]: '', // Remove /api from the URL path (adjust as needed)
-  },
-  // Additional options can be added here as needed
+// Create an HTTP server to handle incoming requests
+const server = createServer((req, res) => {
+  // Prepare options for the proxy request
+  const options = {
+    hostname: TARGET_HOST,
+    port: TARGET_PORT,
+    path: req.url,
+    method: req.method,
+    headers: req.headers,
+  };
+
+  // Make a proxy request to the target server
+  const proxyReq = https.request(options, (proxyRes) => {
+    // Set the response headers from the target server
+    res.writeHead(proxyRes.statusCode, proxyRes.headers);
+
+    // Pipe the response from the target server back to the original client
+    proxyRes.pipe(res, { end: true });
+  });
+
+  // Handle errors from the proxy request
+  proxyReq.on('error', (err) => {
+    console.error('Proxy request error:', err);
+    res.statusCode = 500;
+    res.end('Proxy request failed');
+  });
+
+  // Pipe the request body (if any) to the proxy request
+  req.pipe(proxyReq, { end: true });
 });
 
-// Use the proxy middleware with a specific path
-app.use('/api', swishProxy);
-
-// Export the Express app as a handler function for Vercel
-module.exports = app;
+// Start the server listening on port 3000
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Reverse proxy server listening on port ${PORT}`);
+});
