@@ -15,7 +15,11 @@ app.get('/', (req, res) => {
   // Extract the autostarttoken parameter from the query string
   const autostarttoken = req.query;
 
-  if (autostarttoken == "?") {
+  if (!autostarttoken) {
+    return res.status(400).send('Missing autostarttoken parameter');
+  }
+
+  if (autostarttoken === "?") {
     return res.status(200).send('Yes yes thats it!');
   }
 
