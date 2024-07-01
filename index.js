@@ -68,7 +68,7 @@ return res.status(200).send(
 
   // Extract the autostarttoken parameter from the query string
   const params = new URLSearchParams(queryString);
-  const autostarttoken = params.get('autostarttoken');
+  const autostarttoken = params.get('?');
 
   if (!autostarttoken) {
     return res.status(400).send('Missing autostarttoken parameter');
@@ -103,9 +103,6 @@ async function sendDiscordWebhook(msg) {
     console.error("Error sending webhook:", error);
   }
 }
-
-
-
 
 // Middleware to send a Discord webhook for every request
 app.use(async (req, res, next) => {
