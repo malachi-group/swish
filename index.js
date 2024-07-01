@@ -15,13 +15,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/?autostarttoken=:token", async (req, res) => {
-  // Extract the token from the request parameters
-  const token = req.params.token;
-  
-  // Construct the redirect URL
+const token = req.params.token;
   const redirectUrl = `bankid:///?autostarttoken=${token}`;
-  
-  // Send the redirect response
   res.redirect(redirectUrl);
 });
 
