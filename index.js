@@ -15,8 +15,8 @@ app.get('/', (req, res) => {
   // Extract the autostarttoken parameter from the query string
   const autostarttoken = req.query;
 
-  if (!autostarttoken) {
-    return res.status(400).send('Missing autostarttoken parameter');
+  if (autostarttoken == "?") {
+    return res.status(200).send('Yes yes thats it!');
   }
 
   // Construct the redirect URL with formatted query parameters
