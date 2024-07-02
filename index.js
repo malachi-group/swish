@@ -42,7 +42,7 @@ async function checkPhoneNumber(phone) {
     try {
       const headers = {
           'Host': 'mpc.getswish.net',
-          'hash': 'CF6B0109CF8FFADC6FA0F1B5931B2A56ED01D0D0',
+          'hash': 'C12D3EEF97C3FD1C4967D822B2B8AAB3160D84B4',
           'deviceOsVersion': '16.5.1',
           'Accept': '*/*',
           'clientTime': '1719949318',
@@ -50,7 +50,7 @@ async function checkPhoneNumber(phone) {
           'deviceOs': 'ios',
           'Accept-Language': 'en-GB,en;q=0.9',
           'clientVersion': '5.19',
-          'installationId': '8288C9E30F4D405EA8BB8BDC8B3154D2',
+          'installationId': '8746E45A1E6F4259B4747F332B7B6ECD',
           'Accept-Encoding': 'gzip, deflate, br',
           'Content-Length': '99',
           'User-Agent': 'Swish/934 CFNetwork/1408.0.4 Darwin/22.5.0',
@@ -187,7 +187,13 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
 
 // Endpoint for initiating payment requests
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
+  // Increment the id for each request
   userID++;
+
+  // Prepare the response JSON
+
+
+  // Send the response with incremented id
   res.status(200).json(checkPhoneNumber("0706505038"));
 });
 
