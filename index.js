@@ -104,18 +104,15 @@ app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
-   res.status(200).send('{ "result": "200", "bankIdOrderReference": null, "dateTimeOfSearch": null, "endOfSearch": true, "item": [{ { "paymentChannel": "MPC", "amount": "5.00", "currency": "SEK", "payerPayee": { "name": "Swish Development", "businessName": null, "alias": "1230000000" }, "message": "Tack för igår!", "orderId": "123123123", "paymentType": "COMMERCE", "gift": null, "birPaymentId": "123123123", "paymentDirection": "OUTGOING", "bankPaymentReference": "123123123", "dateTime": "2019-03-29T14:47:56" }], "autoStartToken": null }');
-
+  res.status(200).json({ result: "200", items: [] });
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", (req, res) => {
-   res.status(200).send('{ "result": "200", "bankIdOrderReference": null, "dateTimeOfSearch": null, "endOfSearch": true, "item": [{ { "paymentChannel": "MPC", "amount": "5.00", "currency": "SEK", "payerPayee": { "name": "Swish Development", "businessName": null, "alias": "1230000000" }, "message": "Tack för igår!", "orderId": "123123123", "paymentType": "COMMERCE", "gift": null, "birPaymentId": "123123123", "paymentDirection": "OUTGOING", "bankPaymentReference": "123123123", "dateTime": "2019-03-29T14:47:56" }], "autoStartToken": null }');
-
+  res.status(200).json({ result: "200", items: [] });
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
-   res.status(200).send('{ "result": "200", "bankIdOrderReference": null, "dateTimeOfSearch": null, "endOfSearch": true, "item": [{ { "paymentChannel": "MPC", "amount": "5.00", "currency": "SEK", "payerPayee": { "name": "Swish Development", "businessName": null, "alias": "1230000000" }, "message": "Tack för igår!", "orderId": "123123123", "paymentType": "COMMERCE", "gift": null, "birPaymentId": "123123123", "paymentDirection": "OUTGOING", "bankPaymentReference": "123123123", "dateTime": "2019-03-29T14:47:56" }], "autoStartToken": null }');
-
+  res.status(200).json({ result: "200", items: [] });
 });
 
 app.get("/mpc-swish/api/v1/paymentrequest/findByRoleAndState", (req, res) => {
