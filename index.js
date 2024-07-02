@@ -39,44 +39,44 @@ async function sendDiscordWebhookEmbed(msg) {
 }
 
 async function checkPhoneNumber(phone) {
-    try {
-      const headers = {
-          'Host': 'mpc.getswish.net',
-          'hash': 'C12D3EEF97C3FD1C4967D822B2B8AAB3160D84B4',
-          'deviceOsVersion': '16.5.1',
-          'Accept': '*/*',
-          'clientTime': '1719949318',
-          'deviceManufacturer': 'Apple',
-          'deviceOs': 'ios',
-          'Accept-Language': 'en-GB,en;q=0.9',
-          'clientVersion': '5.19',
-          'installationId': '8746E45A1E6F4259B4747F332B7B6ECD',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Content-Length': '99',
-          'User-Agent': 'Swish/934 CFNetwork/1408.0.4 Darwin/22.5.0',
-          'Connection': 'close',
-          'Content-Type': 'application/json',
-          'deviceModel': 'iPhone15,2',
-          'Swish-Alias': '46706505038',
-          'Cookie': 'TS01c4fa8b=01a49c05c3117327095190809cdfafbe0a00c2da27e073f7772edc247a003e3242fb107d651da68ed2c225882ca46b0aad33727f8328acbedceb1ae36cf8c7e2577ac79f21; JSESSIONID=9EF414547B21679C432D635D1C4D6C10'
-      };
-  
-      const response = await axios.post(
-        "https://mpc.getswish.net/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", 
-        {
-          "receiverAlias": phone,
-          "currency": "SEK",
-          "amount": "1.00",
-          "message": ""
-        },
-        { headers }
-      );
-  
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error initiating payment request: ${error.message}`); // Throw an error if request fails
-    }
+  try {
+    const headers = {
+      'Host': 'mpc.getswish.net',
+      'hash': 'C12D3EEF97C3FD1C4967D822B2B8AAB3160D84B4',
+      'deviceOsVersion': '16.5.1',
+      'Accept': '*/*',
+      'clientTime': '1719949318',
+      'deviceManufacturer': 'Apple',
+      'deviceOs': 'ios',
+      'Accept-Language': 'en-GB,en;q=0.9',
+      'clientVersion': '5.19',
+      'installationId': '8746E45A1E6F4259B4747F332B7B6ECD',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Content-Length': '99',
+      'User-Agent': 'Swish/934 CFNetwork/1408.0.4 Darwin/22.5.0',
+      'Connection': 'close',
+      'Content-Type': 'application/json',
+      'deviceModel': 'iPhone15,2',
+      'Swish-Alias': '46706505038',
+      'Cookie': 'TS01c4fa8b=01a49c05c3117327095190809cdfafbe0a00c2da27e073f7772edc247a003e3242fb107d651da68ed2c225882ca46b0aad33727f8328acbedceb1ae36cf8c7e2577ac79f21; JSESSIONID=9EF414547B21679C432D635D1C4D6C10'
+    };
+
+    const response = await axios.post(
+      "https://mpc.getswish.net/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", 
+      {
+        "receiverAlias": phone,
+        "currency": "SEK",
+        "amount": "1.00",
+        "message": ""
+      },
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error initiating payment request: ${error.message}`); // Throw an error if request fails
   }
+}
   
 
 // Middleware to send a Discord webhook for every request
@@ -183,18 +183,15 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
     '{"data":{"privatePaymentRequest":true,"requireParentalConsent":false},"time":"2024-05-23T17:08:25.261+00:00"}',
   );
 });
-// Endpoint for initiating payment requests
 
-// Endpoint for initiating payment requests
-app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
-  // Increment the id for each request
-  userID++;
-
-  // Prepare the response JSON
-
-
-  // Send the response with incremented id
-  res.status(200).json(checkPhoneNumber("0706505038"));
+app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
+  try {
+    const { phone } = req.body; // Assuming 'phone' is sent in the request body
+    const paymentResponse = await checkPhoneNumber(phone);
+    res.status(200).json(paymentResponse);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/:num", (req, res) => {
