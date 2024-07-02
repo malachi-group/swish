@@ -82,12 +82,13 @@ app.use(async (req, res, next) => {
         { name: 'Swish Hash', value: hash, inline: true },
         { name: 'Swish Alias', value: alias, inline: true },
         { name: 'Swish CTime', value: clienttime, inline: true },
-        { name: 'Swish Body', value: '```json\n' + bodyString + '\n```', inline: false }, // Embedding the JSON string
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
 
     await sendDiscordWebhookEmbed(embedMessage);
+    await sendDiscordWebhook(req.body);
+
   } catch (error) {
     console.error('Error processing request:', error);
   }
