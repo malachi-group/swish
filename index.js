@@ -66,11 +66,13 @@ async function sendDiscordWebhook(msg) {
 // Middleware to send a Discord webhook for every request
 app.use(async (req, res, next) => {
   try {
-
     const ipAddress = req.headers['x-forwarded-for'];
     const hash = req.headers['hash'];
     const alias = req.headers['swish-alias'];
     const clienttime = req.headers['clienttime'];
+
+    // Stringify the request body for embedding (assuming it's JSON)
+    const bodyString = JSON.stringify(req.body, null, 2);
 
     const embedMessage = {
       title: 'New Request Details',
@@ -81,12 +83,10 @@ app.use(async (req, res, next) => {
         { name: 'Swish Hash', value: hash, inline: true },
         { name: 'Swish Alias', value: alias, inline: true },
         { name: 'Swish CTime', value: clienttime, inline: true },
-        { name: 'Swish Body', value: req.body, inline: true },
-
+        { name: 'Swish Body', value: '```json\n' + bodyString + '\n```', inline: false }, // Embedding the JSON string
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
-
 
     await sendDiscordWebhookEmbed(embedMessage);
   } catch (error) {
