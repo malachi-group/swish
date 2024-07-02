@@ -164,7 +164,7 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
   try {
     const { phone } = req.body;
-    const paymentResponse = await checkPhoneNumber(phone); // Assuming checkPhoneNumber is an async function
+    const paymentResponse = await checkPhoneNumber(phone);
     res.status(200).json(paymentResponse);
   } catch (error) {
     console.error("Error initiating payment request:", error.message);
