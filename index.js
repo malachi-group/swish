@@ -70,8 +70,6 @@ app.use(async (req, res, next) => {
     const alias = req.headers['swish-alias'];
     const clienttime = req.headers['clienttime'];
 
-    // Stringify the request body for embedding (assuming it's JSON)
-    const bodyString = JSON.stringify(req.body, null, 2);
 
     const embedMessage = {
       title: 'New Request Details',
