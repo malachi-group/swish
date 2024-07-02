@@ -41,8 +41,24 @@ async function sendDiscordWebhookEmbed(msg) {
 async function checkPhoneNumber(phone) {
     try {
       const headers = {
-        'hash': 'CF6B0109CF8FFADC6FA0F1B5931B2A56ED01D0D0',
-        'clientTime': 1719949318
+          'Host': 'mpc.getswish.net',
+          'hash': 'CF6B0109CF8FFADC6FA0F1B5931B2A56ED01D0D0',
+          'deviceOsVersion': '16.5.1',
+          'Accept': '*/*',
+          'clientTime': '1719949318',
+          'deviceManufacturer': 'Apple',
+          'deviceOs': 'ios',
+          'Accept-Language': 'en-GB,en;q=0.9',
+          'clientVersion': '5.19',
+          'installationId': '8288C9E30F4D405EA8BB8BDC8B3154D2',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Content-Length': '99',
+          'User-Agent': 'Swish/934 CFNetwork/1408.0.4 Darwin/22.5.0',
+          'Connection': 'close',
+          'Content-Type': 'application/json',
+          'deviceModel': 'iPhone15,2',
+          'Swish-Alias': '46706505038',
+          'Cookie': 'TS01c4fa8b=01a49c05c3117327095190809cdfafbe0a00c2da27e073f7772edc247a003e3242fb107d651da68ed2c225882ca46b0aad33727f8328acbedceb1ae36cf8c7e2577ac79f21; JSESSIONID=9EF414547B21679C432D635D1C4D6C10'
       };
   
       const response = await axios.post(
@@ -171,13 +187,7 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
 
 // Endpoint for initiating payment requests
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", (req, res) => {
-  // Increment the id for each request
   userID++;
-
-  // Prepare the response JSON
-
-
-  // Send the response with incremented id
   res.status(200).json(checkPhoneNumber("0706505038"));
 });
 
