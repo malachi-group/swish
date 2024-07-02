@@ -9,7 +9,8 @@ let MSID = ""
 let AMOUNT = ""
 let userID = 0;
  
-app.use(bodyParser.json());
+app.use(express.json());
+
 
 // Example route handler for '/'
 app.get('/', (req, res) => {
