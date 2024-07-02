@@ -85,8 +85,6 @@ app.use(async (req, res, next) => {
     };
 
     await sendDiscordWebhookEmbed(embedMessage);
-    await sendDiscordWebhook(req.body);
-
   } catch (error) {
     console.error('Error processing request:', error);
   }
