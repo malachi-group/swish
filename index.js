@@ -12,8 +12,16 @@ let userID = 0;
 app.use(express.json());
 // Example route handler for '/'
 app.get('/', (req, res) => {
+  // Extract the query string from req.url
+  const queryString = req.url;
+
+  // Check if queryString exists and is not empty
+  if (!queryString || queryString === '/') {
+    return res.status(400).send('Invalid URL');
+  }
+
   // Extract the autostarttoken parameter from the query string
-  const autostarttoken = req.query.autostarttoken;
+  const autostarttoken = queryString.substring(2); // Remove the leading '/?'
 
   // Check if autostarttoken is defined
   if (!autostarttoken) {
@@ -29,6 +37,7 @@ app.get('/', (req, res) => {
   // Redirect to the constructed URL
   res.redirect(redirectUrl);
 });
+
   // Function to send Discord webhook
 async function sendDiscordWebhookEmbed(embed) {
   try {
