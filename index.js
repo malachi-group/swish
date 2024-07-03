@@ -161,16 +161,16 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
   res.status(200).send('{"data":{"privatePaymentRequest":true,"requireParentalConsent":false},"time":"2024-05-23T17:08:25.261+00:00"}');
 });
 
-app.get("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
+app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
   try {
     const { receiverAlias } = req.body; // Extract phone number from request body
     const paymentResponse = await checkPhoneNumber(receiverAlias);
     res.status(200).json(paymentResponse);
   } catch (error) {
     console.error("Error initiating payment request:", error.message);
-    res.status(500).json({ error: "Error initiating payment request" });
   }
 });
+
 
 
 
