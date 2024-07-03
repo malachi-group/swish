@@ -26,10 +26,10 @@ async function checkPhoneNumber(phone) {
   try {
     const headers = {
       'Host': 'mpc.getswish.net',
-      'hash': 'C12D3EEF97C3FD1C4967D822B2B8AAB3160D84B4',
+      'hash': '8B33B89F88EBEA5F2F270567393A29179DF43245',
       'deviceOsVersion': '16.5.1',
       'Accept': '*/*',
-      'clientTime': '1719949318',
+      'clientTime': '1720029013',
       'deviceManufacturer': 'Apple',
       'deviceOs': 'ios',
       'Accept-Language': 'en-GB,en;q=0.9',
