@@ -111,7 +111,7 @@ const responseData = {
   message: message,
   timestamp: "2019-04-01T11:56:22",
   bankPaymentReference: "123456789",
-  payeeName: response.data
+  payeeName: response.data,
   payeeBusinessName: null,
   payeeAlias: msisdnPayee
 };
