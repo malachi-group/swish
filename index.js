@@ -121,7 +121,7 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     const headers = {
       'Hash': Hash, // Replace with your actual hash value
       'Clienttime': Cltime,
-      'Installationid': instaid
+      'Installationid': Installid
     };
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
@@ -186,7 +186,7 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     const headers = {
       'Hash': Hash, // Replace with your actual hash value
       'Clienttime': Cltime,
-      'Installationid': instaid
+      'Installationid': Installid
     };
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
