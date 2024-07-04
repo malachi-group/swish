@@ -106,7 +106,7 @@ app.post("/mpc-swish/api/v3/initiateactivation/:param1/:param2", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
-  res.status(200).send('{"result":"200","deviceId":"E4DF2672545F4BEEA4D061A846DA44D4","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
+  res.status(200).send('{"result":"200","deviceId":"SWISH","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
 });
 
 app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
