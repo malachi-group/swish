@@ -53,11 +53,6 @@ app.use(async (req, res, next) => {
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
   const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount } = req.body;
 
-  // Validate required fields
-  if (!message || !currency || !paymentRequestId || !swishCardId || !msisdnPayee || !amount) {
-    return res.status(400).json({ error: '!message || !currency || !paymentRequestId || !swishCardId || !msisdnPayee || !amount are required.' });
-  }
-
   // Save the request data to use later
   savedData = req.body;
 
