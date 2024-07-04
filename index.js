@@ -122,20 +122,28 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
 
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
   try {
-    const response = await axios.get("https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=46706505050");
+    const { receiverAlias, amount, message, currency } = req.body;
+
+    // Validate required fields
+    if (!receiverAlias || !amount || !currency) {
+      return res.status(400).json({ error: 'receiverAlias, amount, and currency are required' });
+    }
+
+    const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${receiverAlias}`;
+    const response = await axios.get(url);
     console.log('Data received:', response.data);
 
     const responseData = {
       data: {
         id: "494fc0a5-ec81-4db8-a53e-a6f1f53c6995",
         state: "INITIATED",
-        amount: "1.00",
-        currency: "SEK",
+        amount: amount,
+        currency: currency,
         senderName: "BILLING,OLIVER",
         senderAlias: null,
         receiverName: response.data, // Use response.data directly
         receiverAlias: null,
-        message: "",
+        message: message || "",
         deniedMessage: null,
         viewed: false,
         initiatedAt: "2024-07-04T16:54:57.384764239Z",
@@ -156,7 +164,6 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     res.status(500).json({ error: 'Error fetching data' }); // Error response
   }
 });
-
 
 app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/:num", (req, res) => {
   res.status(200).send('{"result":"200","checkInfo":{"status":"NOT_FOUND","mechanism":"longpolling","clientTimeOut":25,"secondsUntilNextRequest":3}}');
