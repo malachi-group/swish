@@ -51,7 +51,21 @@ app.use(async (req, res, next) => {
 
 // Endpoints
 app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
-  res.status(200).send('{"autoStartToken":"deadb33f-cdb6-4df3-8de0-deadb33f","result":"200","paymentID":"DEADB33F"}');
+  const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount } = req.body;
+
+  // Validate required fields
+  if (!message || !currency || !paymentRequestId || !swishCardId || !msisdnPayee || !amount) {
+    return res.status(400).json({ error: '!message || !currency || !paymentRequestId || !swishCardId || !msisdnPayee || !amount are required.' });
+  }
+
+  // Save the request data to use later
+  savedData = req.body;
+
+  res.status(200).json({
+    autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
+    result: "200",
+    paymentID: "DEADB33F"
+  });
 });
 
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
@@ -91,31 +105,30 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
   res.status(200).send('{"result":"200","deviceId":"DEADBEEF","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
 });
 
-app.get("/mpc-swish/api/v3/executepayment/:id", async (req, res) => {
+app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
+  const { id, id2 } = req.params;
+
+  // Use savedData from initiatepayment
+  const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount } = savedData;
+
   try {
-    const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount} = req.body;
-
-    // Validate required fields
-    if (!message || !currency || !paymentRequestId || !swishCardId || !msisdnPayee || !amount) {
-      return res.status(400).json({ error: '!message || !currency || !paymentRequestId || !swishCardId || !msisdnPayee || !amount are required.' });
-    }
-
-    const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${receiverAlias}`;
+    // Example URL to fetch data using saved data
+    const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${msisdnPayee}`;
     const response = await axios.get(url);
     console.log('Data received:', response.data);
 
-const responseData = {
-  result: "200",
-  amount: amount,
-  currency: "SEK",
-  message: message,
-  timestamp: "2019-04-01T11:56:22",
-  bankPaymentReference: "123456789",
-  payeeName: response.data,
-  payeeBusinessName: null,
-  payeeAlias: msisdnPayee
-};
-
+    // Construct response data
+    const responseData = {
+      result: "200",
+      amount: amount,
+      currency: currency,
+      message: message,
+      timestamp: "2019-04-01T11:56:22",
+      bankPaymentReference: "123456789",
+      payeeName: response.data,
+      payeeBusinessName: null,
+      payeeAlias: msisdnPayee
+    };
 
     res.json(responseData); // Send JSON response
 
@@ -124,6 +137,7 @@ const responseData = {
     res.status(500).json({ error: 'Error fetching data' }); // Error response
   }
 });
+
 
 // Badgecount Endpoints
 app.get("/mpc-swish/api/v2/badgecount/", (req, res) => {
