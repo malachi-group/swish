@@ -125,8 +125,8 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
 
-    // Get current timestamp in ISO 8601 format
-    const currentTimestamp = new Date().toISOString();
+    // Get current timestamp in ISO 8601 format without 'Z'
+    const currentTimestamp = moment().format('YYYY-MM-DDTHH:mm:ss');
 
     // Construct response data
     const responseData = {
