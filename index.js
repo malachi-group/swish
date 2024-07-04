@@ -1,8 +1,13 @@
+const { Pool } = require('pg')
 const express = require("express");
 const axios = require("axios");
 
 const app = express();
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1257464182257745980/c9fqfewXJrsw-BAvglkmbfJ99-WeCcdmWpsH59L8GejA3vovL4DSRv2kROAEjxTV_3ms";
+
+const pool = new Pool({
+  connectionString: "postgres://default:joxUbRS9H2ik@ep-restless-dust-a44qfh5k-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require?sslmode=require",
+})
 
 app.use(express.json());
 
@@ -64,8 +69,14 @@ app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
-  res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
+  const currentTime = new Date().toISOString();
+  const responseJSON = {
+    time: currentTime,
+    block: []
+  };
+  res.status(200).json(responseJSON);
 });
+
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
   res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[{"paymentChannel":"MPC","amount":"1.00","currency":"SEK","payerPayee":{"name":"TEST USER","businessName":null,"alias":"46700000000"},"message":"This is an example message.","orderId":null,"paymentType":"P2P","gift":{"themeId":"sallad1"},"birPaymentId":"123123123","paymentDirection":"INCOMING","bankPaymentReference":"123123123","dateTime":"2019-04-01T11:56:23"}],"autoStartToken":null}');
