@@ -197,7 +197,7 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
         state: "INITIATED",
         amount: amount,
         currency: currency,
-        senderName: "BILLING,OLIVER",
+        senderName: "LUNAR",
         senderAlias: null,
         receiverName: response.data, // Use response.data directly
         receiverAlias: null,
