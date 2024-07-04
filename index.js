@@ -175,7 +175,10 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     }
 
     const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${receiverAlias}`;
-    const response = await axios.get(url);
+    const headers = {
+      'Hash': Hash // Replace with your actual hash value
+    };
+    const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
 
     const responseData = {
