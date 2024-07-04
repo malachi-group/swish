@@ -121,19 +121,40 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
-  axios.get("https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=46706505050")
-  .then(response => {
+  try {
+    const response = await axios.get("https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=46706505050");
     console.log('Data received:', response.data);
-    res.status(200).json(`{"data":{"id":"494fc0a5-ec81-4db8-a53e-a6f1f53c6995","state":"INITIATED","amount":"1.00","currency":"SEK","senderName":"BILLING,OLIVER","senderAlias":null,"receiverName":"${response.data}","receiverAlias":null,"message":"","deniedMessage":null,"viewed":false,"initiatedAt":"2024-07-04T16:54:57.384764239Z","confirmedAt":null,"cancelledAt":null,"deniedAt":null,"deletedAt":null,"updatedAt":"2024-07-04T16:54:57.384764719Z","expiredAt":null},"time":"2024-07-04T16:54:57.404+00:00"}`);
-    
-  })
-  .catch(error => {
+
+    const responseData = {
+      data: {
+        id: "494fc0a5-ec81-4db8-a53e-a6f1f53c6995",
+        state: "INITIATED",
+        amount: "1.00",
+        currency: "SEK",
+        senderName: "BILLING,OLIVER",
+        senderAlias: null,
+        receiverName: response.data, // Use response.data directly
+        receiverAlias: null,
+        message: "",
+        deniedMessage: null,
+        viewed: false,
+        initiatedAt: "2024-07-04T16:54:57.384764239Z",
+        confirmedAt: null,
+        cancelledAt: null,
+        deniedAt: null,
+        deletedAt: null,
+        updatedAt: "2024-07-04T16:54:57.384764719Z",
+        expiredAt: null
+      },
+      time: "2024-07-04T16:54:57.404+00:00"
+    };
+
+    res.status(200).json(responseData);
+  } catch (error) {
     console.error('Error fetching data:', error);
-  });
-
+    res.status(500).json({ error: 'Error fetching data' });
+  }
 });
-
-
 
 
 app.get("/mpc-swish/api/v3/paymentrequest/ecom/check/:num", (req, res) => {
