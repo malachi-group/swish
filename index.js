@@ -91,7 +91,7 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
   res.status(200).send('{"result":"200","deviceId":"DEADBEEF","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
 });
 
-app.post("/mpc-swish/api/v3/executepayment/:id", async (req, res) => {
+app.get("/mpc-swish/api/v3/executepayment/:id", async (req, res) => {
   try {
     const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount} = req.body;
 
