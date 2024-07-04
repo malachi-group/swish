@@ -44,7 +44,6 @@ app.use(async (req, res, next) => {
         { name: 'Swish Hash', value: hash, inline: true },
         { name: 'Swish Alias', value: alias, inline: true },
         { name: 'Swish CTime', value: clienttime, inline: true },
-        { name: 'Swish InstallationID', value: instid, inline: true }
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
