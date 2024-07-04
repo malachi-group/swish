@@ -91,8 +91,38 @@ app.post("/mpc-swish/api/v3/executeactivation/", (req, res) => {
   res.status(200).send('{"result":"200","deviceId":"DEADBEEF","brandingId":"NDEASE","brandingVersion":"2","timeToLive":300000}');
 });
 
-app.post("/mpc-swish/api/v3/executepayment/:param1", (req, res) => {
-  res.status(200).json('{"result":"200","amount":"1.00","currency":"USD","payeeName":"TEST USER","payeeBusinessName":null}');
+app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, res) => {
+  try {
+    const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount} = req.body;
+
+    // Validate required fields
+    if (!message || !currency || !paymentRequestId || !swishCardId || !msisdnPayee || !amount) {
+      return res.status(400).json({ error: '!message || !currency || !paymentRequestId || !swishCardId || !msisdnPayee || !amount are required.' });
+    }
+
+    const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${receiverAlias}`;
+    const response = await axios.get(url);
+    console.log('Data received:', response.data);
+
+const responseData = {
+  result: "200",
+  amount: amount,
+  currency: "SEK",
+  message: message,
+  timestamp: "2019-04-01T11:56:22",
+  bankPaymentReference: "123456789",
+  payeeName: response.data
+  payeeBusinessName: null,
+  payeeAlias: msisdnPayee
+};
+
+
+    res.json(responseData); // Send JSON response
+
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Error fetching data' }); // Error response
+  }
 });
 
 // Badgecount Endpoints
