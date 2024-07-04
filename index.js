@@ -9,7 +9,6 @@ app.use(express.json());
 let savedData = {}; // Variable to store data from initiatepayment
 let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
-let Installid = ""; // Variable to store data from initiatepayment
 
 // Example route handler for '/'
 app.get('/', (req, res) => {
