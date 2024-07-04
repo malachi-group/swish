@@ -149,10 +149,11 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
       time: "2024-07-04T16:54:57.404+00:00"
     };
 
-    res.status(200).json(responseData);
+    res.json(responseData); // Send JSON response
+
   } catch (error) {
     console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Error fetching data' });
+    res.status(500).json({ error: 'Error fetching data' }); // Error response
   }
 });
 
