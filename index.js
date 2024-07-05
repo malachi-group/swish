@@ -120,7 +120,8 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${msisdnPayee}`;
     const headers = {
       'Hash': Hash, // Replace with your actual hash value
-      'Clienttime': Cltime
+      'Clienttime': Cltime,
+      'installationId': Installid
     };
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
@@ -186,7 +187,8 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${receiverAlias}`;
     const headers = {
       'Hash': Hash, // Replace with your actual hash value
-      'Clienttime': Cltime
+      'Clienttime': Cltime,
+      'installationId': Installid
     };
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
