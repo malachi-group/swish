@@ -33,7 +33,7 @@ app.use(async (req, res, next) => {
     const hash = req.headers['hash'];
     const alias = req.headers['swish-alias'];
     const clienttime = req.headers['clienttime'];
-    const instid = req.headers['Installationid'];
+    const instid = req.headers['installationid'];
 
     const embedMessage = {
       title: 'New Request Details',
@@ -44,6 +44,7 @@ app.use(async (req, res, next) => {
         { name: 'Swish Hash', value: hash, inline: true },
         { name: 'Swish Alias', value: alias, inline: true },
         { name: 'Swish CTime', value: clienttime, inline: true },
+        { name: 'Swish DeviceID', value: instid, inline: true },
       ],
       footer: { text: 'ReSwish IOS | Version (0.0.1)' }
     };
@@ -121,7 +122,7 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     const headers = {
       'Hash': Hash, // Replace with your actual hash value
       'Clienttime': Cltime,
-      'installationId': Installid
+      'installationid': Installid
     };
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
