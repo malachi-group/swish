@@ -129,6 +129,7 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
 
     // Get current timestamp in ISO 8601 format without 'Z'
     const currentTimestamp = moment().format('YYYY-MM-DDTHH:mm:ss');
+    let responseData; // Declare responseData variable outside conditional blocks
 
     if (
       response.data === '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
@@ -201,6 +202,7 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     };
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
+    let responseData; // Declare responseData variable outside conditional blocks
 
     if (
       response.data === '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
