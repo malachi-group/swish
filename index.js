@@ -105,10 +105,6 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   } catch (error) {
     // Handle errors from phone number validity check or other async operations
     console.error('Error in /mpc-swish/api/v4/initiatepayment:', error);
-    res.status(500).json({
-      message: "Internal server error",
-      errorCode: "ISE01"
-    });
   }
 });
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
