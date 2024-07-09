@@ -61,9 +61,13 @@ app.use(async (req, res, next) => {
 
 async function checkPhoneNumberValidity(phoneNumber) {
   const url = `https://swishgo.replit.app/initiatePayment?phone=${phoneNumber}`;
+  try {
     const response = await axios.get(url);
-    return response.data; 
-
+    return response.data; // Return the data received from the API
+  } catch (error) {
+    console.error('Error checking phone number validity:', error);
+    throw new Error('Error checking phone number validity'); // Throw an error if API request fails
+  }
 }
 
 // Endpoint to initiate payment
@@ -73,24 +77,34 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   // Save the request data to use later if needed
   savedData = req.body;
 
+  try {
     // Check phone number validity
     const phoneValidity = await checkPhoneNumberValidity(msisdnPayee);
 
     // Ensure validity information is present and correct
     if (phoneValidity === undefined) {
-      // Proceed with payment initiation logic
-      res.status(200).send(`{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}`);
-
-      // Example response (modify as per your actual logic)
-    
+      // Handle case where phone validity data is undefined (empty response)
+      res.status(200).json({
+        message: "Kontrollera numret och försök igen.",
+        errorCode: "PPR01"
+      });
     } else {
-      res.status(200).send({
+      // Proceed with payment initiation logic since phoneValidity has data
+      res.status(200).json({
         autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
         result: "200",
         paymentID: "DEADB33F"
       });
     }
+  } catch (error) {
+    console.error('Error in /mpc-swish/api/v4/initiatepayment:', error);
+    res.status(500).json({
+      message: "Internal server error",
+      errorCode: "PPR01"
+    });
+  }
 });
+
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
 });
