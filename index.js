@@ -73,27 +73,23 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   // Save the request data to use later if needed
   savedData = req.body;
 
-  try {
     // Check phone number validity
     const phoneValidity = await checkPhoneNumberValidity(msisdnPayee);
 
     // Ensure validity information is present and correct
-    if (!phoneValidity.data === undefined) {
+    if (phoneValidity.data === undefined) {
       // Proceed with payment initiation logic
+      res.status(200).send(`{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}`);
 
       // Example response (modify as per your actual logic)
+    
+    } else {
       res.status(200).send({
         autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
         result: "200",
         paymentID: "DEADB33F"
       });
-    } else {
-      res.status(200).send(`{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}`);
     }
-  } catch (error) {
-    // Handle errors from phone number validity check or other async operations
-    console.error('Error in /mpc-swish/api/v4/initiatepayment:', error);
-  }
 });
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
