@@ -78,7 +78,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
     const phoneValidity = await checkPhoneNumberValidity(msisdnPayee);
 
     // Ensure validity information is present and correct
-    if (!phoneValidity.data == "") {
+    if (!phoneValidity.data === undefined) {
       // Proceed with payment initiation logic
 
       // Example response (modify as per your actual logic)
