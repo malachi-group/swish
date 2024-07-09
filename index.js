@@ -128,13 +128,7 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     console.log('Data received:', response.data);
 
     // Get current timestamp in ISO 8601 format without 'Z'
-    const currentTimestamp = moment().format('YYYY-MM-DDTHH:mm:ss');
     let responseData; // Declare responseData variable outside conditional blocks
-
-    responseData = response.data;
-    
-    // Construct response data
-
     res.json(responseData); // Send JSON response
 
   } catch (error) {
@@ -185,15 +179,9 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     };
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
-    let responseData; // Declare responseData variable outside conditional blocks
 
-    if (
-      response.data === '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
-      response.data === '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}'
-    ) {
-       responseData = response.data;
-    } else {
-      responseData = {
+
+      const responseData = {
         data: {
           id: "494fc0a5-ec81-4db8-a53e-a6f1f53c6995",
           state: "INITIATED",
@@ -216,7 +204,6 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
         },
         time: "2024-07-04T16:54:57.404+00:00"
       };
-    }
     
 
     res.json(responseData); // Send JSON response
