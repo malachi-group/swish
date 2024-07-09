@@ -86,14 +86,14 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
       // Proceed with payment initiation logic
 
       // Example response (modify as per your actual logic)
-      res.status(200).json({
+      res.status(200).send({
         autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
         result: "200",
         paymentID: "DEADB33F"
       });
     } else {
       // Handle invalid phone number scenario
-      res.status(200).json(`{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}`);
+      res.status(200).send(`{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}`);
     }
   } catch (error) {
     // Handle errors from phone number validity check or other async operations
