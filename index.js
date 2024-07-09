@@ -131,24 +131,7 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     const currentTimestamp = moment().format('YYYY-MM-DDTHH:mm:ss');
     let responseData; // Declare responseData variable outside conditional blocks
 
-    if (
-      response.data == '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
-      response.data == '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}'
-    ) {
-       responseData = response.data;
-    } else {
-       responseData = {
-        result: "200",
-        amount: amount,
-        currency: currency,
-        message: message,
-        timestamp: currentTimestamp,
-        bankPaymentReference: "123456789",
-        payeeName: response.data,
-        payeeBusinessName: null,
-        payeeAlias: msisdnPayee
-      };
-    }
+    responseData = response.data;
     
     // Construct response data
 
