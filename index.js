@@ -93,7 +93,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
       });
     } else {
       // Handle invalid phone number scenario
-      res.status(400).json(`{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}`);
+      res.status(200).json(`{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}`);
     }
   } catch (error) {
     // Handle errors from phone number validity check or other async operations
