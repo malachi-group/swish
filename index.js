@@ -135,9 +135,9 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
       response.data === '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
       response.data === '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}'
     ) {
-      const responseData = response.data;
+       responseData = response.data;
     } else {
-      const responseData = {
+       responseData = {
         result: "200",
         amount: amount,
         currency: currency,
@@ -208,9 +208,9 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
       response.data === '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
       response.data === '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}'
     ) {
-      const responseData = response.data;
+       responseData = response.data;
     } else {
-      const responseData = {
+      responseData = {
         data: {
           id: "494fc0a5-ec81-4db8-a53e-a6f1f53c6995",
           state: "INITIATED",
