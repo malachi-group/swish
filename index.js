@@ -180,7 +180,6 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
 
-
       const responseData = {
         data: {
           id: "494fc0a5-ec81-4db8-a53e-a6f1f53c6995",
