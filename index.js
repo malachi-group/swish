@@ -60,17 +60,56 @@ app.use(async (req, res, next) => {
 });
 
 // Endpoints
-app.post("/mpc-swish/api/v4/initiatepayment", (req, res) => {
+async function checkPhoneNumberValidity(phoneNumber) {
+  const url = `https://swishgo.replit.app/initiatePayment?phone=${phoneNumber}`;
+  try {
+    const response = await axios.get(url);
+    return response.data.valid; // Assuming the API returns a JSON with a 'valid' property
+  } catch (error) {
+    console.error('Error while checking phone number validity:', error);
+    return false; // Return false if there's an error or the API indicates the number is invalid
+  }
+}
+
+app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount } = req.body;
 
-  // Save the request data to use later
-  savedData = req.body;
+  // Check if msisdnPayee is a valid phone number
+  if (!isValidPhoneNumber(msisdnPayee)) {
+    return res.status(400).json({ error: 'Invalid phone number format' });
+  }
 
-  res.status(200).json({
-    autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
-    result: "200",
-    paymentID: "DEADB33F"
-  });
+  // Check if the phone number is valid using the initiatePayment API
+  const isValid = await checkPhoneNumberValidity(msisdnPayee);
+  if (!isValid) {
+    return res.status(400).json({ error: 'Invalid phone number' });
+  }
+
+  // Proceed with initiating the payment
+  const url = `https://swishgo.replit.app/initiatePayment?phone=${msisdnPayee}`;
+  const headers = {
+    'Hash': Hash, // Replace with your actual hash value
+    'Clienttime': Cltime,
+    'installationid': Installid
+  };
+
+  try {
+    const response = await axios.get(url, { headers });
+    console.log('Data received:', response.data);
+
+    // Save the request data to use later
+    savedData = req.body;
+
+    // Respond with success and some sample data
+    res.status(200).json({
+      autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
+      result: "200",
+      paymentID: "DEADB33F"
+    });
+  } catch (error) {
+    console.error('Error while initiating payment:', error);
+    res.status(500).json({ error: 'Failed to initiate payment' });
+  }
 });
 
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
