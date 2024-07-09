@@ -1,3 +1,4 @@
+oment
 const express = require("express");
 const axios = require("axios");
 const moment = require('moment'); // Import moment.js for date formatting
@@ -130,22 +131,25 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     // Get current timestamp in ISO 8601 format without 'Z'
     const currentTimestamp = moment().format('YYYY-MM-DDTHH:mm:ss');
 
-    if (response.data) == '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' || '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}' {
-           const responseData = response.data;
-
+    if (
+      response.data === '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
+      response.data === '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}'
+    ) {
+      const responseData = response.data;
     } else {
       const responseData = {
-      result: "200",
-      amount: amount,
-      currency: currency,
-      message: message,
-      timestamp: currentTimestamp,
-      bankPaymentReference: "123456789",
-      payeeName: response.data,
-      payeeBusinessName: null,
-      payeeAlias: msisdnPayee
-    };
+        result: "200",
+        amount: amount,
+        currency: currency,
+        message: message,
+        timestamp: currentTimestamp,
+        bankPaymentReference: "123456789",
+        payeeName: response.data,
+        payeeBusinessName: null,
+        payeeAlias: msisdnPayee
+      };
     }
+    
     // Construct response data
 
     res.json(responseData); // Send JSON response
@@ -199,35 +203,37 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
     const response = await axios.get(url, { headers });
     console.log('Data received:', response.data);
 
-        if (response.data) == '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' || '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}' {
-           const responseData = response.data;
-
+    if (
+      response.data === '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
+      response.data === '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}'
+    ) {
+      const responseData = response.data;
     } else {
-          
-    const responseData = {
-      data: {
-        id: "494fc0a5-ec81-4db8-a53e-a6f1f53c6995",
-        state: "INITIATED",
-        amount: amount,
-        currency: currency,
-        senderName: "LUNAR",
-        senderAlias: null,
-        receiverName: response.data, // Use response.data directly
-        receiverAlias: null,
-        message: message || "",
-        deniedMessage: null,
-        viewed: false,
-        initiatedAt: "2024-07-04T16:54:57.384764239Z",
-        confirmedAt: null,
-        cancelledAt: null,
-        deniedAt: null,
-        deletedAt: null,
-        updatedAt: "2024-07-04T16:54:57.384764719Z",
-        expiredAt: null
-      },
-      time: "2024-07-04T16:54:57.404+00:00"
-    };
-        }
+      const responseData = {
+        data: {
+          id: "494fc0a5-ec81-4db8-a53e-a6f1f53c6995",
+          state: "INITIATED",
+          amount: amount,
+          currency: currency,
+          senderName: "LUNAR",
+          senderAlias: null,
+          receiverName: response.data, // Use response.data directly
+          receiverAlias: null,
+          message: message || "",
+          deniedMessage: null,
+          viewed: false,
+          initiatedAt: "2024-07-04T16:54:57.384764239Z",
+          confirmedAt: null,
+          cancelledAt: null,
+          deniedAt: null,
+          deletedAt: null,
+          updatedAt: "2024-07-04T16:54:57.384764719Z",
+          expiredAt: null
+        },
+        time: "2024-07-04T16:54:57.404+00:00"
+      };
+    }
+    
 
     res.json(responseData); // Send JSON response
 
