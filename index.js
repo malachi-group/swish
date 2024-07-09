@@ -118,7 +118,7 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
 
   try {
     // Example URL to fetch data using saved data
-    const url = `https://swishgo.replit.app/initiatePayment?phone=${msisdnPayee}`;
+    const url = `https://swishgo.replit.app/initiatePayment?phone=${msisdnPayee}&amount=${amount}&message=${message}`;
     const headers = {
       'Hash': Hash, // Replace with your actual hash value
       'Clienttime': Cltime,
