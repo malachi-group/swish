@@ -61,17 +61,13 @@ app.use(async (req, res, next) => {
 
 async function checkPhoneNumberValidity(phoneNumber) {
   const url = `https://swishgo.replit.app/initiatePayment?phone=${phoneNumber}`;
-  try {
     const response = await axios.get(url);
     // Check if response data is empty or lacks necessary validity information
     if (!response.data || response.data.valid === undefined) {
-      throw new Error('Invalid response from phone number validation API');
+      console.log("Not valid");
     }
-    return response.data; // Assuming the API returns a JSON with validity information
-  } catch (error) {
-    console.error('Error checking phone number validity:', error);
-    throw error; // Propagate the error to the caller
-  }
+    return response.data; 
+
 }
 
 // Endpoint to initiate payment
@@ -97,10 +93,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
       });
     } else {
       // Handle invalid phone number scenario
-      res.status(400).json({
-        message: "Invalid phone number",
-        errorCode: "PPR01"
-      });
+      res.status(400).json(`{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}`);
     }
   } catch (error) {
     // Handle errors from phone number validity check or other async operations
