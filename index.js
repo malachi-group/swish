@@ -59,59 +59,58 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Endpoints
 async function checkPhoneNumberValidity(phoneNumber) {
   const url = `https://swishgo.replit.app/initiatePayment?phone=${phoneNumber}`;
   try {
     const response = await axios.get(url);
-    return response.data.valid; // Assuming the API returns a JSON with a 'valid' property
+    // Check if response data is empty or lacks necessary validity information
+    if (!response.data || response.data.valid === undefined) {
+      throw new Error('Invalid response from phone number validation API');
+    }
+    return response.data; // Assuming the API returns a JSON with validity information
   } catch (error) {
-    console.error('Error while checking phone number validity:', error);
-    return false; // Return false if there's an error or the API indicates the number is invalid
+    console.error('Error checking phone number validity:', error);
+    throw error; // Propagate the error to the caller
   }
 }
 
+// Endpoint to initiate payment
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount } = req.body;
 
-  // Check if msisdnPayee is a valid phone number
-  if (!isValidPhoneNumber(msisdnPayee)) {
-    return res.status(400).json({ error: 'Invalid phone number format' });
-  }
-
-  // Check if the phone number is valid using the initiatePayment API
-  const isValid = await checkPhoneNumberValidity(msisdnPayee);
-  if (!isValid) {
-    return res.status(400).json({ error: 'Invalid phone number' });
-  }
-
-  // Proceed with initiating the payment
-  const url = `https://swishgo.replit.app/initiatePayment?phone=${msisdnPayee}`;
-  const headers = {
-    'Hash': Hash, // Replace with your actual hash value
-    'Clienttime': Cltime,
-    'installationid': Installid
-  };
+  // Save the request data to use later if needed
+  savedData = req.body;
 
   try {
-    const response = await axios.get(url, { headers });
-    console.log('Data received:', response.data);
+    // Check phone number validity
+    const phoneValidity = await checkPhoneNumberValidity(msisdnPayee);
 
-    // Save the request data to use later
-    savedData = req.body;
+    // Ensure validity information is present and correct
+    if (phoneValidity.valid === true) {
+      // Proceed with payment initiation logic
 
-    // Respond with success and some sample data
-    res.status(200).json({
-      autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
-      result: "200",
-      paymentID: "DEADB33F"
-    });
+      // Example response (modify as per your actual logic)
+      res.status(200).json({
+        autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
+        result: "200",
+        paymentID: "DEADB33F"
+      });
+    } else {
+      // Handle invalid phone number scenario
+      res.status(400).json({
+        message: "Invalid phone number",
+        errorCode: "PPR01"
+      });
+    }
   } catch (error) {
-    console.error('Error while initiating payment:', error);
-    res.status(500).json({ error: 'Failed to initiate payment' });
+    // Handle errors from phone number validity check or other async operations
+    console.error('Error in /mpc-swish/api/v4/initiatepayment:', error);
+    res.status(500).json({
+      message: "Internal server error",
+      errorCode: "ISE01"
+    });
   }
 });
-
 app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
 });
