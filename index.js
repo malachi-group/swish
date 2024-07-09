@@ -132,8 +132,8 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     let responseData; // Declare responseData variable outside conditional blocks
 
     if (
-      response.data === '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
-      response.data === '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}'
+      response.data == '{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}' ||
+      response.data == '{"message":"Du kan inte swisha den här mottagaren för tillfället.","errorCode":"PPR06"}'
     ) {
        responseData = response.data;
     } else {
