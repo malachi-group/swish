@@ -77,7 +77,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
     const phoneValidity = await checkPhoneNumberValidity(msisdnPayee);
 
     // Ensure validity information is present and correct
-    if (phoneValidity.data == undefined) {
+    if (phoneValidity === undefined) {
       // Proceed with payment initiation logic
       res.status(200).send(`{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}`);
 
