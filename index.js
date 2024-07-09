@@ -62,10 +62,6 @@ app.use(async (req, res, next) => {
 async function checkPhoneNumberValidity(phoneNumber) {
   const url = `https://swishgo.replit.app/initiatePayment?phone=${phoneNumber}`;
     const response = await axios.get(url);
-    // Check if response data is empty or lacks necessary validity information
-    if (!response.data || response.data.valid === undefined) {
-      console.log("Not valid");
-    }
     return response.data; 
 
 }
@@ -82,7 +78,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
     const phoneValidity = await checkPhoneNumberValidity(msisdnPayee);
 
     // Ensure validity information is present and correct
-    if (phoneValidity.valid === true) {
+    if (!phoneValidity.data == "") {
       // Proceed with payment initiation logic
 
       // Example response (modify as per your actual logic)
@@ -92,7 +88,6 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
         paymentID: "DEADB33F"
       });
     } else {
-      // Handle invalid phone number scenario
       res.status(200).send(`{"message":"Kontrollera numret och försök igen.","errorCode":"PPR01"}`);
     }
   } catch (error) {
