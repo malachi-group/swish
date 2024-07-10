@@ -21,6 +21,8 @@ const pool = new Pool({
   database: 'neondb',
   password: 'JD4cQuUgqK7z',
   port: 5432, // Default port for PostgreSQL
+  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
+
 });
 
 
