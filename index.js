@@ -19,6 +19,7 @@ const pool = new Pool({
   database: 'neondb',        // Replace with your database name
   password: 'JD4cQuUgqK7z',  // Replace with your database password
   port: 5432,                // Default PostgreSQL port
+  sslmode: 'require'
 });
 
 
