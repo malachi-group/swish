@@ -13,13 +13,16 @@ let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 let payments = [];
 
-function PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee) {
+function PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee, dateTime, paymentChannel, payerPayee, bankPaymentReference) {
   this.paymentRequestId = paymentRequestId;
   this.message = message;
   this.currency = currency;
   this.amount = amount;
   this.msisdnPayee = msisdnPayee;
-  this.dateTime = new Date().toISOString();
+  this.dateTime = dateTime || new Date().toISOString(); // Use provided dateTime or current time
+  this.paymentChannel = paymentChannel;
+  this.payerPayee = payerPayee;
+  this.bankPaymentReference = bankPaymentReference;
 }
 
 const paymentData = {
@@ -47,6 +50,14 @@ const message = paymentData.message;
 const currency = paymentData.currency;
 const amount = parseFloat(paymentData.amount); // Convert amount to a number
 const msisdnPayee = paymentData.payerPayee.alias;
+const dateTime = new Date(paymentData.dateTime).toISOString(); // Convert dateTime to ISO format
+const paymentChannel = paymentData.paymentChannel;
+const payerPayee = {
+  name: paymentData.payerPayee.name,
+  businessName: paymentData.payerPayee.businessName,
+  alias: paymentData.payerPayee.alias
+};
+const bankPaymentReference = paymentData.bankPaymentReference;
 
 // Example route handler for '/'
 app.get('/', (req, res) => {
@@ -111,6 +122,7 @@ async function checkPhoneNumberValidity(phoneNumber) {
 // Endpoint to initiate payment
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount } = req.body;
+    const currentTimestamp = moment().format('YYYY-MM-DDTHH:mm:ss');
 
   // Save the request data to use later if needed
   savedData = req.body;
@@ -120,7 +132,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
 
     // Ensure validity information is present and correct
     if (phoneValidity === "") {
-      const newPayment = new PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee);
+      const newPayment = new PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee, currentTimestamp, "MPC", payerPayee, "123123123");
       payments.push(newPayment);
       
       res.status(200).json({
