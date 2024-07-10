@@ -81,7 +81,7 @@ async function checkPhoneNumberValidity(phoneNumber) {
   }
 }
 
-async function storePaymentData(receiverName, amount, currency, initiatedAt) {
+async function storePaymentData(phone, receiverName, amount, currency, initiatedAt) {
   const query = `
     INSERT INTO payments (phone, receiver_name, amount, currency, initiated_at, updated_at)
         VALUES ($1, $2, $3, $4, $5, $6)
@@ -115,7 +115,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
         result: "200",
         paymentID: "DEADB33F"
       });
-      await storePaymentData(phoneValidity, amount, currency, moment().format());
+      await storePaymentData(msisdnPayee,phoneValidity, amount, currency, moment().format());
 
     } else {
       // Proceed with payment initiation logic since phoneValidity has data
@@ -124,7 +124,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
         result: "200",
         paymentID: "DEADB33F"
       });
-      await storePaymentData(phoneValidity, amount, currency, moment().format());
+      await storePaymentData(msisdnPayee,phoneValidity, amount, currency, moment().format());
 
     }
 });
