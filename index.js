@@ -154,12 +154,14 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
     // Get current timestamp in ISO 8601 format without 'Z'
     const currentTimestamp = moment().format('YYYY-MM-DDTHH:mm:ss');
 
-    // Construct response data
+    let buffer = Buffer.from(message, 'base64');
+    let decodedString = buffer.toString('utf-8');
+
     const responseData = {
       result: "200",
       amount: amount,
       currency: currency,
-      message: message,
+      message: decodedString,
       timestamp: currentTimestamp,
       bankPaymentReference: "123456789",
       payeeName: response.data,
