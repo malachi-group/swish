@@ -112,7 +112,20 @@ app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", async (req, res)
     const data = await paymentHistory();
     
     // Assign fetched data to payments array
-    payments = data; // Assuming `data` is an array of payment objects
+    payments = `  "paymentID": "",
+    "paymentChannel": "MPC",
+    "amount": "1.00",
+    "currency": "SEK",
+    "payerPayee": "LOL",
+    "message": "",
+    "orderId": "123123123",
+    "paymentType": "COMMERCE",
+    "gift": null,
+    "birPaymentId": "",
+    "paymentDirection": "OUTGOING",
+    "bankPaymentReference": "123123123",
+    "dateTime": "2024-07-10T14:00:00"
+  }`; // Assuming `data` is an array of payment objects
 
   const response = {
     result: "200",
