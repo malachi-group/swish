@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const { Pool } = require('pg');
 
 const moment = require('moment'); // Import moment.js for date formatting
 
@@ -12,7 +13,13 @@ let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 
-
+const pool = new Pool({
+  user: 'neondb_owner',      // Replace with your database user
+  host: 'ep-quiet-sunset-a5weizpo.us-east-2.aws.neon.tech',  // Replace with your database host
+  database: 'neondb',        // Replace with your database name
+  password: 'JD4cQuUgqK7z',  // Replace with your database password
+  port: 5432,                // Default PostgreSQL port
+});
 
 
 // Example route handler for '/'
@@ -74,6 +81,22 @@ async function checkPhoneNumberValidity(phoneNumber) {
   }
 }
 
+async function storePaymentData(receiverName, amount, currency, initiatedAt) {
+  const query = `
+    INSERT INTO payments (receiver_name, amount, currency, initiated_at, updated_at)
+    VALUES ($1, $2, $3, $4, $5)
+  `;
+  const values = [receiverName, amount, currency, initiatedAt, moment().format()];
+
+  try {
+    const result = await pool.query(query, values);
+    console.log('Payment stored in database successfully');
+  } catch (error) {
+    console.error('Error inserting payment into database:', error);
+    throw new Error('Error inserting payment into database');
+  }
+}
+
 // Endpoint to initiate payment
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount } = req.body;
@@ -92,6 +115,8 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
         result: "200",
         paymentID: "DEADB33F"
       });
+      await storePaymentData(phoneValidity, amount, currency, moment().format());
+
     } else {
       // Proceed with payment initiation logic since phoneValidity has data
       res.status(200).json({
@@ -99,6 +124,8 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
         result: "200",
         paymentID: "DEADB33F"
       });
+      await storePaymentData(phoneValidity, amount, currency, moment().format());
+
     }
 });
 
