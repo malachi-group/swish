@@ -11,6 +11,7 @@ let savedData = {}; // Variable to store data from initiatepayment
 let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
+let payments[];
 
 
 // Example route handler for '/'
@@ -72,16 +73,17 @@ async function checkPhoneNumberValidity(phoneNumber) {
   }
 }
 
+async function paymentHistory() {
+  const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/history`;
+  const response = await axios.get(url);
+  return response.data; // Return the data received from the API
+}
+
 
 // Endpoint to initiate payment
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
   const { message, currency, paymentRequestId, swishCardId, msisdnPayee, amount } = req.body;
-    const currentTimestamp = moment().format('YYYY-MM-DDTHH:mm:ss');
-
-  // Save the request data to use later if needed
   savedData = req.body;
-
-    // Check phone number validity
     const phoneValidity = await checkPhoneNumberValidity(msisdnPayee);
 
     // Ensure validity information is present and correct
