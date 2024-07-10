@@ -11,6 +11,17 @@ let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 
+const { Pool } = require('pg');
+
+// Set up your database connection details
+const pool = new Pool({
+  user: 'neondb_owner',
+  host: 'ep-quiet-sunset-a5weizpo.us-east-2.aws.neon.tech',
+  database: 'neondb',
+  password: 'JD4cQuUgqK7z',
+  port: 5432, // Default port for PostgreSQL
+});
+
 
 app.get('/users', async (req, res) => {
   try {
