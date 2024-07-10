@@ -1,8 +1,5 @@
 const express = require("express");
 const axios = require("axios");
-const { Pool } = require('pg');
-const path = require('path');
-const fs = require('fs');
 
 const moment = require('moment'); // Import moment.js for date formatting
 
@@ -15,20 +12,6 @@ let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 
-const certPath = path.join(__dirname, 'certs', 'BaltimoreCyberTrustRoot.crt.pem');
-
-// PostgreSQL connection configuration
-const config = {
-  user: 'neondb_owner',
-  host: 'ep-quiet-sunset-a5weizpo.us-east-2.aws.neon.tech',
-  database: 'neondb',
-  password: 'JD4cQuUgqK7z',
-  port: 5432,
-  ssl: {
-    rejectUnauthorized: true,  // Reject unauthorized connections
-    ca: fs.readFileSync(certPath).toString(),  // Load the certificate
-  },
-};
 
 const pool = new Pool(config);
 
@@ -92,21 +75,6 @@ async function checkPhoneNumberValidity(phoneNumber) {
   }
 }
 
-async function storePaymentData(phone, receiverName, amount, currency, initiatedAt) {
-  const query = `
-    INSERT INTO payments (phone, receiver_name, amount, currency, initiated_at, updated_at)
-        VALUES ($1, $2, $3, $4, $5, $6)
-  `;
-  const values = [receiverName, amount, currency, initiatedAt, moment().format()];
-
-  try {
-    const result = await pool.query(query, values);
-    console.log('Payment stored in database successfully');
-  } catch (error) {
-    console.error('Error inserting payment into database:', error);
-    throw new Error('Error inserting payment into database');
-  }
-}
 
 // Endpoint to initiate payment
 app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
@@ -126,7 +94,6 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
         result: "200",
         paymentID: "DEADB33F"
       });
-      await storePaymentData(msisdnPayee,phoneValidity, amount, currency, moment().format());
 
     } else {
       // Proceed with payment initiation logic since phoneValidity has data
@@ -135,7 +102,6 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
         result: "200",
         paymentID: "DEADB33F"
       });
-      await storePaymentData(msisdnPayee,phoneValidity, amount, currency, moment().format());
 
     }
 });
