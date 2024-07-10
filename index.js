@@ -93,10 +93,7 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
 
     // Ensure validity information is present and correct
     if (phoneValidity === "") {
-      // Handle case where phone validity data is undefined (empty response)
-
-          const newPayment = new PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee);
-
+      const newPayment = new PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee);
       payments.push(newPayment);
       
       res.status(200).json({
@@ -106,7 +103,6 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
       });
 
     } else {
-      // Proceed with payment initiation logic since phoneValidity has data
       res.status(200).json({
         autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
         result: "200",
