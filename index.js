@@ -11,7 +11,7 @@ let savedData = {}; // Variable to store data from initiatepayment
 let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
-let payments[];
+let payments = [];
 
 
 // Example route handler for '/'
