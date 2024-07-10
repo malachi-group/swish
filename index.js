@@ -13,6 +13,15 @@ let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 let payments = [];
 
+function PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee) {
+  this.paymentRequestId = paymentRequestId;
+  this.message = message;
+  this.currency = currency;
+  this.amount = amount;
+  this.msisdnPayee = msisdnPayee;
+  this.dateTime = new Date().toISOString();
+}
+
 const paymentData = {
   "paymentChannel": "MPC",
   "amount": "5.00",
