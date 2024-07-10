@@ -11,7 +11,16 @@ let savedData = {}; // Variable to store data from initiatepayment
 let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
+let payments = [];
 
+function PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee) {
+  this.paymentRequestId = paymentRequestId;
+  this.message = message;
+  this.currency = currency;
+  this.amount = amount;
+  this.msisdnPayee = msisdnPayee;
+  this.dateTime = new Date().toISOString();
+}
 // Example route handler for '/'
 app.get('/', (req, res) => {
   res.send("Hey there");
@@ -85,6 +94,11 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
     // Ensure validity information is present and correct
     if (phoneValidity === "") {
       // Handle case where phone validity data is undefined (empty response)
+
+          const newPayment = new PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee);
+
+      payments.push(newPayment);
+      
       res.status(200).json({
         autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
         result: "200",
@@ -107,15 +121,39 @@ app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[],"autoStartToken":null}');
+  const response = {
+    result: "200",
+    bankIdOrderReference: null,
+    dateTimeOfSearch: null,
+    endOfSearch: true,
+    item: payments, // Return current state of payments array
+    autoStartToken: null
+  };
+  res.status(200).send(response);
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[],"autoStartToken":null}');
+  const response = {
+    result: "200",
+    bankIdOrderReference: null,
+    dateTimeOfSearch: null,
+    endOfSearch: true,
+    item: payments, // Return current state of payments array
+    autoStartToken: null
+  };
+  res.status(200).send(response);
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[],"autoStartToken":null}');
+  const response = {
+    result: "200",
+    bankIdOrderReference: null,
+    dateTimeOfSearch: null,
+    endOfSearch: true,
+    item: payments, // Return current state of payments array
+    autoStartToken: null
+  };
+  res.status(200).send(response);
 });
 
 app.get("/mpc-swish/api/v1/paymentrequest/findByRoleAndState", (req, res) => {
