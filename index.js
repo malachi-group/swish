@@ -109,6 +109,11 @@ app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
+    const data = await paymentHistory();
+    
+    // Assign fetched data to payments array
+    payments = data; // Assuming `data` is an array of payment objects
+
   const response = {
     result: "200",
     bankIdOrderReference: null,
@@ -121,6 +126,11 @@ app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", (req, res) => {
+    const data = await paymentHistory();
+    
+    // Assign fetched data to payments array
+    payments = data; // Assuming `data` is an array of payment objects
+
   const response = {
     result: "200",
     bankIdOrderReference: null,
@@ -133,6 +143,11 @@ app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
+    const data = await paymentHistory();
+    
+    // Assign fetched data to payments array
+    payments = data; // Assuming `data` is an array of payment objects
+
   const response = {
     result: "200",
     bankIdOrderReference: null,
