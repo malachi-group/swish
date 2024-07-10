@@ -13,14 +13,32 @@ let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 let payments = [];
 
-function PaymentItem(paymentRequestId, message, currency, amount, msisdnPayee) {
-  this.paymentRequestId = paymentRequestId;
-  this.message = message;
-  this.currency = currency;
-  this.amount = amount;
-  this.msisdnPayee = msisdnPayee;
-  this.dateTime = new Date().toISOString();
-}
+const paymentData = {
+  "paymentChannel": "MPC",
+  "amount": "5.00",
+  "currency": "SEK",
+  "payerPayee": {
+    "name": "TEST COMPANY AB",
+    "businessName": null,
+    "alias": "1230000000"
+  },
+  "message": "test",
+  "orderId": "123123123",
+  "paymentType": "COMMERCE",
+  "gift": null,
+  "birPaymentId": "123123123",
+  "paymentDirection": "OUTGOING",
+  "bankPaymentReference": "123123123",
+  "dateTime": "2019-03-29T14:47:56"
+};
+
+// Extracting relevant information
+const paymentRequestId = paymentData.birPaymentId;
+const message = paymentData.message;
+const currency = paymentData.currency;
+const amount = parseFloat(paymentData.amount); // Convert amount to a number
+const msisdnPayee = paymentData.payerPayee.alias;
+
 // Example route handler for '/'
 app.get('/', (req, res) => {
   res.send("Hey there");
