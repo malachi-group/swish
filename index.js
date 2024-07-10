@@ -83,8 +83,8 @@ async function checkPhoneNumberValidity(phoneNumber) {
 
 async function storePaymentData(receiverName, amount, currency, initiatedAt) {
   const query = `
-    INSERT INTO payments (receiver_name, amount, currency, initiated_at, updated_at)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO payments (phone, receiver_name, amount, currency, initiated_at, updated_at)
+        VALUES ($1, $2, $3, $4, $5, $6)
   `;
   const values = [receiverName, amount, currency, initiatedAt, moment().format()];
 
