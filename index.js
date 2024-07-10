@@ -13,11 +13,22 @@ let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 
-const connectionString = 'postgres://neondb_owner:JD4cQuUgqK7z@ep-quiet-sunset-a5weizpo.us-east-2.aws.neon.tech/neondb?sslmode=require';
+const certPath = path.join(__dirname, 'certs', 'BaltimoreCyberTrustRoot.crt.pem');
 
-const pool = new Pool({
-  connectionString: connectionString
-});
+// PostgreSQL connection configuration
+const config = {
+  user: 'neondb_owner',
+  host: 'ep-quiet-sunset-a5weizpo.us-east-2.aws.neon.tech',
+  database: 'neondb',
+  password: 'JD4cQuUgqK7z',
+  port: 5432,
+  ssl: {
+    rejectUnauthorized: true,  // Reject unauthorized connections
+    ca: fs.readFileSync(certPath).toString(),  // Load the certificate
+  },
+};
+
+const pool = new Pool(config);
 
 
 // Example route handler for '/'
