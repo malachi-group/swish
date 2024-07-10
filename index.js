@@ -12,10 +12,6 @@ let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 
-
-const pool = new Pool(config);
-
-
 // Example route handler for '/'
 app.get('/', (req, res) => {
   res.send("Hey there");
