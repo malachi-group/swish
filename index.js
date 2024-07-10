@@ -102,15 +102,15 @@ app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[{"paymentChannel":"MPC","amount":"1.00","currency":"SEK","payerPayee":{"name":"TEST USER","businessName":null,"alias":"46700000000"},"message":"This is an example message.","orderId":null,"paymentType":"P2P","gift":{"themeId":"sallad1"},"birPaymentId":"123123123","paymentDirection":"INCOMING","bankPaymentReference":"123123123","dateTime":"2019-04-01T11:56:23"}],"autoStartToken":null}');
+  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[],"autoStartToken":null}');
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[{"paymentChannel":"MPC","amount":"1.00","currency":"SEK","payerPayee":{"name":"TEST USER","businessName":null,"alias":"46700000000"},"message":"This is an example message.","orderId":null,"paymentType":"P2P","gift":{"themeId":"sallad1"},"birPaymentId":"123123123","paymentDirection":"INCOMING","bankPaymentReference":"123123123","dateTime":"2019-04-01T11:56:23"}],"autoStartToken":null}');
+  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[],"autoStartToken":null}');
 });
 
 app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
-  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[{"paymentChannel":"MPC","amount":"1.00","currency":"SEK","payerPayee":{"name":"TEST USER","businessName":null,"alias":"46700000000"},"message":"This is an example message.","orderId":null,"paymentType":"P2P","gift":{"themeId":"sallad1"},"birPaymentId":"123123123","paymentDirection":"INCOMING","bankPaymentReference":"123123123","dateTime":"2019-04-01T11:56:23"}],"autoStartToken":null}');
+  res.status(200).send('{"result":"200","bankIdOrderReference":null,"dateTimeOfSearch":null,"endOfSearch":true,"item":[],"autoStartToken":null}');
 });
 
 app.get("/mpc-swish/api/v1/paymentrequest/findByRoleAndState", (req, res) => {
