@@ -1,6 +1,5 @@
 const express = require("express");
 const axios = require("axios");
-const { Pool } = require('pg');
 
 const moment = require('moment'); // Import moment.js for date formatting
 
@@ -14,27 +13,7 @@ let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 
 
-// Set up your database connection details
-const pool = new Pool({
-  user: 'neondb_owner',
-  host: 'ep-quiet-sunset-a5weizpo.us-east-2.aws.neon.tech',
-  database: 'neondb',
-  password: 'JD4cQuUgqK7z',
-  port: 5432, // Default port for PostgreSQL
-  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
 
-});
-
-
-app.get('/users', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM users');
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 
 // Example route handler for '/'
 app.get('/', (req, res) => {
