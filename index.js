@@ -114,7 +114,7 @@ app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
 });
 
 app.get("/mpc-swish/api/v1/paymentrequest/findByRoleAndState", (req, res) => {
-  res.status(200).send('{"data":[{"id":"2dcfdaa5-416f-49c6-84ed-337a09d4157f","state":"CONFIRMED","amount":"1","currency":"SEK","senderName":"","senderAlias":"4670000000","receiverName":"Marianne Essen Nordlander","receiverAlias":"4670000001","message":"Sent, CONFIRMED","deniedMessage":null,"viewed":false,"initiatedAt":"2019-12-17T12:53:37.281Z","confirmedAt":"2019-12-17T12:53:41.089Z","cancelledAt":null,"deniedAt":null,"deletedAt":null,"updatedAt":"2019-12-17T12:53:41.089Z","expiredAt":"2020-02-15T12:53:41.089Z"}],"time":"2019-12-17T13:17:08.188+0000"}');
+  res.status(200).send('{"data":[],"time":"2019-12-17T13:17:08.188+0000"}');
 });
 
 app.get("/mpc-swish/api/v2/validation/", (req, res) => {
