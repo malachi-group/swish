@@ -13,15 +13,10 @@ let Hash = ""; // Variable to store data from initiatepayment
 let Cltime = ""; // Variable to store data from initiatepayment
 let Installid = ""; // Variable to store data from initiatepayment
 
+const connectionString = 'postgres://neondb_owner:JD4cQuUgqK7z@ep-quiet-sunset-a5weizpo.us-east-2.aws.neon.tech/neondb?sslmode=require';
+
 const pool = new Pool({
-  user: 'neondb_owner',      // Replace with your database user
-  host: 'ep-quiet-sunset-a5weizpo.us-east-2.aws.neon.tech',  // Replace with your database host
-  database: 'neondb',        // Replace with your database name
-  password: 'JD4cQuUgqK7z',  // Replace with your database password
-  port: 5432,                // Default PostgreSQL port
-  ssl: {
-    rejectUnauthorized: false, // Use only if your certificate is self-signed
-  },
+  connectionString: connectionString
 });
 
 
