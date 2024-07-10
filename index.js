@@ -108,7 +108,7 @@ app.get("/mpc-swish/api/v1/blocks/", (req, res) => {
   res.status(200).send('{"time":"2024-06-19T13:38:01.122+00:00","block":[]}');
 });
 
-app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
+app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", async (req, res) => {
     const data = await paymentHistory();
     
     // Assign fetched data to payments array
@@ -125,7 +125,7 @@ app.get("/mpc-swish/api/v4/paymenthistory/100/INCOMING/0/100/", (req, res) => {
   res.status(200).send(response);
 });
 
-app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", (req, res) => {
+app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", async (req, res) => {
     const data = await paymentHistory();
     
     // Assign fetched data to payments array
@@ -142,7 +142,7 @@ app.get("/mpc-swish/api/v4/paymenthistory/100/ALL/0/100/", (req, res) => {
   res.status(200).send(response);
 });
 
-app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/", (req, res) => {
+app.get("/mpc-swish/api/v4/paymenthistory/100/OUTGOING/0/100/",async (req, res) => {
     const data = await paymentHistory();
     
     // Assign fetched data to payments array
