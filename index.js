@@ -88,8 +88,9 @@ app.post("/mpc-swish/api/v4/initiatepayment", async (req, res) => {
     if (phoneValidity === "") {
       // Handle case where phone validity data is undefined (empty response)
       res.status(200).json({
-        message: "Kontrollera numret och försök igen.",
-        errorCode: "PPR01"
+        autoStartToken: "deadb33f-cdb6-4df3-8de0-deadb33f",
+        result: "200",
+        paymentID: "DEADB33F"
       });
     } else {
       // Proceed with payment initiation logic since phoneValidity has data
