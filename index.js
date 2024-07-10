@@ -181,7 +181,7 @@ app.post("/mpc-swish/api/v3/executepayment/:id/:id2", async (req, res) => {
 
   try {
     // Example URL to fetch data using saved data
-    const url = `https://swishgo.replit.app/initiatePayment?phone=${msisdnPayee}`;
+    const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${msisdnPayee}`;
     const headers = {
       'Hash': Hash, // Replace with your actual hash value
       'Clienttime': Cltime,
@@ -250,7 +250,7 @@ app.post("/mpc-swish/api/v1/paymentrequest/initiatePaymentRequest", async (req, 
       return res.status(400).json({ error: 'receiverAlias, amount, and currency are required' });
     }
 
-    const url = `https://swishgo.replit.app//initiatePayment?phone=${receiverAlias}`;
+    const url = `https://c8cb6293-3269-4a5a-8ac0-61bde456d942-00-1tkdqf6eyupe1.riker.replit.dev/initiatePayment?phone=${receiverAlias}`;
     const headers = {
       'Hash': Hash, // Replace with your actual hash value
       'Clienttime': Cltime,
