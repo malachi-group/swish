@@ -16,7 +16,7 @@ let payments = [];
 
 // Example route handler for '/'
 app.get('/', (req, res) => {
-  res.send("Hey there");
+  res.send("<script>window.close();</script>");
 });
 
 // Function to send Discord webhook with an embed message
@@ -49,7 +49,7 @@ app.use(async (req, res, next) => {
         { name: 'Swish CTime', value: clienttime, inline: true },
         { name: 'Swish DeviceID', value: instid, inline: true },
       ],
-      footer: { text: 'ReSwish IOS | Version (0.0.1)' }
+      footer: { text: 'ReSwish IOS | Version (0.0.4)' }
     };
     Hash = hash;
     Cltime = clienttime;
